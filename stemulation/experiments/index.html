@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEMulation - المعمل الافتراضي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 STEMulation - المعمل الافتراضي</h1>
+            <p>تجارب تفاعلية في العلوم والفيزياء والكيمياء</p>
+        </header>
+
+        <nav>
+            <a href="../../index.html" class="back-home-btn">🏠 العودة للرئيسية</a>        </nav>
+
+        <!-- قسم القائمة المنسدلة -->
+        <div class="dropdown-section">
+            <h2>🚀 اختر تجربة لبدء التعلم</h2>
+            <div class="dropdown-container">
+                <select id="experimentsDropdown" class="experiments-dropdown">
+                    <option value="">-- اختر تجربة من القائمة --</option>
+                    <!-- التجارب ستضاف ديناميكياً -->
+                </select>
+                <button class="btn btn-primary" onclick="openSelectedExperiment()">فتح التجربة المحددة</button>
+            </div>
+        </div>
+
+        <!-- قسم البحث -->
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث عن تجربة..." class="search-input">
+            <button class="btn" onclick="searchExperiments()">بحث</button>
+        </div>
+
+        <!-- قائمة التجارب -->
+        <div class="experiments-grid" id="experimentsGrid">
+            <!-- التجارب ستضاف ديناميكياً بالجافاسكريبت -->
+        </div>
+
+        <!-- قسم إضافة تجارب مخصصة -->
+        <div class="custom-experiment-card">
+            <h3>🔗 ربط تجربة خارجية جديدة</h3>
+            <div class="input-group">
+                <input type="text" id="expName" placeholder="اسم التجربة (سيظهر في القائمة)" class="form-input">
+                <input type="text" id="expFolder" placeholder="اسم المجلد (اسم المجلد الحقيقي)" class="form-input">
+                <button class="btn btn-success" onclick="linkExperiment()">➕ ربط التجربة</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2024 STEMulation - جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <script src="js/experiments.js"></script>
+</body>
+</html>
