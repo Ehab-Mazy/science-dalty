@@ -52,7 +52,7 @@ function createDefaultExperiments() {
         {
             id: 3,
             name: "حالة البلازما  ",
-            folder: "blazma",
+            folder: "blasma",
             description: "اكتشف حالة البلازما",
             icon: "🔥",
             active: true
