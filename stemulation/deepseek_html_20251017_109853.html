@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاكاة حالة البلازما - الحالة الرابعة للمادة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(143, 0, 255, 0.7);
+            color: #e0e0ff;
+            background: linear-gradient(45deg, #8a2be2, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #b8b8ff;
+        }
+        
+        .states-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 1100px) {
+            .states-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .state-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .state-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .plasma-card {
+            background: rgba(138, 43, 226, 0.15);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.3);
+        }
+        
+        .state-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .plasma-header {
+            border-bottom: 2px solid rgba(138, 43, 226, 0.6);
+        }
+        
+        .state-title {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .plasma-title {
+            color: #d8b4fe;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+        }
+        
+        .state-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .simulation-area {
+            height: 250px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .plasma-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 4s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+        
+        .properties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .property {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .property:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.03);
+        }
+        
+        .plasma-property {
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+        
+        .property-title {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #b8b8ff;
+        }
+        
+        .plasma-property .property-title {
+            color: #d8b4fe;
+        }
+        
+        .property-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .control-group {
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #e0e0ff;
+            text-align: center;
+        }
+        
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #b8b8ff;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 10px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #1a1a2e, #16213e, #0f3460);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #8a2be2;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+        }
+        
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .info-panel {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border-right: 4px solid #8a2be2;
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-card h3 {
+            margin-bottom: 15px;
+            color: #d8b4fe;
+            font-size: 1.4rem;
+        }
+        
+        .info-card ul {
+            padding-right: 20px;
+        }
+        
+        .info-card li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .comparison-table th {
+            background: rgba(138, 43, 226, 0.3);
+            color: #e0e0ff;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .plasma-row {
+            background: rgba(138, 43, 226, 0.1);
+        }
+        
+        .highlight {
+            background: rgba(138, 43, 226, 0.2);
+            font-weight: bold;
+        }
+        
+        .plasma-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .example-item {
+            background: rgba(138, 43, 226, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #b8b8ff;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>محاكاة حالة البلازما - الحالة الرابعة للمادة</h1>
+            <p class="subtitle">البلازما هي حالة مميزة من المادة تتكون من غاز متأين حيث تنفصل الإلكترونات عن الذرات، مما يخلق مزيجًا من الأيونات والإلكترونات الحرة. تمثل البلازما أكثر من 99% من المادة المرئية في الكون.</p>
+        </header>
+        
+        <div class="states-comparison">
+            <!-- الحالة الصلبة -->
+            <div class="state-card">
+                <div class="state-header">
+                    <div class="state-title">الحالة الصلبة</div>
+                    <div class="state-subtitle">جزيئات متراصة ذات قوى تجاذب قوية</div>
+                </div>
+                <div class="simulation-area">
+                    <canvas id="solidCanvas"></canvas>
+                </div>
+                <div class="properties">
+                    <div class="property">
+                        <div class="property-title">التأين</div>
+                        <div class="property-value" id="solidIonization">منعدمة</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">الطاقة</div>
+                        <div class="property-value" id="solidEnergy">منخفضة</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">التوصيل الكهربائي</div>
+                        <div class="property-value" id="solidConduction">ضعيف</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">الاستجابة للمجال المغناطيسي</div>
+                        <div class="property-value" id="solidMagnetic">ضعيفة</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الحالة السائلة -->
+            <div class="state-card">
+                <div class="state-header">
+                    <div class="state-title">الحالة السائلة</div>
+                    <div class="state-subtitle">جزيئات متقاربة ذات حركة حرة نسبيًا</div>
+                </div>
+                <div class="simulation-area">
+                    <canvas id="liquidCanvas"></canvas>
+                </div>
+                <div class="properties">
+                    <div class="property">
+                        <div class="property-title">التأين</div>
+                        <div class="property-value" id="liquidIonization">منعدمة</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">الطاقة</div>
+                        <div class="property-value" id="liquidEnergy">متوسطة</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">التوصيل الكهربائي</div>
+                        <div class="property-value" id="liquidConduction">ضعيف</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">الاستجابة للمجال المغناطيسي</div>
+                        <div class="property-value" id="liquidMagnetic">ضعيفة</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الحالة الغازية -->
+            <div class="state-card">
+                <div class="state-header">
+                    <div class="state-title">الحالة الغازية</div>
+                    <div class="state-subtitle">جزيئات متباعدة تتحرك بحرية كبيرة</div>
+                </div>
+                <div class="simulation-area">
+                    <canvas id="gasCanvas"></canvas>
+                </div>
+                <div class="properties">
+                    <div class="property">
+                        <div class="property-title">التأين</div>
+                        <div class="property-value" id="gasIonization">ضعيف</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">الطاقة</div>
+                        <div class="property-value" id="gasEnergy">عالية</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">التوصيل الكهربائي</div>
+                        <div class="property-value" id="gasConduction">ضعيف</div>
+                    </div>
+                    <div class="property">
+                        <div class="property-title">الاستجابة للمجال المغناطيسي</div>
+                        <div class="property-value" id="gasMagnetic">ضعيفة</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- حالة البلازما -->
+            <div class="state-card plasma-card">
+                <div class="state-header plasma-header">
+                    <div class="state-title plasma-title">حالة البلازما</div>
+                    <div class="state-subtitle">غاز متأين - أيونات وإلكترونات حرة</div>
+                </div>
+                <div class="simulation-area">
+                    <canvas id="plasmaCanvas"></canvas>
+                    <div class="plasma-glow"></div>
+                </div>
+                <div class="properties">
+                    <div class="property plasma-property">
+                        <div class="property-title">التأين</div>
+                        <div class="property-value" id="plasmaIonization">كامل/جزئي</div>
+                    </div>
+                    <div class="property plasma-property">
+                        <div class="property-title">الطاقة</div>
+                        <div class="property-value" id="plasmaEnergy">عالية جدًا</div>
+                    </div>
+                    <div class="property plasma-property">
+                        <div class="property-title">التوصيل الكهربائي</div>
+                        <div class="property-value" id="plasmaConduction">ممتاز</div>
+                    </div>
+                    <div class="property plasma-property">
+                        <div class="property-title">الاستجابة للمجال المغناطيسي</div>
+                        <div class="property-value" id="plasmaMagnetic">قوية</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h2>أدوات التحكم في محاكاة البلازما</h2>
+            <div class="control-group">
+                <div class="slider-container">
+                    <label for="temperatureSlider">درجة الحرارة: <span id="temperatureValue">10000</span>°K</label>
+                    <input type="range" id="temperatureSlider" min="5000" max="50000" value="10000">
+                    <div class="value-display">
+                        <span>منخفضة (5000°K)</span>
+                        <span>عالية جدًا (50000°K)</span>
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <label for="ionizationSlider">نسبة التأين: <span id="ionizationValue">50</span>%</label>
+                    <input type="range" id="ionizationSlider" min="10" max="100" value="50">
+                    <div class="value-display">
+                        <span>منخفضة (10%)</span>
+                        <span>عالية (100%)</span>
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <label for="magneticSlider">شدة المجال المغناطيسي: <span id="magneticValue">50</span>%</label>
+                    <input type="range" id="magneticSlider" min="0" max="100" value="50">
+                    <div class="value-display">
+                        <span>ضعيف (0%)</span>
+                        <span>قوي (100%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h2>معلومات عن حالة البلازما</h2>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>ما هي البلازما؟</h3>
+                    <ul>
+                        <li>حالة من المادة تتكون من غاز متأين جزئيًا أو كليًا</li>
+                        <li>مزيج من الأيونات الموجبة والإلكترونات السالبة</li>
+                        <li>تمثل 99% من المادة المرئية في الكون</li>
+                        <li>تتطلب طاقة عالية لتحويل الغاز إلى بلازما</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>خصائص البلازما</h3>
+                    <ul>
+                        <li>موصلة للكهرباء بشكل ممتاز</li>
+                        <li>تستجيب بقوة للمجالات المغناطيسية</li>
+                        <li>قادرة على توليد مجالاتها الكهرومغناطيسية</li>
+                        <li>تظهر سلوكًا جماعيًا للجسيمات المشحونة</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>أمثلة على البلازما في الطبيعة</h3>
+                    <div class="plasma-examples">
+                        <div class="example-item">النجوم (بما فيها الشمس)</div>
+                        <div class="example-item">البرق</div>
+                        <div class="example-item">الشفق القطبي</div>
+                        <div class="example-item">الرياح الشمسية</div>
+                        <div class="example-item">النيازك</div>
+                        <div class="example-item">الشفق المتوهج</div>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>الخاصية</th>
+                        <th>الحالة الصلبة</th>
+                        <th>الحالة السائلة</th>
+                        <th>الحالة الغازية</th>
+                        <th>حالة البلازما</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">طبيعة الجسيمات</td>
+                        <td>ذرات/جزيئات مترابطة</td>
+                        <td>ذرات/جزيئات متقاربة</td>
+                        <td>ذرات/جزيئات حرة</td>
+                        <td class="plasma-row">أيونات وإلكترونات حرة</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">قوى التجاذب</td>
+                        <td>قوية جدًا</td>
+                        <td>متوسطة</td>
+                        <td>ضعيفة جدًا</td>
+                        <td class="plasma-row">قوى كهرومغناطيسية</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">التأين</td>
+                        <td>منعدم</td>
+                        <td>منعدم</td>
+                        <td>ضعيف</td>
+                        <td class="plasma-row">كامل أو جزئي</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">التوصيل الكهربائي</td>
+                        <td>ضعيف (عدا المعادن)</td>
+                        <td>ضعيف</td>
+                        <td>ضعيف</td>
+                        <td class="plasma-row">ممتاز</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">الاستجابة للمجال المغناطيسي</td>
+                        <td>ضعيفة</td>
+                        <td>ضعيفة</td>
+                        <td>ضعيفة</td>
+                        <td class="plasma-row">قوية جدًا</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">الطاقة المطلوبة</td>
+                        <td>منخفضة</td>
+                        <td>متوسطة</td>
+                        <td>عالية</td>
+                        <td class="plasma-row">عالية جدًا</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>محاكاة حالة البلازما - الحالة الرابعة للمادة | تم تطويره لعرض الخصائص الفريدة للبلازما ومقارنتها بالحالات الأخرى</p>
+        </div>
+    </div>
+
+    <script>
+        // الحصول على عناصر DOM
+        const solidCanvas = document.getElementById('solidCanvas');
+        const liquidCanvas = document.getElementById('liquidCanvas');
+        const gasCanvas = document.getElementById('gasCanvas');
+        const plasmaCanvas = document.getElementById('plasmaCanvas');
+        
+        const temperatureSlider = document.getElementById('temperatureSlider');
+        const temperatureValue = document.getElementById('temperatureValue');
+        const ionizationSlider = document.getElementById('ionizationSlider');
+        const ionizationValue = document.getElementById('ionizationValue');
+        const magneticSlider = document.getElementById('magneticSlider');
+        const magneticValue = document.getElementById('magneticValue');
+        
+        // ضبط أبعاد canvases
+        function resizeCanvases() {
+            const canvases = [solidCanvas, liquidCanvas, gasCanvas, plasmaCanvas];
+            canvases.forEach(canvas => {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            });
+        }
+        
+        window.addEventListener('resize', resizeCanvases);
+        resizeCanvases();
+        
+        // متغيرات المحاكاة
+        let plasmaTemperature = 10000;
+        let ionizationLevel = 50;
+        let magneticField = 50;
+        
+        // تعريف كلاس الجسيمات للبلازما
+        class PlasmaParticle {
+            constructor(x, y, type, canvas) {
+                this.x = x;
+                this.y = y;
+                this.type = type; // 'electron' أو 'ion'
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                
+                if (type === 'electron') {
+                    this.size = 2;
+                    this.color = '#00ffff';
+                    this.charge = -1;
+                    this.baseVx = (Math.random() - 0.5) * 6;
+                    this.baseVy = (Math.random() - 0.5) * 6;
+                } else { // ion
+                    this.size = 4;
+                    this.color = '#ff00ff';
+                    this.charge = 1;
+                    this.baseVx = (Math.random() - 0.5) * 3;
+                    this.baseVy = (Math.random() - 0.5) * 3;
+                }
+                
+                this.vx = this.baseVx;
+                this.vy = this.baseVy;
+                this.trail = [];
+                this.maxTrailLength = 15;
+            }
+            
+            // تحديث موقع الجسيم
+            update() {
+                // حفظ الموقع السابق للتتبع
+                this.trail.push({x: this.x, y: this.y});
+                if (this.trail.length > this.maxTrailLength) {
+                    this.trail.shift();
+                }
+                
+                // تأثير الحرارة
+                const heatEffect = plasmaTemperature / 10000;
+                
+                // تأثير المجال المغناطيسي (لورنتز)
+                const magneticEffect = magneticField / 50;
+                if (magneticEffect > 0.1) {
+                    // قوة لورنتز: F = q(v × B)
+                    const centerX = this.canvas.width / 2;
+                    const centerY = this.canvas.height / 2;
+                    const dx = this.x - centerX;
+                    const dy = this.y - centerY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance > 10) {
+                        // اتجاه القوة العمودي على كل من السرعة والمجال المغناطيسي
+                        const forceDirection = this.charge * magneticEffect;
+                        const tempVx = this.vx;
+                        this.vx = this.vx * Math.cos(0.05 * forceDirection) - this.vy * Math.sin(0.05 * forceDirection);
+                        this.vy = tempVx * Math.sin(0.05 * forceDirection) + this.vy * Math.cos(0.05 * forceDirection);
+                    }
+                }
+                
+                // تحديث السرعة والموقع
+                this.vx = this.baseVx * heatEffect + (Math.random() - 0.5) * 2;
+                this.vy = this.baseVy * heatEffect + (Math.random() - 0.5) * 2;
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // كشف التصادم مع الجدران
+                if (this.x < 0 || this.x > this.canvas.width) {
+                    this.vx = -this.vx;
+                    this.x = Math.max(0, Math.min(this.canvas.width, this.x));
+                }
+                if (this.y < 0 || this.y > this.canvas.height) {
+                    this.vy = -this.vy;
+                    this.y = Math.max(0, Math.min(this.canvas.height, this.y));
+                }
+            }
+            
+            // رسم الجسيم
+            draw() {
+                // رسم الأثر
+                for (let i = 0; i < this.trail.length; i++) {
+                    const point = this.trail[i];
+                    const alpha = i / this.trail.length * 0.5;
+                    this.ctx.beginPath();
+                    this.ctx.arc(point.x, point.y, this.size * (i / this.trail.length), 0, Math.PI * 2);
+                    this.ctx.fillStyle = this.type === 'electron' 
+                        ? `rgba(0, 255, 255, ${alpha})` 
+                        : `rgba(255, 0, 255, ${alpha})`;
+                    this.ctx.fill();
+                    this.ctx.closePath();
+                }
+                
+                // رسم الجسيم
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                
+                // تأثير التوهج للبلازما
+                const gradient = this.ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.size * 3
+                );
+                
+                if (this.type === 'electron') {
+                    gradient.addColorStop(0, 'rgba(0, 255, 255, 0.8)');
+                    gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+                } else {
+                    gradient.addColorStop(0, 'rgba(255, 0, 255, 0.8)');
+                    gradient.addColorStop(1, 'rgba(255, 0, 255, 0)');
+                }
+                
+                this.ctx.fillStyle = gradient;
+                this.ctx.fill();
+                this.ctx.closePath();
+                
+                // النواة الصلبة
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.size * 0.6, 0, Math.PI * 2);
+                this.ctx.fillStyle = this.color;
+                this.ctx.fill();
+                this.ctx.closePath();
+            }
+        }
+
+        // تعريف كلاس الجسيمات للحالات الأخرى
+        class MatterParticle {
+            constructor(x, y, state, canvas) {
+                this.x = x;
+                this.y = y;
+                this.state = state;
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                
+                if (state === 'solid') {
+                    this.size = 5;
+                    this.color = '#4fc3f7';
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                } else if (state === 'liquid') {
+                    this.size = 4;
+                    this.color = '#29b6f6';
+                    this.vx = (Math.random() - 0.5) * 1.5;
+                    this.vy = (Math.random() - 0.5) * 1.5;
+                } else { // gas
+                    this.size = 3;
+                    this.color = '#0277bd';
+                    this.vx = (Math.random() - 0.5) * 3;
+                    this.vy = (Math.random() - 0.5) * 3;
+                }
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // كشف التصادم مع الجدران
+                if (this.x - this.size < 0 || this.x + this.size > this.canvas.width) {
+                    this.vx = -this.vx;
+                    this.x = Math.max(this.size, Math.min(this.canvas.width - this.size, this.x));
+                }
+                if (this.y - this.size < 0 || this.y + this.size > this.canvas.height) {
+                    this.vy = -this.vy;
+                    this.y = Math.max(this.size, Math.min(this.canvas.height - this.size, this.y));
+                }
+                
+                // في الحالة الصلبة، الحركة محدودة جدًا
+                if (this.state === 'solid') {
+                    this.vx *= 0.9;
+                    this.vy *= 0.9;
+                }
+            }
+            
+            draw() {
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                this.ctx.fillStyle = this.color;
+                this.ctx.fill();
+                this.ctx.closePath();
+                
+                // في الحالة الصلبة، رسم خطوط التجاذب
+                if (this.state === 'solid') {
+                    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                    this.ctx.lineWidth = 1;
+                    this.ctx.setLineDash([2, 2]);
+                    
+                    // رسم خطوط بين الجسيمات القريبة
+                    for (let particle of solidParticles) {
+                        if (particle !== this) {
+                            const dx = this.x - particle.x;
+                            const dy = this.y - particle.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 30) {
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(this.x, this.y);
+                                this.ctx.lineTo(particle.x, particle.y);
+                                this.ctx.stroke();
+                                this.ctx.closePath();
+                            }
+                        }
+                    }
+                    
+                    this.ctx.setLineDash([]);
+                }
+            }
+        }
+        
+        // إنشاء الجسيمات
+        let solidParticles = [];
+        let liquidParticles = [];
+        let gasParticles = [];
+        let plasmaParticles = [];
+        
+        function createParticles() {
+            solidParticles = [];
+            liquidParticles = [];
+            gasParticles = [];
+            plasmaParticles = [];
+            
+            // إنشاء جسيمات الحالة الصلبة
+            const solidCols = 6;
+            const solidRows = 5;
+            const solidCellWidth = solidCanvas.width / solidCols;
+            const solidCellHeight = solidCanvas.height / solidRows;
+            
+            for (let i = 0; i < solidRows; i++) {
+                for (let j = 0; j < solidCols; j++) {
+                    const x = j * solidCellWidth + solidCellWidth / 2;
+                    const y = i * solidCellHeight + solidCellHeight / 2;
+                    solidParticles.push(new MatterParticle(x, y, 'solid', solidCanvas));
+                }
+            }
+            
+            // إنشاء جسيمات الحالة السائلة
+            for (let i = 0; i < 25; i++) {
+                const x = Math.random() * (liquidCanvas.width - 20) + 10;
+                const y = Math.random() * (liquidCanvas.height - 20) + 10;
+                liquidParticles.push(new MatterParticle(x, y, 'liquid', liquidCanvas));
+            }
+            
+            // إنشاء جسيمات الحالة الغازية
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * (gasCanvas.width - 10) + 5;
+                const y = Math.random() * (gasCanvas.height - 10) + 5;
+                gasParticles.push(new MatterParticle(x, y, 'gas', gasCanvas));
+            }
+            
+            // إنشاء جسيمات البلازما (إلكترونات وأيونات)
+            const numParticles = 40;
+            for (let i = 0; i < numParticles; i++) {
+                const x = Math.random() * (plasmaCanvas.width - 20) + 10;
+                const y = Math.random() * (plasmaCanvas.height - 20) + 10;
+                
+                // إنشاء إلكترونات وأيونات بناءً على مستوى التأين
+                if (Math.random() * 100 < ionizationLevel) {
+                    // إنشاء إلكترون
+                    plasmaParticles.push(new PlasmaParticle(x, y, 'electron', plasmaCanvas));
+                    // إنشاء أيون مقابل للإلكترون
+                    plasmaParticles.push(new PlasmaParticle(
+                        x + (Math.random() - 0.5) * 20, 
+                        y + (Math.random() - 0.5) * 20, 
+                        'ion', 
+                        plasmaCanvas
+                    ));
+                } else {
+                    // جسيم متعادل (ذرة)
+                    plasmaParticles.push(new MatterParticle(x, y, 'gas', plasmaCanvas));
+                }
+            }
+        }
+        
+        // تحديث المحاكاة
+        function updateSimulation() {
+            // تحديث وعرض الجسيمات الصلبة
+            const solidCtx = solidCanvas.getContext('2d');
+            solidCtx.clearRect(0, 0, solidCanvas.width, solidCanvas.height);
+            solidParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // تحديث وعرض الجسيمات السائلة
+            const liquidCtx = liquidCanvas.getContext('2d');
+            liquidCtx.clearRect(0, 0, liquidCanvas.width, liquidCanvas.height);
+            liquidParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // تحديث وعرض الجسيمات الغازية
+            const gasCtx = gasCanvas.getContext('2d');
+            gasCtx.clearRect(0, 0, gasCanvas.width, gasCanvas.height);
+            gasParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // تحديث وعرض جسيمات البلازما
+            const plasmaCtx = plasmaCanvas.getContext('2d');
+            plasmaCtx.clearRect(0, 0, plasmaCanvas.width, plasmaCanvas.height);
+            
+            // رسم خلفية متوهجة للبلازما
+            const gradient = plasmaCtx.createRadialGradient(
+                plasmaCanvas.width/2, plasmaCanvas.height/2, 0,
+                plasmaCanvas.width/2, plasmaCanvas.height/2, plasmaCanvas.width/2
+            );
+            gradient.addColorStop(0, 'rgba(138, 43, 226, 0.1)');
+            gradient.addColorStop(1, 'rgba(138, 43, 226, 0)');
+            plasmaCtx.fillStyle = gradient;
+            plasmaCtx.fillRect(0, 0, plasmaCanvas.width, plasmaCanvas.height);
+            
+            plasmaParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // طلب الإطار التالي
+            requestAnimationFrame(updateSimulation);
+        }
+        
+        // إعداد معالجات الأحداث
+        temperatureSlider.addEventListener('input', () => {
+            plasmaTemperature = parseInt(temperatureSlider.value);
+            temperatureValue.textContent = plasmaTemperature.toLocaleString();
+            createParticles();
+        });
+        
+        ionizationSlider.addEventListener('input', () => {
+            ionizationLevel = parseInt(ionizationSlider.value);
+            ionizationValue.textContent = ionizationLevel;
+            createParticles();
+        });
+        
+        magneticSlider.addEventListener('input', () => {
+            magneticField = parseInt(magneticSlider.value);
+            magneticValue.textContent = magneticField;
+        });
+        
+        // بدء المحاكاة
+        createParticles();
+        updateSimulation();
+    </script>
+</body>
+</html>
