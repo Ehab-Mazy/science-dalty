@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تجربة تأثير الكتلة على التسخين - STEMulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .experiment-info {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-right: 5px solid #3498db;
+        }
+        
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #7f8c8d;
+            transform: scale(1.05);
+        }
+        
+        .experiment-area {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .beakers-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .beaker {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            border-radius: 10px 10px 0 0;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border: 3px solid #2d3436;
+            border-bottom: none;
+            min-height: 300px;
+        }
+        
+        .beaker-label {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .mass-info {
+            background: #34495e;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        
+        .water {
+            background: linear-gradient(to bottom, rgba(116, 185, 255, 0.8), rgba(9, 132, 227, 0.9));
+            border-radius: 5px 5px 0 0;
+            margin-top: 20px;
+            transition: all 2s ease;
+            position: relative;
+        }
+        
+        .water-level {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .burner {
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(to top, #e74c3c, #c0392b);
+            border-radius: 50% 50% 0 0;
+            margin: 10px auto;
+            position: relative;
+        }
+        
+        .flame {
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(to top, #ff7675, #fd79a8, #ffeaa7);
+            border-radius: 50% 50% 20% 20%;
+            margin: 0 auto;
+            position: relative;
+            top: -20px;
+            transition: height 0.5s;
+            box-shadow: 0 0 20px #ff7675;
+        }
+        
+        .controls {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .control-group {
+            margin-bottom: 25px;
+        }
+        
+        .control-group h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-right: 4px solid #3498db;
+            padding-right: 10px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .slider {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+        }
+        
+        .btn-success:hover {
+            background: #219a52;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .timer {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin: 20px 0;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #bdc3c7;
+        }
+        
+        .temp-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e74c3c;
+        }
+        
+        .comparison {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-right: 5px solid #ffc107;
+        }
+        
+        .observation {
+            background: #d4edda;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-right: 5px solid #28a745;
+        }
+        
+        .conclusion {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-right: 5px solid #17a2b8;
+        }
+        
+        @media (max-width: 768px) {
+            .experiment-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .beakers-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-btn">🏠 العودة للرئيسية</a>
+        
+        <header>
+            <h1>🔥 تجربة تأثير الكتلة على التسخين</h1>
+            <p>مقارنة معدل ارتفاع درجة الحرارة في كتل مختلفة من الماء</p>
+        </header>
+
+        <div class="experiment-info">
+            <h3>🎯 هدف التجربة</h3>
+            <p>دراسة تأثير كتلة الماء على معدل ارتفاع درجة حرارته عند تعرضه لنفس مصدر الحرارة</p>
+        </div>
+
+        <div class="experiment-area">
+            <!-- منطقة التجربة -->
+            <div>
+                <div class="beakers-container">
+                    <!-- الكأس الأول -->
+                    <div class="beaker">
+                        <div class="beaker-label">الكأس الأول</div>
+                        <div class="mass-info">الكتلة: 100 جرام ماء</div>
+                        <div class="temp-display" id="temp1">25°C</div>
+                        <div class="water" id="water1" style="height: 120px;">
+                            <div class="water-level">100 جرام</div>
+                        </div>
+                        <div class="burner">
+                            <div class="flame" id="flame1" style="height: 0px;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- الكأس الثاني -->
+                    <div class="beaker">
+                        <div class="beaker-label">الكأس الثاني</div>
+                        <div class="mass-info">الكتلة: 200 جرام ماء</div>
+                        <div class="temp-display" id="temp2">25°C</div>
+                        <div class="water" id="water2" style="height: 180px;">
+                            <div class="water-level">200 جرام</div>
+                        </div>
+                        <div class="burner">
+                            <div class="flame" id="flame2" style="height: 0px;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ساعة الإيقاف -->
+                <div class="timer" id="timer">00:00</div>
+                
+                <!-- المشاهدة -->
+                <div class="observation">
+                    <h3>👀 المشاهدة</h3>
+                    <div id="observationText">
+                        <p>• درجة الحرارة الابتدائية: 25°C للكأسين</p>
+                        <p>• الكتلة مختلفة: 100g vs 200g</p>
+                        <p>• نفس قوة التسخين: <span id="currentPower">0%</span></p>
+                        <p id="tempComparison">• الفرق في درجة الحرارة: 0°C</p>
+                    </div>
+                </div>
+                
+                <!-- الاستنتاج -->
+                <div class="conclusion">
+                    <h3>💡 الاستنتاج</h3>
+                    <div id="conclusionText">
+                        <p>في بداية التجربة: الكتلة تؤثر على معدل التسخين</p>
+                        <p>كلما زادت الكتلة، احتاجت لوقت أطول للوصول لنفس درجة الحرارة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- عناصر التحكم -->
+            <div class="controls">
+                <!-- تحكم في الموقد -->
+                <div class="control-group">
+                    <h3>🔥 قوة التسخين</h3>
+                    <p style="color: #666; margin-bottom: 15px;">اضبط قوة التسخين (نفس القوة للكأسين)</p>
+                    
+                    <div class="slider-container">
+                        <span style="font-weight: bold;">قوة الموقد:</span>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="burnerPowerSlider">
+                        <span id="burnerPowerValue" style="font-weight: bold;">0%</span>
+                    </div>
+                </div>
+                
+                <!-- تحكم في الوقت -->
+                <div class="control-group">
+                    <h3>⏱️ التحكم في الوقت</h3>
+                    <div style="text-align: center;">
+                        <button class="btn btn-success" onclick="startTimer()">▶️ بدء التسخين</button>
+                        <button class="btn btn-danger" onclick="stopTimer()">⏹️ إيقاف التسخين</button>
+                        <button class="btn" onclick="resetExperiment()">🔄 إعادة التجربة</button>
+                    </div>
+                </div>
+                
+                <!-- المقارنة -->
+                <div class="comparison">
+                    <h3>📊 المقارنة</h3>
+                    <div id="comparisonData">
+                        <p>• الكأس الأول (100g): <span id="rate1">0.0</span> °C/دقيقة</p>
+                        <p>• الكأس الثاني (200g): <span id="rate2">0.0</span> °C/دقيقة</p>
+                        <p>• النسبة: الكأس الأول يسخن <span id="ratio">1.0</span> مرة أسرع</p>
+                    </div>
+                </div>
+                
+                <!-- التعليمات -->
+                <div class="control-group">
+                    <h3>📝 خطوات التجربة</h3>
+                    <ol style="color: #666; padding-right: 20px;">
+                        <li>اضبط قوة التسخين المطلوبة</li>
+                        <li>انقر على "بدء التسخين"</li>
+                        <li>راقب الفرق في معدل ارتفاع الحرارة</li>
+                        <li>قارن بين الكأسين كل دقيقة</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // متغيرات التجربة
+        let timerInterval;
+        let seconds = 0;
+        let isRunning = false;
+        
+        // درجات الحرارة
+        let temp1 = 25;
+        let temp2 = 25;
+        let burnerPower = 0;
+        
+        // معدلات التسخين
+        let heatingRate1 = 0;
+        let heatingRate2 = 0;
+        
+        // تحديث الشاشة
+        function updateDisplay() {
+            // درجات الحرارة
+            document.getElementById('temp1').textContent = Math.round(temp1) + '°C';
+            document.getElementById('temp2').textContent = Math.round(temp2) + '°C';
+            
+            // تحديث ألوان الماء
+            updateWaterColor('water1', temp1);
+            updateWaterColor('water2', temp2);
+            
+            // تحديث اللهب (نفس القوة للكأسين)
+            document.getElementById('flame1').style.height = (burnerPower / 2) + 'px';
+            document.getElementById('flame2').style.height = (burnerPower / 2) + 'px';
+            
+            // تحديث المشاهدة
+            updateObservation();
+            
+            // تحديث المقارنة
+            updateComparison();
+        }
+        
+        // تحديث لون الماء
+        function updateWaterColor(elementId, temperature) {
+            const water = document.getElementById(elementId);
+            let color;
+            
+            if (temperature < 40) {
+                color = 'linear-gradient(to bottom, rgba(116, 185, 255, 0.8), rgba(9, 132, 227, 0.9))';
+            } else if (temperature < 60) {
+                color = 'linear-gradient(to bottom, rgba(255, 195, 0, 0.8), rgba(255, 165, 0, 0.9))';
+            } else if (temperature < 80) {
+                color = 'linear-gradient(to bottom, rgba(255, 140, 0, 0.8), rgba(255, 69, 0, 0.9))';
+            } else {
+                color = 'linear-gradient(to bottom, rgba(255, 0, 0, 0.8), rgba(220, 20, 60, 0.9))';
+            }
+            
+            water.style.background = color;
+        }
+        
+        // تحديث المشاهدة
+        function updateObservation() {
+            const tempDiff = Math.abs(temp1 - temp2);
+            document.getElementById('currentPower').textContent = burnerPower + '%';
+            document.getElementById('tempComparison').textContent = 
+                `• الفرق في درجة الحرارة: ${tempDiff.toFixed(1)}°C`;
+            
+            // تحديث الاستنتاج بناءً على النتائج
+            updateConclusion();
+        }
+        
+        // تحديث الاستنتاج
+        function updateConclusion() {
+            const conclusionText = document.getElementById('conclusionText');
+            const ratio = heatingRate1 / heatingRate2;
+            
+            if (seconds < 10) {
+                conclusionText.innerHTML = `
+                    <p>  الكتلة تؤثر على معدل التغير في درجة الحرارة</p>
+                    <p>كلما زادت الكتلة، احتاجت لوقت أطول للوصول لنفس درجة الحرارة</p>
+                    <p>الكتل المختلفة من نفس المادة 
+                `;
+            } else if (ratio > 1.5) {
+                conclusionText.innerHTML = `
+                    <p>✅ <strong>الاستنتاج:</strong> الكتلة الأصغر تسخن أسرع</p>
+                    <p>• الكأس الأول (100g) يسخن ${ratio.toFixed(1)} مرة أسرع من الكأس الثاني</p>
+                    <p>• السعة الحرارية تتناسب طردياً مع الكتلة</p>
+                `;
+            } else {
+                conclusionText.innerHTML = `
+                    <p>🔍 <strong>الملاحظة:</strong> الفرق في التسخين واضح</p>
+                    <p>• الكتلة الأصغر تصل لدرجات حرارة أعلى في نفس الوقت</p>
+                    <p>• هذا يوضح مفهوم السعة الحرارية النوعية</p>
+                `;
+            }
+        }
+        
+        // تحديث المقارنة
+        function updateComparison() {
+            const minutes = seconds / 60;
+            if (minutes > 0) {
+                heatingRate1 = temp1 / minutes;
+                heatingRate2 = temp2 / minutes;
+                
+                document.getElementById('rate1').textContent = heatingRate1.toFixed(1);
+                document.getElementById('rate2').textContent = heatingRate2.toFixed(1);
+                
+                const ratio = heatingRate1 / heatingRate2;
+                document.getElementById('ratio').textContent = ratio.toFixed(1);
+            }
+        }
+        
+        // بدء المؤقت
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(function() {
+                    seconds++;
+                    updateTimer();
+                    
+                    // تحديث درجات الحرارة
+                    if (isRunning && burnerPower > 0) {
+                        updateTemperatures();
+                    }
+                }, 1000);
+            }
+        }
+        
+        // إيقاف المؤقت
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+        }
+        
+        // تحديث المؤقت
+        function updateTimer() {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+        
+        // تحديث درجات الحرارة
+        function updateTemperatures() {
+            if (burnerPower > 0) {
+                // الكأس الأول (100 جرام) يسخن أسرع
+                temp1 += (burnerPower / 100) * 0.6;
+                
+                // الكأس الثاني (200 جرام) يسخن أبطأ (نصف السرعة تقريباً)
+                temp2 += (burnerPower / 100) * 0.3;
+                
+                // منع تجاوز 100 درجة
+                if (temp1 > 100) temp1 = 100;
+                if (temp2 > 100) temp2 = 100;
+            }
+            
+            updateDisplay();
+        }
+        
+        // إعادة ضبط التجربة
+        function resetExperiment() {
+            stopTimer();
+            seconds = 0;
+            temp1 = 25;
+            temp2 = 25;
+            burnerPower = 0;
+            heatingRate1 = 0;
+            heatingRate2 = 0;
+            
+            document.getElementById('burnerPowerSlider').value = 0;
+            document.getElementById('burnerPowerValue').textContent = '0%';
+            
+            updateTimer();
+            updateDisplay();
+        }
+        
+        // تهيئة الأحداث
+        document.addEventListener('DOMContentLoaded', function() {
+            // حدث المنزلق
+            document.getElementById('burnerPowerSlider').addEventListener('input', function(e) {
+                burnerPower = parseInt(e.target.value);
+                document.getElementById('burnerPowerValue').textContent = burnerPower + '%';
+                updateDisplay();
+            });
+            
+            // التهيئة الأولية
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>

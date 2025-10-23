@@ -12,17 +12,40 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        body {
+        body { 
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             color: white;
             min-height: 100vh;
             padding: 20px;
             direction: rtl;
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        .back-home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
         
         header {
@@ -221,10 +244,24 @@
             h1 {
                 font-size: 2rem;
             }
+            
+            .back-home-btn {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 15px;
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- زر العودة للرئيسية -->
+    <button class="back-home-btn" onclick="window.location.href = '../index.html'">
+        🏠 العودة للرئيسية
+    </button>
+    
     <div class="container">
         <header>
             <h1>محاكاة حركة الجزيئات في حالات المادة</h1>
