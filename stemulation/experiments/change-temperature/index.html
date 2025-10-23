@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تجربة تأثير الكتلة على التسخين - STEMulation</title>
+    <title>تجربة تأثير الكتلة على التغير في درجة الحرارة - STEMulation</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Cairo', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -20,7 +20,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -37,7 +37,7 @@
         
         h1 {
             color: #2c3e50;
-            font-size: 2.5em;
+            font-size: 2.2em;
             margin-bottom: 10px;
         }
         
@@ -60,6 +60,7 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 16px;
         }
         
         .back-btn:hover {
@@ -69,36 +70,184 @@
         
         .experiment-area {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 3fr 1fr;
             gap: 30px;
             margin: 30px 0;
         }
         
-        .beakers-container {
+        .lab-setup {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 30px;
             margin-bottom: 30px;
         }
         
-        .beaker {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-            border-radius: 10px 10px 0 0;
+        .beaker-setup {
+            background: #f8f9fa;
             padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #dee2e6;
             text-align: center;
-            position: relative;
-            border: 3px solid #2d3436;
-            border-bottom: none;
-            min-height: 300px;
         }
         
-        .beaker-label {
-            background: #2c3e50;
-            color: white;
-            padding: 10px;
+        .faucet {
+            width: 80px;
+            height: 60px;
+            background: #95a5a6;
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .faucet-handle {
+            width: 20px;
+            height: 30px;
+            background: #34495e;
             border-radius: 5px;
-            margin-bottom: 15px;
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            transform: rotate(0deg);
+            transition: transform 0.5s;
+            cursor: pointer;
+        }
+        
+        .faucet.open .faucet-handle {
+            transform: rotate(45deg);
+        }
+        
+        .water-stream {
+            width: 8px;
+            height: 0px;
+            background: #3498db;
+            margin: 0 auto;
+            transition: height 0.5s;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .faucet.open .water-stream {
+            height: 50px;
+        }
+        
+        /* تصميم الكأس الجديد */
+        .beaker-container {
+            position: relative;
+            margin: 20px auto;
+            width: 120px;
+            height: 200px;
+        }
+        
+        .beaker {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 3px solid #7f8c8d;
+            border-radius: 10px 10px 30px 30px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .beaker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .beaker-scale {
+            position: absolute;
+            left: -25px;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .scale-mark {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #7f8c8d;
+        }
+        
+        .scale-mark.major {
+            height: 2px;
+            background: #34495e;
+        }
+        
+        .scale-label {
+            position: absolute;
+            left: -25px;
+            font-size: 12px;
+            color: #34495e;
             font-weight: bold;
+        }
+        
+        .water {
+            position: absolute;
+            bottom: 0;
+            left: 2px;
+            right: 2px;
+            border-radius: 0 0 25px 25px;
+            transition: all 2s ease;
+            background: linear-gradient(to bottom, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.95));
+        }
+        
+        .water-bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: bubble-rise 3s infinite;
+        }
+        
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        .water-level {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #2c3e50;
+            font-weight: bold;
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
         }
         
         .mass-info {
@@ -110,23 +259,81 @@
             font-size: 0.9em;
         }
         
-        .water {
-            background: linear-gradient(to bottom, rgba(116, 185, 255, 0.8), rgba(9, 132, 227, 0.9));
-            border-radius: 5px 5px 0 0;
-            margin-top: 20px;
-            transition: all 2s ease;
+        /* مقياس الحرارة الجديد */
+        .thermometer {
+            width: 30px;
+            height: 150px;
+            background: white;
+            border: 2px solid #e74c3c;
+            border-radius: 15px;
+            margin: 10px auto;
             position: relative;
+            overflow: hidden;
         }
         
-        .water-level {
+        .thermometer-bulb {
+            width: 40px;
+            height: 40px;
+            background: #e74c3c;
+            border-radius: 50%;
             position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        
+        .thermometer-stem {
+            position: absolute;
+            top: 10px;
             bottom: 10px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            background: linear-gradient(to top, #e74c3c, #ff7675, #e74c3c);
+            border-radius: 6px;
+            transition: height 1s ease;
+        }
+        
+        .thermometer-scale {
+            position: absolute;
+            right: -25px;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+        }
+        
+        .temp-mark {
+            position: absolute;
             right: 0;
-            text-align: center;
-            color: white;
+            width: 100%;
+            height: 1px;
+            background: #7f8c8d;
+        }
+        
+        .temp-mark.major {
+            height: 2px;
+            background: #e74c3c;
+        }
+        
+        .temp-label {
+            position: absolute;
+            right: -30px;
+            font-size: 12px;
+            color: #e74c3c;
             font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .temp-display {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e74c3c;
+            text-align: center;
         }
         
         .burner {
@@ -148,6 +355,12 @@
             top: -20px;
             transition: height 0.5s;
             box-shadow: 0 0 20px #ff7675;
+            animation: flame-flicker 0.5s infinite alternate;
+        }
+        
+        @keyframes flame-flicker {
+            0% { transform: scaleY(1); opacity: 0.9; }
+            100% { transform: scaleY(1.1); opacity: 1; }
         }
         
         .controls {
@@ -205,7 +418,7 @@
             border-radius: 25px;
             border: none;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 14px;
             margin: 5px;
             transition: all 0.3s;
             font-weight: bold;
@@ -232,8 +445,16 @@
             background: #c0392b;
         }
         
+        .btn-warning {
+            background: #f39c12;
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
         .timer {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #2c3e50;
             text-align: center;
@@ -244,18 +465,7 @@
             border: 3px solid #bdc3c7;
         }
         
-        .temp-display {
-            font-size: 2em;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 15px 0;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #e74c3c;
-        }
-        
-        .comparison {
+        .measurement-controls {
             background: #fff3cd;
             padding: 20px;
             border-radius: 15px;
@@ -279,57 +489,191 @@
             border-right: 5px solid #17a2b8;
         }
         
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .results-table th, .results-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .results-table th {
+            background: #34495e;
+            color: white;
+        }
+        
+        .results-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* إضافة أنماط الاستنتاج */
+        .conclusion-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .conclusion-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        
+        .conclusion-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .conclusion-point {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-right: 4px solid #ffd700;
+        }
+        
+        .conclusion-point h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .conclusion-formula {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .conclusion-highlight {
+            background: rgba(255,215,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 15px 0;
+            border: 2px solid #ffd700;
+        }
+        
         @media (max-width: 768px) {
             .experiment-area {
                 grid-template-columns: 1fr;
             }
             
-            .beakers-container {
+            .lab-setup {
                 grid-template-columns: 1fr;
                 gap: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .conclusion-points {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="../index.html" class="back-btn">🏠 العودة للرئيسية</a>
+        <button class="back-btn" onclick="window.location.href='../../index.html'">🏠 العودة للرئيسية</button>
         
         <header>
-            <h1>🔥 تجربة تأثير الكتلة على التسخين</h1>
-            <p>مقارنة معدل ارتفاع درجة الحرارة في كتل مختلفة من الماء</p>
+            <h1>🔥 تجربة تأثير الكتلة على التغير في درجة الحرارة</h1>
+            <p>التحكم في كتلة الماء ومقارنة معدل ارتفاع درجة الحرارة</p>
         </header>
 
         <div class="experiment-info">
             <h3>🎯 هدف التجربة</h3>
-            <p>دراسة تأثير كتلة الماء على معدل ارتفاع درجة حرارته عند تعرضه لنفس مصدر الحرارة</p>
+            <p>دراسة تأثير كتلة الماء على معدل ارتفاع درجة حرارته مع إمكانية التحكم في الكتلة وأخذ قياسات دورية</p>
         </div>
 
         <div class="experiment-area">
-            <!-- منطقة التجربة -->
+            <!-- منطقة المختبر -->
             <div>
-                <div class="beakers-container">
+                <div class="lab-setup">
                     <!-- الكأس الأول -->
-                    <div class="beaker">
-                        <div class="beaker-label">الكأس الأول</div>
-                        <div class="mass-info">الكتلة: 100 جرام ماء</div>
-                        <div class="temp-display" id="temp1">25°C</div>
-                        <div class="water" id="water1" style="height: 120px;">
-                            <div class="water-level">100 جرام</div>
+                    <div class="beaker-setup">
+                        <div class="faucet" id="faucet1" onclick="toggleFaucet(1)">
+                            <div class="faucet-handle"></div>
+                            <div class="water-stream"></div>
                         </div>
+                        <div class="beaker-label">الكأس الأول</div>
+                        
+                        <div class="beaker-container">
+                            <div class="beaker-scale" id="scale1"></div>
+                            <div class="beaker">
+                                <div class="water" id="water1">
+                                    <div class="water-bubbles" id="bubbles1"></div>
+                                </div>
+                                <div class="water-level" id="waterLevel1">0 جرام</div>
+                            </div>
+                        </div>
+                        
+                        <div class="thermometer" id="thermometer1">
+                            <div class="thermometer-bulb"></div>
+                            <div class="thermometer-stem" id="thermometerStem1"></div>
+                            <div class="thermometer-scale" id="thermometerScale1"></div>
+                        </div>
+                        
+                        <div class="mass-info">الكتلة الحالية: <span id="mass1">0</span> جرام</div>
+                        <div class="temp-display" id="temp1">25°C</div>
+                        
                         <div class="burner">
                             <div class="flame" id="flame1" style="height: 0px;"></div>
                         </div>
                     </div>
                     
                     <!-- الكأس الثاني -->
-                    <div class="beaker">
-                        <div class="beaker-label">الكأس الثاني</div>
-                        <div class="mass-info">الكتلة: 200 جرام ماء</div>
-                        <div class="temp-display" id="temp2">25°C</div>
-                        <div class="water" id="water2" style="height: 180px;">
-                            <div class="water-level">200 جرام</div>
+                    <div class="beaker-setup">
+                        <div class="faucet" id="faucet2" onclick="toggleFaucet(2)">
+                            <div class="faucet-handle"></div>
+                            <div class="water-stream"></div>
                         </div>
+                        <div class="beaker-label">الكأس الثاني</div>
+                        
+                        <div class="beaker-container">
+                            <div class="beaker-scale" id="scale2"></div>
+                            <div class="beaker">
+                                <div class="water" id="water2">
+                                    <div class="water-bubbles" id="bubbles2"></div>
+                                </div>
+                                <div class="water-level" id="waterLevel2">0 جرام</div>
+                            </div>
+                        </div>
+                        
+                        <div class="thermometer" id="thermometer2">
+                            <div class="thermometer-bulb"></div>
+                            <div class="thermometer-stem" id="thermometerStem2"></div>
+                            <div class="thermometer-scale" id="thermometerScale2"></div>
+                        </div>
+                        
+                        <div class="mass-info">الكتلة الحالية: <span id="mass2">0</span> جرام</div>
+                        <div class="temp-display" id="temp2">25°C</div>
+                        
                         <div class="burner">
                             <div class="flame" id="flame2" style="height: 0px;"></div>
                         </div>
@@ -339,34 +683,92 @@
                 <!-- ساعة الإيقاف -->
                 <div class="timer" id="timer">00:00</div>
                 
-                <!-- المشاهدة -->
+                <!-- جدول النتائج -->
+                <div class="measurement-controls">
+                    <h3>📊 جدول القياسات</h3>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>الوقت</th>
+                                <th>الكأس 1 (°C)</th>
+                                <th>الكأس 2 (°C)</th>
+                                <th>الفرق (°C)</th>
+                                <th>الكتلة 1 (g)</th>
+                                <th>الكتلة 2 (g)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #999;">سيظهر هنا سجل القياسات...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- المشاهدة والاستنتاج -->
                 <div class="observation">
                     <h3>👀 المشاهدة</h3>
                     <div id="observationText">
-                        <p>• درجة الحرارة الابتدائية: 25°C للكأسين</p>
-                        <p>• الكتلة مختلفة: 100g vs 200g</p>
-                        <p>• نفس قوة التسخين: <span id="currentPower">0%</span></p>
-                        <p id="tempComparison">• الفرق في درجة الحرارة: 0°C</p>
+                        <p>• ابدأ بملء الكأسين بالماء باستخدام الصنابير</p>
+                        <p>• اضبط قوة التسخين والفترة الزمنية للقياسات</p>
+                        <p>• انقر على "بدء التسخين" لمشاهدة الفروق</p>
                     </div>
                 </div>
-                
-                <!-- الاستنتاج -->
-                <div class="conclusion">
-                    <h3>💡 الاستنتاج</h3>
-                    <div id="conclusionText">
-                        <p>في بداية التجربة: الكتلة تؤثر على معدل التسخين</p>
-                        <p>كلما زادت الكتلة، احتاجت لوقت أطول للوصول لنفس درجة الحرارة</p>
+
+                <!-- قسم الاستنتاج المضاف -->
+                <div class="conclusion-section">
+                    <h3>📝 الاستنتاج العلمي</h3>
+                    
+                    <div class="conclusion-points">
+                        <div class="conclusion-point">
+                            <h4>📊 العلاقة العكسية</h4>
+                            <p>توجد علاقة عكسية بين كتلة الماء ومعدل ارتفاع درجة حرارته. فكلما زادت الكتلة، قل معدل ارتفاع درجة الحرارة.</p>
+                        </div>
+                        
+                        <div class="conclusion-point">
+                            <h4>⚖️ السعة الحرارية</h4>
+                            <p>الكتلة الأكبر تمتلك سعة حرارية أعلى، مما يعني أنها تحتاج إلى طاقة حرارية أكبر لرفع درجة حرارتها.</p>
+                        </div>
+                        
+                        <div class="conclusion-point">
+                            <h4>⏱️ عامل الزمن</h4>
+                            <p>الكتلة الأصغر تصل إلى درجة حرارة معينة في وقت أقل مقارنة بالكتلة الأكبر تحت نفس الظروف.</p>
+                        </div>
+                        
+                        <div class="conclusion-point">
+                            <h4>🔥 كفاءة التسخين</h4>
+                            <p>التسخين أكثر كفاءة للكتل الصغيرة حيث يتم فقدان طاقة حرارية أقل للوسط المحيط.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="conclusion-formula">
+                        Q = m × c × ΔT<br>
+                        <small>حيث: Q = الطاقة الحرارية, m = الكتلة, c = السعة الحرارية النوعية, ΔT = التغير في درجة الحرارة</small>
+                    </div>
+                    
+                    <div class="conclusion-highlight" id="dynamicConclusion">
+                        • استخدم التجربة لملاحظة هذه العلاقات عملياً<br>
+                        • قارن بين معدلات التسخين للكتل المختلفة<br>
+                        • سجل ملاحظاتك في جدول القياسات
                     </div>
                 </div>
             </div>
             
             <!-- عناصر التحكم -->
             <div class="controls">
+                <!-- تحكم في الصنابير -->
+                <div class="control-group">
+                    <h3>🚰 التحكم في الماء</h3>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <button class="btn" onclick="fillBeaker(1)">➕ ملء الكأس 1</button>
+                        <button class="btn" onclick="fillBeaker(2)">➕ ملء الكأس 2</button>
+                        <button class="btn btn-warning" onclick="emptyBeakers()">🗑️ تفريغ الكأسين</button>
+                    </div>
+                </div>
+                
                 <!-- تحكم في الموقد -->
                 <div class="control-group">
                     <h3>🔥 قوة التسخين</h3>
-                    <p style="color: #666; margin-bottom: 15px;">اضبط قوة التسخين (نفس القوة للكأسين)</p>
-                    
                     <div class="slider-container">
                         <span style="font-weight: bold;">قوة الموقد:</span>
                         <input type="range" min="0" max="100" value="0" class="slider" id="burnerPowerSlider">
@@ -374,221 +776,548 @@
                     </div>
                 </div>
                 
-                <!-- تحكم في الوقت -->
+                <!-- تحكم في القياسات -->
                 <div class="control-group">
-                    <h3>⏱️ التحكم في الوقت</h3>
-                    <div style="text-align: center;">
-                        <button class="btn btn-success" onclick="startTimer()">▶️ بدء التسخين</button>
-                        <button class="btn btn-danger" onclick="stopTimer()">⏹️ إيقاف التسخين</button>
-                        <button class="btn" onclick="resetExperiment()">🔄 إعادة التجربة</button>
+                    <h3>⏱️ إعدادات القياس</h3>
+                    <div class="slider-container">
+                        <span>فترة القياس:</span>
+                        <input type="range" min="5" max="60" value="15" class="slider" id="measurementIntervalSlider">
+                        <span id="measurementIntervalValue">15 ثانية</span>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button class="btn btn-success" onclick="startExperiment()">▶️ بدء التجربة</button>
+                        <button class="btn btn-danger" onclick="stopExperiment()">⏹️ إيقاف التجربة</button>
+                        <button class="btn" onclick="takeManualMeasurement()">📝 قياس يدوي</button>
+                        <button class="btn btn-warning" onclick="clearResults()">🗑️ مسح النتائج</button>
+                        <button class="btn btn-warning" onclick="exportData()">📤 تصدير البيانات</button>
                     </div>
                 </div>
                 
                 <!-- المقارنة -->
-                <div class="comparison">
-                    <h3>📊 المقارنة</h3>
-                    <div id="comparisonData">
-                        <p>• الكأس الأول (100g): <span id="rate1">0.0</span> °C/دقيقة</p>
-                        <p>• الكأس الثاني (200g): <span id="rate2">0.0</span> °C/دقيقة</p>
-                        <p>• النسبة: الكأس الأول يسخن <span id="ratio">1.0</span> مرة أسرع</p>
+                <div class="conclusion">
+                    <h3>📈 التحليل</h3>
+                    <div id="analysisText">
+                        <p>• الكتلة 1: <span id="currentMass1">0</span> جرام</p>
+                        <p>• الكتلة 2: <span id="currentMass2">0</span> جرام</p>
+                        <p>• معدل التسخين 1: <span id="rate1">0.0</span> °C/دقيقة</p>
+                        <p>• معدل التسخين 2: <span id="rate2">0.0</span> °C/دقيقة</p>
                     </div>
-                </div>
-                
-                <!-- التعليمات -->
-                <div class="control-group">
-                    <h3>📝 خطوات التجربة</h3>
-                    <ol style="color: #666; padding-right: 20px;">
-                        <li>اضبط قوة التسخين المطلوبة</li>
-                        <li>انقر على "بدء التسخين"</li>
-                        <li>راقب الفرق في معدل ارتفاع الحرارة</li>
-                        <li>قارن بين الكأسين كل دقيقة</li>
-                    </ol>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // متغيرات التجربة
+        // ========== متغيرات التجربة ==========
         let timerInterval;
         let seconds = 0;
         let isRunning = false;
-        
-        // درجات الحرارة
+        let burnerPower = 0;
+        let measurementIntervalValue = 15;
+        let lastMeasurementTime = 0;
+
+        // درجات الحرارة والكتل
         let temp1 = 25;
         let temp2 = 25;
-        let burnerPower = 0;
-        
-        // معدلات التسخين
-        let heatingRate1 = 0;
-        let heatingRate2 = 0;
-        
-        // تحديث الشاشة
+        let mass1 = 0;
+        let mass2 = 0;
+
+        // سجل القياسات
+        let measurements = [];
+        let fillIntervals = {};
+
+        // ========== وظائف العرض ==========
         function updateDisplay() {
             // درجات الحرارة
             document.getElementById('temp1').textContent = Math.round(temp1) + '°C';
             document.getElementById('temp2').textContent = Math.round(temp2) + '°C';
             
+            // الكتل
+            document.getElementById('mass1').textContent = mass1;
+            document.getElementById('mass2').textContent = mass2;
+            document.getElementById('currentMass1').textContent = mass1;
+            document.getElementById('currentMass2').textContent = mass2;
+            
             // تحديث ألوان الماء
             updateWaterColor('water1', temp1);
             updateWaterColor('water2', temp2);
             
-            // تحديث اللهب (نفس القوة للكأسين)
+            // تحديث مستوى الماء
+            updateWaterLevel(1, mass1);
+            updateWaterLevel(2, mass2);
+            
+            // تحديث مقياس الحرارة
+            updateThermometer(1, temp1);
+            updateThermometer(2, temp2);
+            
+            // تحديث اللهب
             document.getElementById('flame1').style.height = (burnerPower / 2) + 'px';
             document.getElementById('flame2').style.height = (burnerPower / 2) + 'px';
             
-            // تحديث المشاهدة
-            updateObservation();
+            // تحديث التحليل
+            updateAnalysis();
             
-            // تحديث المقارنة
-            updateComparison();
+            // تحديث الاستنتاج الديناميكي
+            updateDynamicConclusion();
         }
-        
-        // تحديث لون الماء
+
         function updateWaterColor(elementId, temperature) {
             const water = document.getElementById(elementId);
             let color;
             
             if (temperature < 40) {
-                color = 'linear-gradient(to bottom, rgba(116, 185, 255, 0.8), rgba(9, 132, 227, 0.9))';
+                color = 'linear-gradient(to bottom, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.95))';
             } else if (temperature < 60) {
-                color = 'linear-gradient(to bottom, rgba(255, 195, 0, 0.8), rgba(255, 165, 0, 0.9))';
+                color = 'linear-gradient(to bottom, rgba(255, 195, 0, 0.9), rgba(255, 165, 0, 0.95))';
             } else if (temperature < 80) {
-                color = 'linear-gradient(to bottom, rgba(255, 140, 0, 0.8), rgba(255, 69, 0, 0.9))';
+                color = 'linear-gradient(to bottom, rgba(255, 140, 0, 0.9), rgba(255, 69, 0, 0.95))';
             } else {
-                color = 'linear-gradient(to bottom, rgba(255, 0, 0, 0.8), rgba(220, 20, 60, 0.9))';
+                color = 'linear-gradient(to bottom, rgba(255, 0, 0, 0.9), rgba(220, 20, 60, 0.95))';
             }
             
             water.style.background = color;
         }
-        
-        // تحديث المشاهدة
-        function updateObservation() {
-            const tempDiff = Math.abs(temp1 - temp2);
-            document.getElementById('currentPower').textContent = burnerPower + '%';
-            document.getElementById('tempComparison').textContent = 
-                `• الفرق في درجة الحرارة: ${tempDiff.toFixed(1)}°C`;
+
+        function updateWaterLevel(beakerNum, mass) {
+            const maxHeight = 180;
+            const height = (mass / 300) * maxHeight;
+            const water = document.getElementById(`water${beakerNum}`);
+            water.style.height = height + 'px';
+            document.getElementById(`waterLevel${beakerNum}`).textContent = mass + ' جرام';
             
-            // تحديث الاستنتاج بناءً على النتائج
-            updateConclusion();
+            // إضافة فقاعات عند التسخين
+            if (burnerPower > 0 && mass > 0) {
+                createBubbles(beakerNum);
+            }
         }
-        
-        // تحديث الاستنتاج
-        function updateConclusion() {
-            const conclusionText = document.getElementById('conclusionText');
-            const ratio = heatingRate1 / heatingRate2;
+
+        function updateThermometer(thermometerNum, temperature) {
+            const maxTemp = 100;
+            const minTemp = 0;
+            const thermometerHeight = 110; // ارتفاع العمود داخل الترمومتر
             
-            if (seconds < 10) {
-                conclusionText.innerHTML = `
-                    <p>  الكتلة تؤثر على معدل التغير في درجة الحرارة</p>
-                    <p>كلما زادت الكتلة، احتاجت لوقت أطول للوصول لنفس درجة الحرارة</p>
-                    <p>الكتل المختلفة من نفس المادة 
-                `;
-            } else if (ratio > 1.5) {
-                conclusionText.innerHTML = `
-                    <p>✅ <strong>الاستنتاج:</strong> الكتلة الأصغر تسخن أسرع</p>
-                    <p>• الكأس الأول (100g) يسخن ${ratio.toFixed(1)} مرة أسرع من الكأس الثاني</p>
-                    <p>• السعة الحرارية تتناسب طردياً مع الكتلة</p>
-                `;
+            // حساب ارتفاع عمود الزئبق
+            const tempPercentage = (temperature - minTemp) / (maxTemp - minTemp);
+            const stemHeight = Math.max(5, tempPercentage * thermometerHeight);
+            
+            const stem = document.getElementById(`thermometerStem${thermometerNum}`);
+            stem.style.height = stemHeight + 'px';
+            stem.style.bottom = '20px';
+        }
+
+        function createBubbles(beakerNum) {
+            const bubblesContainer = document.getElementById(`bubbles${beakerNum}`);
+            
+            // إزالة الفقاعات القديمة
+            bubblesContainer.innerHTML = '';
+            
+            // إنشاء فقاعات جديدة
+            const bubbleCount = Math.min(10, Math.floor(burnerPower / 10));
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                setTimeout(() => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    
+                    // حجم عشوائي للفقاعة
+                    const size = Math.random() * 8 + 4;
+                    bubble.style.width = size + 'px';
+                    bubble.style.height = size + 'px';
+                    
+                    // موقع أفقي عشوائي
+                    const left = Math.random() * 80 + 10;
+                    bubble.style.left = left + '%';
+                    
+                    // تأخير عشوائي للحركة
+                    bubble.style.animationDelay = (Math.random() * 2) + 's';
+                    
+                    bubblesContainer.appendChild(bubble);
+                }, i * 300);
+            }
+        }
+
+        // ========== إنشاء مقاييس الكأس والترمومتر ==========
+        function createScales() {
+            // إنشاء مقياس الكأس
+            for (let beakerNum = 1; beakerNum <= 2; beakerNum++) {
+                const scale = document.getElementById(`scale${beakerNum}`);
+                for (let i = 0; i <= 300; i += 50) {
+                    const mark = document.createElement('div');
+                    const height = (i / 300) * 180;
+                    mark.className = i % 100 === 0 ? 'scale-mark major' : 'scale-mark';
+                    mark.style.top = (180 - height) + 'px';
+                    
+                    if (i % 100 === 0) {
+                        const label = document.createElement('div');
+                        label.className = 'scale-label';
+                        label.style.top = (180 - height - 8) + 'px';
+                        label.textContent = i + 'g';
+                        scale.appendChild(label);
+                    }
+                    
+                    scale.appendChild(mark);
+                }
+            }
+            
+            // إنشاء مقياس الترمومتر
+            for (let thermoNum = 1; thermoNum <= 2; thermoNum++) {
+                const scale = document.getElementById(`thermometerScale${thermoNum}`);
+                for (let i = 0; i <= 100; i += 10) {
+                    const mark = document.createElement('div');
+                    const height = (i / 100) * 110;
+                    mark.className = i % 20 === 0 ? 'temp-mark major' : 'temp-mark';
+                    mark.style.top = (110 - height) + 'px';
+                    
+                    if (i % 20 === 0) {
+                        const label = document.createElement('div');
+                        label.className = 'temp-label';
+                        label.style.top = (110 - height - 8) + 'px';
+                        label.textContent = i + '°C';
+                        scale.appendChild(label);
+                    }
+                    
+                    scale.appendChild(mark);
+                }
+            }
+        }
+
+        // ========== التحكم في الصنابير ==========
+        function toggleFaucet(faucetNum) {
+            const faucet = document.getElementById(`faucet${faucetNum}`);
+            const isOpen = faucet.classList.contains('open');
+            
+            if (isOpen) {
+                faucet.classList.remove('open');
+                stopFilling(faucetNum);
             } else {
-                conclusionText.innerHTML = `
-                    <p>🔍 <strong>الملاحظة:</strong> الفرق في التسخين واضح</p>
-                    <p>• الكتلة الأصغر تصل لدرجات حرارة أعلى في نفس الوقت</p>
-                    <p>• هذا يوضح مفهوم السعة الحرارية النوعية</p>
-                `;
+                faucet.classList.add('open');
+                startFilling(faucetNum);
             }
         }
-        
-        // تحديث المقارنة
-        function updateComparison() {
-            const minutes = seconds / 60;
-            if (minutes > 0) {
-                heatingRate1 = temp1 / minutes;
-                heatingRate2 = temp2 / minutes;
+
+        function startFilling(beakerNum) {
+            if (fillIntervals[beakerNum]) {
+                clearInterval(fillIntervals[beakerNum]);
+            }
+            
+            fillIntervals[beakerNum] = setInterval(() => {
+                const faucet = document.getElementById(`faucet${beakerNum}`);
                 
-                document.getElementById('rate1').textContent = heatingRate1.toFixed(1);
-                document.getElementById('rate2').textContent = heatingRate2.toFixed(1);
+                if (!faucet.classList.contains('open')) {
+                    stopFilling(beakerNum);
+                    return;
+                }
                 
-                const ratio = heatingRate1 / heatingRate2;
-                document.getElementById('ratio').textContent = ratio.toFixed(1);
+                if (beakerNum === 1 && mass1 < 300) {
+                    mass1 += 10;
+                } else if (beakerNum === 2 && mass2 < 300) {
+                    mass2 += 10;
+                } else {
+                    faucet.classList.remove('open');
+                    stopFilling(beakerNum);
+                }
+                
+                updateDisplay();
+            }, 200);
+        }
+
+        function stopFilling(beakerNum) {
+            if (fillIntervals[beakerNum]) {
+                clearInterval(fillIntervals[beakerNum]);
+                fillIntervals[beakerNum] = null;
             }
         }
-        
-        // بدء المؤقت
-        function startTimer() {
+
+        function fillBeaker(beakerNum) {
+            if (beakerNum === 1) {
+                mass1 = 200;
+            } else {
+                mass2 = 200;
+            }
+            updateDisplay();
+        }
+
+        function emptyBeakers() {
+            mass1 = 0;
+            mass2 = 0;
+            temp1 = 25;
+            temp2 = 25;
+            
+            document.getElementById('faucet1').classList.remove('open');
+            document.getElementById('faucet2').classList.remove('open');
+            stopFilling(1);
+            stopFilling(2);
+            
+            updateDisplay();
+        }
+
+        // ========== التحكم في التجربة ==========
+        function startExperiment() {
             if (!isRunning) {
+                if (mass1 === 0 && mass2 === 0) {
+                    alert('⚠️ يرجى ملء أحد الكأسين على الأقل بالماء قبل بدء التجربة!');
+                    return;
+                }
+                
                 isRunning = true;
-                timerInterval = setInterval(function() {
+                lastMeasurementTime = 0;
+                
+                takeMeasurement();
+                
+                timerInterval = setInterval(() => {
                     seconds++;
                     updateTimer();
                     
-                    // تحديث درجات الحرارة
                     if (isRunning && burnerPower > 0) {
                         updateTemperatures();
                     }
+                    
+                    if (seconds - lastMeasurementTime >= measurementIntervalValue) {
+                        takeMeasurement();
+                    }
                 }, 1000);
+                
+                document.getElementById('observationText').innerHTML = `
+                    <p>• ✅ التجربة جارية...</p>
+                    <p>• القياسات تسجل كل ${measurementIntervalValue} ثانية</p>
+                    <p>• تتبع تغير درجات الحرارة في الجدول</p>
+                `;
             }
         }
-        
-        // إيقاف المؤقت
-        function stopTimer() {
+
+        function stopExperiment() {
             isRunning = false;
-            clearInterval(timerInterval);
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            document.getElementById('observationText').innerHTML += `<p>• ⏹️ تم إيقاف التجربة</p>`;
         }
-        
-        // تحديث المؤقت
+
         function updateTimer() {
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
             document.getElementById('timer').textContent = 
                 `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
-        
-        // تحديث درجات الحرارة
+
         function updateTemperatures() {
             if (burnerPower > 0) {
-                // الكأس الأول (100 جرام) يسخن أسرع
-                temp1 += (burnerPower / 100) * 0.6;
+                const baseRate = (burnerPower / 100) * 0.8;
+                const rate1 = mass1 > 0 ? baseRate * (100 / mass1) : 0;
+                const rate2 = mass2 > 0 ? baseRate * (100 / mass2) : 0;
                 
-                // الكأس الثاني (200 جرام) يسخن أبطأ (نصف السرعة تقريباً)
-                temp2 += (burnerPower / 100) * 0.3;
+                temp1 += rate1;
+                temp2 += rate2;
                 
-                // منع تجاوز 100 درجة
                 if (temp1 > 100) temp1 = 100;
                 if (temp2 > 100) temp2 = 100;
+                if (temp1 < 25) temp1 = 25;
+                if (temp2 < 25) temp2 = 25;
             }
             
             updateDisplay();
         }
-        
-        // إعادة ضبط التجربة
-        function resetExperiment() {
-            stopTimer();
-            seconds = 0;
-            temp1 = 25;
-            temp2 = 25;
-            burnerPower = 0;
-            heatingRate1 = 0;
-            heatingRate2 = 0;
+
+        // ========== القياسات والنتائج ==========
+        function takeMeasurement() {
+            const measurement = {
+                time: seconds,
+                temp1: Math.round(temp1 * 10) / 10,
+                temp2: Math.round(temp2 * 10) / 10,
+                mass1: mass1,
+                mass2: mass2,
+                tempDiff: Math.abs(temp1 - temp2),
+                burnerPower: burnerPower
+            };
             
-            document.getElementById('burnerPowerSlider').value = 0;
-            document.getElementById('burnerPowerValue').textContent = '0%';
-            
-            updateTimer();
-            updateDisplay();
+            measurements.push(measurement);
+            lastMeasurementTime = seconds;
+            updateResultsTable();
         }
-        
-        // تهيئة الأحداث
+
+        function takeManualMeasurement() {
+            if (isRunning) {
+                takeMeasurement();
+                const manualBtn = document.querySelector('button[onclick="takeManualMeasurement()"]');
+                manualBtn.style.background = '#27ae60';
+                setTimeout(() => {
+                    manualBtn.style.background = '';
+                }, 500);
+            } else {
+                alert('⚠️ يرجى بدء التجربة أولاً!');
+            }
+        }
+
+        function updateResultsTable() {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = '';
+            
+            if (measurements.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">سيظهر هنا سجل القياسات...</td></tr>';
+                return;
+            }
+            
+            const displayMeasurements = measurements.slice(-10);
+            
+            displayMeasurements.forEach((measurement) => {
+                const minutes = Math.floor(measurement.time / 60);
+                const seconds = measurement.time % 60;
+                const row = document.createElement('tr');
+                
+                if (measurement.tempDiff > 10) {
+                    row.style.background = '#ffebee';
+                } else if (measurement.tempDiff > 5) {
+                    row.style.background = '#fff3e0';
+                }
+                
+                row.innerHTML = `
+                    <td>${minutes}:${seconds.toString().padStart(2, '0')}</td>
+                    <td><strong>${measurement.temp1}°C</strong></td>
+                    <td><strong>${measurement.temp2}°C</strong></td>
+                    <td><strong>${measurement.tempDiff.toFixed(1)}°C</strong></td>
+                    <td>${measurement.mass1}g</td>
+                    <td>${measurement.mass2}g</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            tbody.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        function updateAnalysis() {
+            const minutes = seconds / 60;
+            
+            if (minutes > 0 && measurements.length > 1) {
+                const first = measurements[0];
+                const last = measurements[measurements.length - 1];
+                const timeDiff = (last.time - first.time) / 60;
+                
+                if (timeDiff > 0) {
+                    const rate1 = (last.temp1 - first.temp1) / timeDiff;
+                    const rate2 = (last.temp2 - first.temp2) / timeDiff;
+                    
+                    document.getElementById('rate1').textContent = rate1.toFixed(1);
+                    document.getElementById('rate2').textContent = rate2.toFixed(1);
+                }
+            }
+        }
+
+        // ========== الاستنتاج الديناميكي ==========
+        function updateDynamicConclusion() {
+            const conclusionElement = document.getElementById('dynamicConclusion');
+            
+            if (measurements.length < 2) {
+                conclusionElement.innerHTML = `
+                    • استخدم التجربة لملاحظة العلاقات عملياً<br>
+                    • قارن بين معدلات التسخين للكتل المختلفة<br>
+                    • سجل ملاحظاتك في جدول القياسات
+                `;
+                return;
+            }
+            
+            const first = measurements[0];
+            const last = measurements[measurements.length - 1];
+            const timeDiff = (last.time - first.time) / 60;
+            
+            if (timeDiff > 0) {
+                const rate1 = (last.temp1 - first.temp1) / timeDiff;
+                const rate2 = (last.temp2 - first.temp2) / timeDiff;
+                
+                let conclusionText = '';
+                
+                if (mass1 > mass2 && rate1 < rate2) {
+                    conclusionText = `
+                        • ✅ الكتلة الأكبر (${mass1}g) تسخن بمعدل أبطأ (${rate1.toFixed(1)}°C/دقيقة)<br>
+                        • ✅ الكتلة الأصغر (${mass2}g) تسخن بمعدل أسرع (${rate2.toFixed(1)}°C/دقيقة)<br>
+                        • 📊 العلاقة العكسية بين الكتلة ومعدل التسخين واضحة
+                    `;
+                } else if (mass2 > mass1 && rate2 < rate1) {
+                    conclusionText = `
+                        • ✅ الكتلة الأكبر (${mass2}g) تسخن بمعدل أبطأ (${rate2.toFixed(1)}°C/دقيقة)<br>
+                        • ✅ الكتلة الأصغر (${mass1}g) تسخن بمعدل أسرع (${rate1.toFixed(1)}°C/دقيقة)<br>
+                        • 📊 العلاقة العكسية بين الكتلة ومعدل التسخين واضحة
+                    `;
+                } else if (mass1 === mass2) {
+                    conclusionText = `
+                        • ⚖️ الكتلتان متساويتان (${mass1}g)<br>
+                        • 📈 معدلا التسخين متقاربان (${rate1.toFixed(1)}°C/دقيقة و ${rate2.toFixed(1)}°C/دقيقة)<br>
+                        • 🔍 الفروق الطفيفة تعود لظروف التجربة
+                    `;
+                } else {
+                    conclusionText = `
+                        • 🔍 قارن بين معدلات التسخين للكتل المختلفة<br>
+                        • 📊 لاحظ العلاقة بين الكتلة ومعدل ارتفاع الحرارة<br>
+                        • ⏱️ استمر في التجربة للحصول على نتائج أوضح
+                    `;
+                }
+                
+                conclusionElement.innerHTML = conclusionText;
+            }
+        }
+
+        function clearResults() {
+            if (confirm('هل تريد مسح جميع النتائج المسجلة؟')) {
+                measurements = [];
+                updateResultsTable();
+                document.getElementById('observationText').innerHTML = `
+                    <p>• تم مسح جميع النتائج</p>
+                    <p>• يمكنك بدء تجربة جديدة</p>
+                `;
+            }
+        }
+
+        function exportData() {
+            if (measurements.length === 0) {
+                alert('⚠️ لا توجد بيانات للتصدير!');
+                return;
+            }
+            
+            let csvContent = "الوقت,درجة الحرارة الكأس 1,درجة الحرارة الكأس 2,الفرق,الكتلة 1,الكتلة 2,قوة التسخين\n";
+            
+            measurements.forEach(measurement => {
+                const minutes = Math.floor(measurement.time / 60);
+                const seconds = measurement.time % 60;
+                const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                csvContent += `${timeStr},${measurement.temp1},${measurement.temp2},${measurement.tempDiff},${measurement.mass1},${measurement.mass2},${measurement.burnerPower}\n`;
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", "نتائج_تجربة_التسخين.csv");
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ========== التهيئة ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // حدث المنزلق
+            // إنشاء المقاييس
+            createScales();
+            
+            // أحداث المنزلقات
             document.getElementById('burnerPowerSlider').addEventListener('input', function(e) {
                 burnerPower = parseInt(e.target.value);
                 document.getElementById('burnerPowerValue').textContent = burnerPower + '%';
                 updateDisplay();
             });
             
+            document.getElementById('measurementIntervalSlider').addEventListener('input', function(e) {
+                measurementIntervalValue = parseInt(e.target.value);
+                document.getElementById('measurementIntervalValue').textContent = measurementIntervalValue + ' ثانية';
+            });
+            
             // التهيئة الأولية
             updateDisplay();
+            
+            console.log('✅ تم تحميل تجربة تأثير الكتلة على التسخين بنجاح');
         });
     </script>
 </body>
