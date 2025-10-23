@@ -31,24 +31,26 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 18px;
+            background: rgba(138, 43, 226, 0.3);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             text-decoration: none;
             display: inline-block;
             z-index: 1000;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
         }
         
         .back-home-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+            background: rgba(138, 43, 226, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.5);
         }
         
         header {
@@ -375,6 +377,12 @@
             border-radius: 10px;
             text-align: center;
             border: 1px solid rgba(138, 43, 226, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .example-item:hover {
+            background: rgba(138, 43, 226, 0.3);
+            transform: scale(1.05);
         }
         
         .footer {
@@ -901,4 +909,120 @@
             
             for (let i = 0; i < solidRows; i++) {
                 for (let j = 0; j < solidCols; j++) {
-                    const x = j * solid
+                    const x = j * solidCellWidth + solidCellWidth / 2;
+                    const y = i * solidCellHeight + solidCellHeight / 2;
+                    solidParticles.push(new MatterParticle(x, y, 'solid', solidCanvas));
+                }
+            }
+            
+            // إنشاء جسيمات الحالة السائلة
+            for (let i = 0; i < 25; i++) {
+                const x = Math.random() * (liquidCanvas.width - 20) + 10;
+                const y = Math.random() * (liquidCanvas.height - 20) + 10;
+                liquidParticles.push(new MatterParticle(x, y, 'liquid', liquidCanvas));
+            }
+            
+            // إنشاء جسيمات الحالة الغازية
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * (gasCanvas.width - 10) + 5;
+                const y = Math.random() * (gasCanvas.height - 10) + 5;
+                gasParticles.push(new MatterParticle(x, y, 'gas', gasCanvas));
+            }
+            
+            // إنشاء جسيمات البلازما (إلكترونات وأيونات)
+            const numParticles = 40;
+            for (let i = 0; i < numParticles; i++) {
+                const x = Math.random() * (plasmaCanvas.width - 20) + 10;
+                const y = Math.random() * (plasmaCanvas.height - 20) + 10;
+                
+                // إنشاء إلكترونات وأيونات بناءً على مستوى التأين
+                if (Math.random() * 100 < ionizationLevel) {
+                    // إنشاء إلكترون
+                    plasmaParticles.push(new PlasmaParticle(x, y, 'electron', plasmaCanvas));
+                    // إنشاء أيون مقابل للإلكترون
+                    plasmaParticles.push(new PlasmaParticle(
+                        x + (Math.random() - 0.5) * 20, 
+                        y + (Math.random() - 0.5) * 20, 
+                        'ion', 
+                        plasmaCanvas
+                    ));
+                } else {
+                    // جسيم متعادل (ذرة)
+                    plasmaParticles.push(new MatterParticle(x, y, 'gas', plasmaCanvas));
+                }
+            }
+        }
+        
+        // تحديث المحاكاة
+        function updateSimulation() {
+            // تحديث وعرض الجسيمات الصلبة
+            const solidCtx = solidCanvas.getContext('2d');
+            solidCtx.clearRect(0, 0, solidCanvas.width, solidCanvas.height);
+            solidParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // تحديث وعرض الجسيمات السائلة
+            const liquidCtx = liquidCanvas.getContext('2d');
+            liquidCtx.clearRect(0, 0, liquidCanvas.width, liquidCanvas.height);
+            liquidParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // تحديث وعرض الجسيمات الغازية
+            const gasCtx = gasCanvas.getContext('2d');
+            gasCtx.clearRect(0, 0, gasCanvas.width, gasCanvas.height);
+            gasParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // تحديث وعرض جسيمات البلازما
+            const plasmaCtx = plasmaCanvas.getContext('2d');
+            plasmaCtx.clearRect(0, 0, plasmaCanvas.width, plasmaCanvas.height);
+            
+            // رسم خلفية متوهجة للبلازما
+            const gradient = plasmaCtx.createRadialGradient(
+                plasmaCanvas.width/2, plasmaCanvas.height/2, 0,
+                plasmaCanvas.width/2, plasmaCanvas.height/2, plasmaCanvas.width/2
+            );
+            gradient.addColorStop(0, 'rgba(138, 43, 226, 0.1)');
+            gradient.addColorStop(1, 'rgba(138, 43, 226, 0)');
+            plasmaCtx.fillStyle = gradient;
+            plasmaCtx.fillRect(0, 0, plasmaCanvas.width, plasmaCanvas.height);
+            
+            plasmaParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // طلب الإطار التالي
+            requestAnimationFrame(updateSimulation);
+        }
+        
+        // إعداد معالجات الأحداث
+        temperatureSlider.addEventListener('input', () => {
+            plasmaTemperature = parseInt(temperatureSlider.value);
+            temperatureValue.textContent = plasmaTemperature.toLocaleString();
+            createParticles();
+        });
+        
+        ionizationSlider.addEventListener('input', () => {
+            ionizationLevel = parseInt(ionizationSlider.value);
+            ionizationValue.textContent = ionizationLevel;
+            createParticles();
+        });
+        
+        magneticSlider.addEventListener('input', () => {
+            magneticField = parseInt(magneticSlider.value);
+            magneticValue.textContent = magneticField;
+        });
+        
+        // بدء المحاكاة
+        createParticles();
+        updateSimulation();
+    </script>
+</body>
+</html>
