@@ -6,137 +6,6 @@
     <title>علوم الصف الثاني الإعدادي - مصر</title>
     <!-- ربط ملف CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* إضافة بعض الأنماط الأساسية في حالة عدم وجود ملف CSS */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* نسبة العرض إلى الارتفاع 16:9 */
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .unit-page {
-            display: none;
-        }
-        .lesson-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        .back-btn {
-            background-color: #6c757d;
-        }
-        .back-btn:hover {
-            background-color: #5a6268;
-        }
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 15px 0;
-        }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline-block;
-            margin-left: 15px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-        }
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .main-section {
-            flex: 3;
-            min-width: 300px;
-        }
-        .sidebar {
-            flex: 1;
-            min-width: 250px;
-            margin-right: 20px;
-        }
-        .units {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .unit {
-            flex: 1;
-            min-width: 250px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-        }
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .resource-item {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            text-align: center;
-        }
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            .sidebar {
-                margin-right: 0;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- الصفحة الرئيسية -->
@@ -222,7 +91,7 @@
                     <div class="card">
                         <h2>🏆 المسابقات التعليمية</h2>
                         <p>شارك في مسابقاتنا الأسبوعية واربح شهادات تقدير وجوائز</p>
-                        <button class="btn" onclick="showCompetition()">🎯 المسابقة الحالية</button>
+                        <button class="btn btn-warning" onclick="showCompetition()">🎯 المسابقة الحالية</button>
                     </div>
                 </div>
             </div>
@@ -288,7 +157,6 @@
                     <div class="video-container">
                         <h3>🎬 فيديو الشرح</h3>
                         <div class="video-wrapper">
-                            <!-- تم إصلاح رابط الفيديو -->
                             <iframe 
                                 src="https://www.youtube.com/embed/E6c_yUApPcQ" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -301,7 +169,7 @@
                         <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
                         <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
                         <button class="btn btn-success" onclick="takeQuiz(1)">🎯 اختبار قصير</button>
-                        <button class="btn btn-primary" onclick="openExperiment('matter-states')">🔬 تجربة تفاعلية</button>
+                        <button class="btn btn-primary" onclick="openExperiment('diffusion')">🔬 تجربة تفاعلية</button>
                     </div>
                 </div>
 
@@ -313,7 +181,6 @@
                     <div class="video-container">
                         <h3>🎬 فيديو الشرح</h3>
                         <div class="video-wrapper">
-                            <!-- تم إصلاح رابط الفيديو -->
                             <iframe 
                                 src="https://www.youtube.com/embed/fjXhBGowBpk" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -326,21 +193,63 @@
                         <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
                         <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
                         <button class="btn btn-success" onclick="takeQuiz(2)">🎯 اختبار قصير</button>
-                        <button class="btn btn-primary" onclick="openExperiment('matter-changes')">🔬 تجربة تفاعلية</button>
+                        <button class="btn btn-primary" onclick="openExperiment('matter-states')">🔬 تجربة تفاعلية</button>
                     </div>
                 </div>
 
-                <!-- الدروس الأخرى -->
+                <!-- الدرس الثالث: الطاقة الداخلية ودرجة الحرارة -->
                 <div class="lesson-card">
                     <h2>الطاقة الداخلية ودرجة الحرارة</h2>
                     <p class="lesson-description">اكتشف العلاقة بين الطاقة الداخلية وتغيرات درجة الحرارة</p>
-                    <button class="btn" onclick="openExperiment('internal-energy')">🌡️ تجربة الطاقة والحرارة</button>
+                    
+                    <div class="video-container">
+                        <h3>🎬 فيديو الشرح</h3>
+                        <div class="video-wrapper">
+                            <iframe 
+                                src="https://www.youtube.com/embed/jilQ6mhf5sY" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <div class="lesson-content">
+                        <h4>📝 شرح الدرس</h4>
+                        <p>الطاقة الداخلية هي مجموع الطاقات التي تمتلكها جزيئات المادة، وتتأثر بدرجة الحرارة. عندما تزداد درجة الحرارة، تزداد الطاقة الداخلية للمادة.</p>
+                        
+                        <h4>🔍 نقاط رئيسية:</h4>
+                        <ul>
+                            <li>الطاقة الداخلية = الطاقة الحركية + الطاقة الكامنة للجزيئات</li>
+                            <li>درجة الحرارة مقياس لمتوسط الطاقة الحركية للجزيئات</li>
+                            <li>عند التسخين، تزداد سرعة الجزيئات وترتفع درجة الحرارة</li>
+                            <li>عند التبريد، تقل سرعة الجزيئات وتنخفض درجة الحرارة</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-actions">
+                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
+                        <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
+                        <button class="btn btn-success" onclick="takeQuiz(3)">🎯 اختبار قصير</button>
+                        <button class="btn btn-primary" onclick="openExperiment('internal energy')">🌡️ تجربة الطاقة والحرارة</button>
+                    </div>
                 </div>
 
+                <!-- الدرس الرابع -->
                 <div class="lesson-card">
                     <h2>طرق انتقال الحرارة</h2>
                     <p class="lesson-description">تعرف على الآليات المختلفة لانتقال الطاقة الحرارية</p>
-                    <button class="btn" onclick="openExperiment('heat-transfer')">🔥 تجربة انتقال الحرارة</button>
+                    
+                    <div class="lesson-content">
+                        <h4>📝 شرح الدرس</h4>
+                        <p>تنتقل الحرارة بثلاث طرق رئيسية: التوصيل، والحمل، والإشعاع. كل طريقة لها خصائصها وتطبيقاتها المختلفة.</p>
+                    </div>
+
+                    <div class="lesson-actions">
+                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
+                        <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
+                        <button class="btn btn-success" onclick="takeQuiz(4)">🎯 اختبار قصير</button>
+                        <button class="btn btn-primary" onclick="openExperiment('heat-transfer')">🔥 تجربة انتقال الحرارة</button>
+                    </div>
                 </div>
             </div>
         </div>
