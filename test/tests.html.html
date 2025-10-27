@@ -1,0 +1,142 @@
+<!-- صفحة الاختبارات -->
+<section id="testsPage" class="unit-page">
+    <div class="container">
+        <div class="card">
+            <button class="btn back-btn" onclick="showMainPage()">↩️ العودة للرئيسية</button>
+            
+            <h1>📝 الاختبارات التفاعلية</h1>
+            <p class="unit-description">اختبر معلوماتك وتابع تقدمك في مادة العلوم</p>
+            
+            <div class="tests-grid">
+                <div class="test-card">
+                    <h3>🔬 اختبار الوحدة الأولى: المادة والطاقة</h3>
+                    <p>10 أسئلة - وقت الإجابة: 15 دقيقة</p>
+                    <div class="test-info">
+                        <span>📊 الصعوبة: متوسطة</span>
+                        <span>⭐ أفضل نتيجة: <span id="bestScore1">--</span></span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startTest(1)">بدء الاختبار</button>
+                </div>
+                
+                <div class="test-card">
+                    <h3>🪐 اختبار الوحدة الثانية: التفاعلات الكيميائية</h3>
+                    <p>8 أسئلة - وقت الإجابة: 12 دقيقة</p>
+                    <div class="test-info">
+                        <span>📊 الصعوبة: متوسطة</span>
+                        <span>⭐ أفضل نتيجة: <span id="bestScore2">--</span></span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startTest(2)">بدء الاختبار</button>
+                </div>
+                
+                <div class="test-card">
+                    <h3>🌿 اختبار الوحدة الثالثة: العمليات الحيوية</h3>
+                    <p>12 أسئلة - وقت الإجابة: 18 دقيقة</p>
+                    <div class="test-info">
+                        <span>📊 الصعوبة: صعبة</span>
+                        <span>⭐ أفضل نتيجة: <span id="bestScore3">--</span></span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startTest(3)">بدء الاختبار</button>
+                </div>
+                
+                <div class="test-card">
+                    <h3>🏆 اختبار شامل</h3>
+                    <p>25 سؤال - وقت الإجابة: 30 دقيقة</p>
+                    <div class="test-info">
+                        <span>📊 الصعوبة: صعبة</span>
+                        <span>⭐ أفضل نتيجة: <span id="bestScore4">--</span></span>
+                    </div>
+                    <button class="btn btn-warning" onclick="startTest(4)">بدء الاختبار الشامل</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- صفحة الاختبار الفعلية -->
+<section id="testContainer" class="unit-page">
+    <div class="container">
+        <div class="card">
+            <div class="test-header">
+                <button class="btn back-btn" onclick="showTestsPage()">↩️ العودة للاختبارات</button>
+                <div class="test-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span id="progressText">السؤال 1 من 10</span>
+                </div>
+                <div class="timer" id="timer">⏰ 15:00</div>
+            </div>
+            
+            <h2 id="testTitle">اختبار الوحدة الأولى</h2>
+            
+            <div class="question-container">
+                <div class="question-card" id="questionCard">
+                    <h3 id="questionText">السؤال يظهر هنا...</h3>
+                    
+                    <div class="options-container" id="optionsContainer">
+                        <!-- الخيارات تظهر هنا dynamically -->
+                    </div>
+                    
+                    <div class="question-actions">
+                        <button class="btn" onclick="previousQuestion()" id="prevBtn">السابق</button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">التالي</button>
+                        <button class="btn btn-success" onclick="submitTest()" id="submitBtn" style="display: none;">إنهاء الاختبار</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- صفحة النتائج -->
+<section id="resultsPage" class="unit-page">
+    <div class="container">
+        <div class="card result-card">
+            <button class="btn back-btn" onclick="showTestsPage()">↩️ العودة للاختبارات</button>
+            
+            <div class="result-header">
+                <h2>🎉 نتائج الاختبار</h2>
+                <div class="score-circle">
+                    <span id="finalScore">0</span>
+                    <small>درجة</small>
+                </div>
+            </div>
+            
+            <div class="result-details">
+                <div class="result-item">
+                    <span>📝 الاختبار:</span>
+                    <span id="resultTestName">--</span>
+                </div>
+                <div class="result-item">
+                    <span>✅ الإجابات الصحيحة:</span>
+                    <span id="correctAnswers">0/0</span>
+                </div>
+                <div class="result-item">
+                    <span>📊 النسبة المئوية:</span>
+                    <span id="percentage">0%</span>
+                </div>
+                <div class="result-item">
+                    <span>⏱️ الوقت المستغرق:</span>
+                    <span id="timeTaken">--</span>
+                </div>
+                <div class="result-item">
+                    <span>🏆 أفضل نتيجة:</span>
+                    <span id="bestResult">--</span>
+                </div>
+            </div>
+            
+            <div class="result-actions">
+                <button class="btn btn-primary" onclick="reviewTest()">مراجعة الإجابات</button>
+                <button class="btn" onclick="retakeTest()">إعادة الاختبار</button>
+                <button class="btn btn-success" onclick="showMainPage()">العودة للرئيسية</button>
+            </div>
+            
+            <div class="performance-chart">
+                <h4>📈 أداؤك في الاختبارات</h4>
+                <div class="chart-container">
+                    <canvas id="performanceChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
