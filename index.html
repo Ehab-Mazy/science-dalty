@@ -4,8 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>علوم الصف الثاني الإعدادي - مصر</title>
+    
     <!-- ربط ملف CSS -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- تحسينات SEO -->
+    <meta name="description" content="موقع دالتي لتعليم مادة العلوم للصف الثاني الإعدادي - شرح مبسط بالفيديو والتجارب الافتراضية والاختبارات التفاعلية.">
+    <meta name="keywords" content="علوم الصف الثاني الإعدادي, دالتي, مدرسة الشهيد حمزة السحيتي, تجارب علوم, اختبارات علوم, المادة والطاقة, التفاعلات الكيميائية, تدفق الطاقة في العمليات الحيوية">
+    <meta name="author" content="إيهاب مازي عبده">
+
+    <!-- تحسين المشاركة على وسائل التواصل -->
+    <meta property="og:title" content="دالتي | علوم الصف الثاني الإعدادي">
+    <meta property="og:description" content="شرح الدروس، فيديوهات تعليمية، تجارب تفاعلية واختبارات لمادة العلوم للصف الثاني الإعدادي.">
+    <meta property="og:image" content="images/preview.png">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+
+    <!-- تحسين محركات البحث -->
+    <link rel="canonical" href="https://ehab-mazy.github.io/science-dalty/">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
+    <link rel="icon" href="images/dalty-logo.jpg" type="image/jpeg">
 </head>
 <body>
     <!-- الصفحة الرئيسية -->
@@ -14,15 +32,19 @@
         <header>
             <div class="container">
                 <div class="logo">
-                    <h1>🌍 موقع علوم الصف الثاني الإعدادي</h1>
-                    <p>مدرسة الشهيد حمزة السحيتي الإعدادية - شرح مبسط وتجارب تفاعلية</p>
+                    <!-- شعار دالتي مصغر -->
+                    <img src="images/dalty-logo.jpg" alt="شعار دالتي" class="site-logo" 
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iNiIgZmlsbD0iIzFlNTc5OSIvPgo8dGV4dCB4PSIyMCIgeT0iMjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRBTFRZPC90ZXh0Pgo8L3N2Zz4K'">
+                    <div class="logo-text">
+                        <h1>🌍 موقع علوم الصف الثاني الإعدادي - مدرسة الشهيد حمزة السحيتي الإعدادية</h1>
+                    </div>
                 </div>
                 
                 <nav>
                     <ul>
                         <li><a href="#home">🏠 الرئيسية</a></li>
                         <li><a href="curriculum/index.html">📚 المنهج الدراسي</a></li>
-                        <li><a href="videos">🎬 فيديوهات الشرح</a></li>
+                        <li><a href="#videos">🎬 فيديوهات الشرح</a></li>
                         <li><a href="stemulation/experiments/index.html">🔬 التجارب الافتراضية</a></li>
                         <li><a href="#tests">📝 الاختبارات</a></li>
                         <li><a href="#results">📊 النتائج</a></li>
@@ -33,31 +55,64 @@
         </header>
 
         <div class="container">
+            <!-- شريط البحث -->
+            <div class="search-container">
+                <input type="search" id="searchInput" class="search-box" placeholder="🔍 ابحث عن درس أو وحدة..." onkeyup="searchContent()">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+
             <!-- المحتوى الرئيسي -->
             <div class="main-content">
                 <!-- القسم الرئيسي -->
                 <div class="main-section">
-                    <div class="card">
-                        <h2>🎯 مرحباً بطلاب الصف الثاني الإعدادي</h2>
-                        <p>موقع متكامل لشرح مادة العلوم بطريقة مبسطة وممتعة. ستجد هنا كل ما تحتاجه لفهم المنهج المصري.</p>
-                        
+                    <!-- قسم الترحيب مع صورة الخلفية المحسنة -->
+                    <div class="hero-section">
+                        <div class="hero-content">
+                            <h2>🎯 مرحباً بطلاب الصف الثاني الإعدادي</h2>
+                            <p class="hero-description">موقع متكامل لشرح مادة العلوم بطريقة مبسطة وممتعة. ستجد هنا كل ما تحتاجه لفهم المنهج المصري.</p>
+                            <div class="hero-buttons">
+                                <button class="btn btn-hero" onclick="showUnit(1)">🔬 ابدأ التعلم</button>
+                                <button class="btn btn-hero-secondary" onclick="showAllVideos()">🎬 شروحات الفيديو</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card welcome-card">
                         <div class="units">
-                            <div class="unit">
-                                <h3>🔬 الوحدة الأولى: المادة والطاقة</h3>
-                                <p>حالات المادة - تغير حالات المادة - الطاقة الداخلية ودرجة الحرارة - طرق انتقال الحرارة</p>
+                            <div class="unit" data-search="الوحدة الأولى المادة والطاقة حالات المادة تغير حالات المادة الطاقة الداخلية درجة الحرارة طرق انتقال الحرارة">
+                                <div class="unit-header">
+                                    <img src="images/unit1.png" alt="الوحدة الأولى: المادة والطاقة" class="unit-image">
+                                    <div class="unit-info">
+                                    </div>
+                                </div>
                                 <button class="btn" onclick="showUnit(1)">🚀 ابدأ التعلم</button>
                             </div>
                             
-                            <div class="unit">
-                                <h3>🪐 الوحدة الثانية: المادة والتفاعلات الكيميائية</h3>
-                                <p>التفاعلات الكيميائية - المعادلة الكيميائية - كيمياء التغذية</p>
+                            <div class="unit" data-search="الوحدة الثانية المادة التفاعلات الكيميائية المعادلة الكيميائية كيمياء التغذية">
+                                <div class="unit-header">
+                                    <img src="images/unit2.png" alt="الوحدة الثانية: المادة والتفاعلات الكيميائية" class="unit-image">
+                                    <div class="unit-info">
+                                    </div>
+                                </div>
                                 <button class="btn" onclick="showUnit(2)">🚀 ابدأ التعلم</button>
                             </div>
                             
-                            <div class="unit">
-                                <h3>🌿 الوحدة الثالثة: التنوع البيولوجي</h3>
-                                <p>تصنيف الكائنات - العلاقات البيئية</p>
+                            <div class="unit" data-search="الوحدة الثالثة تدفق الطاقة العمليات الحيوية البناء الضوئي التنفس الخلوي">
+                                <div class="unit-header">
+                                    <img src="images/unit3.png" alt="الوحدة الثالثة: تدفق الطاقة في العمليات الحيوية" class="unit-image">
+                                    <div class="unit-info">
+                                    </div>
+                                </div>
                                 <button class="btn" onclick="showUnit(3)">🚀 ابدأ التعلم</button>
+                            </div>
+
+                            <div class="unit" data-search="الوحدة الرابعة علوم إضافية مراجعة عامة">
+                                <div class="unit-header">
+                                    <img src="images/unit4.png" alt="الوحدة الرابعة: علوم إضافية" class="unit-image">
+                                    <div class="unit-info">
+                                    </div>
+                                </div>
+                                <button class="btn" onclick="showUnit(4)">🚀 ابدأ التعلم</button>
                             </div>
                         </div>
                     </div>
@@ -83,9 +138,9 @@
                     <div class="card">
                         <h2>📝 الاختبارات التفاعلية</h2>
                         <p>اختبر معلوماتك مع اختبارات تفاعلية فورية مع تصحيح آلي</p>
-                        <button class="btn btn-primary" onclick="takeTest(1)">✏️ اختبار الوحدة الأولى</button>
-                        <button class="btn btn-primary" onclick="takeTest(2)">✏️ اختبار الوحدة الثانية</button>
-                        <button class="btn btn-primary" onclick="takeTest(3)">✏️ اختبار الوحدة الثالثة</button>
+                        <button class="btn btn-primary" onclick="startTest(1)">✏️ اختبار الوحدة الأولى</button>
+                        <button class="btn btn-primary" onclick="startTest(2)">✏️ اختبار الوحدة الثانية</button>
+                        <button class="btn btn-primary" onclick="startTest(3)">✏️ اختبار الوحدة الثالثة</button>
                     </div>
 
                     <div class="card">
@@ -146,13 +201,23 @@
             <div class="card">
                 <button class="btn back-btn" onclick="showMainPage()">↩️ العودة للرئيسية</button>
                 
-                <h1>🔬 الوحدة الأولى: المادة والطاقة</h1>
-                <p class="unit-description">استكشف عالم المادة والطاقة وتفاعلاتهما المذهلة</p>
+                <div class="unit-header-page">
+                    <img src="images/unit1.png" alt="الوحدة الأولى: المادة والطاقة" class="unit-main-image">
+                    <div class="unit-title">
+                        <h1>🔬 الوحدة الأولى: المادة والطاقة</h1>
+                        <p class="unit-description">استكشف عالم المادة والطاقة وتفاعلاتهما المذهلة</p>
+                    </div>
+                </div>
                 
                 <!-- الدرس الأول -->
-                <div class="lesson-card">
-                    <h2>حالات المادة وتحولاتها</h2>
-                    <p class="lesson-description">افهم الخصائص المختلفة للمواد في حالاتها المتعددة</p>
+                <div class="lesson-card" data-search="حالات المادة تحولاتها حالات المادة الصلبة السائلة الغازية">
+                    <div class="lesson-header">
+                        <img src="images/lesson1.png" alt="حالات المادة وتحولاتها" class="lesson-image">
+                        <div class="lesson-info">
+                            <h2>حالات المادة وتحولاتها</h2>
+                            <p class="lesson-description">افهم الخصائص المختلفة للمواد في حالاتها المتعددة</p>
+                        </div>
+                    </div>
                     
                     <div class="video-container">
                         <h3>🎬 فيديو الشرح</h3>
@@ -172,120 +237,302 @@
                         <button class="btn btn-primary" onclick="openExperiment('diffusion')">🔬 تجربة تفاعلية</button>
                     </div>
                 </div>
-
-                <!-- الدرس الثاني -->
-                <div class="lesson-card">
-                    <h2>تغير حالات المادة</h2>
-                    <p class="lesson-description">كيف تتحول المادة من صورة إلى أخرى</p>
-                    
-                    <div class="video-container">
-                        <h3>🎬 فيديو الشرح</h3>
-                        <div class="video-wrapper">
-                            <iframe 
-                                src="https://www.youtube.com/embed/fjXhBGowBpk" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+  <!-- الدرس الثاني -->
+                <div class="lesson-card" data-search="تغير حالات المادة الانصهار التجمد التبخر التكثيف">
+                    <div class="lesson-header">
+                        <img src="images/lesson2.png" alt="تغير حالات المادة" class="lesson-image">
+                        <div class="lesson-info">
+                            <h2>تغير حالات المادة</h2>
+                            <p class="lesson-description">كيف تتحول المادة من صورة إلى أخرى</p>
                         </div>
                     </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(2)">🎯 اختبار قصير</button>
-                        <button class="btn btn-primary" onclick="openExperiment('matter-states')">🔬 تجربة تفاعلية</button>
+                  
+                <div class="video-container">
+                    <h4>🎬 فيديو الشرح</h4>
+                    <div class="video-wrapper">
+                        <iframe 
+                            src="https://www.youtube.com/embed/fjXhBGowBpk" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
 
-                <!-- الدرس الثالث: الطاقة الداخلية ودرجة الحرارة -->
-                <div class="lesson-card">
-                    <h2>الطاقة الداخلية ودرجة الحرارة</h2>
-                    <p class="lesson-description">اكتشف العلاقة بين الطاقة الداخلية وتغيرات درجة الحرارة</p>
-                    
-                    <div class="video-container">
-                        <h3>🎬 فيديو الشرح</h3>
-                        <div class="video-wrapper">
-                            <iframe 
-                                src="https://www.youtube.com/embed/jilQ6mhf5sY" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
+                <div class="lesson-actions">
+                    <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
+                    <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
+                    <button class="btn btn-success" onclick="takeQuiz(2)">🎯 اختبار قصير</button>
+                    <button class="btn btn-primary" onclick="openExperiment('matter-states')">🔬 تجربة تفاعلية</button>
+                </div>
+            </div>
 
-                    <div class="lesson-content">
-                        <h4>📝 شرح الدرس</h4>
-                        <p>الطاقة الداخلية هي مجموع الطاقات التي تمتلكها جزيئات المادة، وتتأثر بدرجة الحرارة. عندما تزداد درجة الحرارة، تزداد الطاقة الداخلية للمادة.</p>
+            <!-- الدرس الثالث -->
+            <div class="lesson-card" data-search="الطاقة الداخلية درجة الحرارة الطاقة الحركية الجزيئات">
+                <div class="lesson-header">
+                    <img src="images/lesson3.png" alt="الطاقة الداخلية ودرجة الحرارة" class="lesson-image">
+                    <div class="lesson-info">
+                        <h2>الطاقة الداخلية ودرجة الحرارة</h2>
+                        <p class="lesson-description">اكتشف العلاقة بين الطاقة الداخلية وتغيرات درجة الحرارة</p>
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <h5>🎬 فيديو الشرح</h5>
+                    <div class="video-wrapper">
+                        <iframe 
+                            src="https://www.youtube.com/embed/jilQ6mhf5sY" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="lesson-content">
+                    <h4>📝 شرح الدرس</h4>
+                    <p>الطاقة الداخلية هي مجموع الطاقات التي تمتلكها جزيئات المادة، وتتأثر بدرجة الحرارة. عندما تزداد درجة الحرارة، تزداد الطاقة الداخلية للمادة.</p>
+                    
+                    <h4>🔍 نقاط رئيسية:</h4>
+                    <ul>
+                        <li>الطاقة الداخلية = الطاقة الحركية + الطاقة الكامنة للجزيئات</li>
+                        <li>درجة الحرارة مقياس لمتوسط الطاقة الحركية للجزيئات</li>
+                        <li>عند التسخين، تزداد سرعة الجزيئات وترتفع درجة الحرارة</li>
+                        <li>عند التبريد، تقل سرعة الجزيئات وتنخفض درجة الحرارة</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-actions">
+                    <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
+                    <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
+                    <button class="btn btn-success" onclick="takeQuiz(3)">🎯 اختبار قصير</button>
+                    <button class="btn btn-primary" onclick="openExperiment('internal energy')">🌡️ تجربة الطاقة والحرارة</button>
+                </div>
+            </div>
+
+            <!-- الدرس الرابع -->
+            <div class="lesson-card" data-search="طرق انتقال الحرارة التوصيل الحمل الإشعاع">
+                <div class="lesson-header">
+                    <img src="images/lesson4.png" alt="طرق انتقال الحرارة" class="lesson-image">
+                    <div class="lesson-info">
+                        <h2>طرق انتقال الحرارة</h2>
+                        <p class="lesson-description">تعرف على الآليات المختلفة لانتقال الطاقة الحرارية</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-content">
+                    <h4>📝 شرح الدرس</h4>
+                    <p>تنتقل الحرارة بثلاث طرق رئيسية: التوصيل، والحمل، والإشعاع. كل طريقة لها خصائصها وتطبيقاتها المختلفة.</p>
+                </div>
+
+                <div class="lesson-actions">
+                    <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
+                    <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
+                    <button class="btn btn-success" onclick="takeQuiz(4)">🎯 اختبار قصير</button>
+                    <button class="btn btn-primary" onclick="openExperiment('heat-transfer')">🔥 تجربة انتقال الحرارة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+                <!-- باقي الدروس بنفس الهيكل -->
+            </div>
+        </div>
+    </section>
+
+    <!-- صفحات الاختبارات والنتائج -->
+    <section id="testContainer" class="unit-page">
+        <div class="container">
+            <div class="card">
+                <div class="test-header">
+                    <button class="btn back-btn" onclick="showTestsPage()">↩️ العودة للاختبارات</button>
+                    <div class="test-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span id="progressText">السؤال 1 من 10</span>
+                    </div>
+                    <div class="timer" id="timer">⏰ 15:00</div>
+                </div>
+                
+                <h2 id="testTitle">اختبار الوحدة الأولى</h2>
+                
+                <div class="question-container">
+                    <div class="question-card" id="questionCard">
+                        <h3 id="questionText">السؤال يظهر هنا...</h3>
                         
-                        <h4>🔍 نقاط رئيسية:</h4>
-                        <ul>
-                            <li>الطاقة الداخلية = الطاقة الحركية + الطاقة الكامنة للجزيئات</li>
-                            <li>درجة الحرارة مقياس لمتوسط الطاقة الحركية للجزيئات</li>
-                            <li>عند التسخين، تزداد سرعة الجزيئات وترتفع درجة الحرارة</li>
-                            <li>عند التبريد، تقل سرعة الجزيئات وتنخفض درجة الحرارة</li>
-                        </ul>
-                    </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(3)">🎯 اختبار قصير</button>
-                        <button class="btn btn-primary" onclick="openExperiment('internal energy')">🌡️ تجربة الطاقة والحرارة</button>
-                    </div>
-                </div>
-
-                <!-- الدرس الرابع -->
-                <div class="lesson-card">
-                    <h2>طرق انتقال الحرارة</h2>
-                    <p class="lesson-description">تعرف على الآليات المختلفة لانتقال الطاقة الحرارية</p>
-                    
-                    <div class="lesson-content">
-                        <h4>📝 شرح الدرس</h4>
-                        <p>تنتقل الحرارة بثلاث طرق رئيسية: التوصيل، والحمل، والإشعاع. كل طريقة لها خصائصها وتطبيقاتها المختلفة.</p>
-                    </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض التقديمي</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 تحميل ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(4)">🎯 اختبار قصير</button>
-                        <button class="btn btn-primary" onclick="openExperiment('heat-transfer')">🔥 تجربة انتقال الحرارة</button>
+                        <div class="options-container" id="optionsContainer">
+                            <!-- الخيارات تظهر هنا dynamically -->
+                        </div>
+                        
+                        <div class="question-actions">
+                            <button class="btn" onclick="previousQuestion()" id="prevBtn">السابق</button>
+                            <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">التالي</button>
+                            <button class="btn btn-success" onclick="submitTest()" id="submitBtn" style="display: none;">إنهاء الاختبار</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- الوحدة الثانية -->
-    <section id="unit2" class="unit-page">
+    <section id="resultsPage" class="unit-page">
         <div class="container">
-            <div class="card">
-                <button class="btn back-btn" onclick="showMainPage()">↩️ العودة للرئيسية</button>
-                <h1>🪐 الوحدة الثانية: المادة والتفاعلات الكيميائية</h1>
-                <p>سيتم إضافة هذه الوحدة قريباً...</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- الوحدة الثالثة -->
-    <section id="unit3" class="unit-page">
-        <div class="container">
-            <div class="card">
-                <button class="btn back-btn" onclick="showMainPage()">↩️ العودة للرئيسية</button>
-                <h1>🌿 الوحدة الثالثة: التنوع البيولوجي</h1>
-                <p>سيتم إضافة هذه الوحدة قريباً...</p>
+            <div class="card result-card">
+                <button class="btn back-btn" onclick="showTestsPage()">↩️ العودة للاختبارات</button>
+                
+                <div class="result-header">
+                    <h2>🎉 نتائج الاختبار</h2>
+                    <div class="score-circle">
+                        <span id="finalScore">0</span>
+                        <small>درجة</small>
+                    </div>
+                </div>
+                
+                <div class="result-details">
+                    <div class="result-item">
+                        <span>📝 الاختبار:</span>
+                        <span id="resultTestName">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span>✅ الإجابات الصحيحة:</span>
+                        <span id="correctAnswers">0/0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>📊 النسبة المئوية:</span>
+                        <span id="percentage">0%</span>
+                    </div>
+                    <div class="result-item">
+                        <span>⏱️ الوقت المستغرق:</span>
+                        <span id="timeTaken">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span>🏆 أفضل نتيجة:</span>
+                        <span id="bestResult">--</span>
+                    </div>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="reviewTest()">مراجعة الإجابات</button>
+                    <button class="btn" onclick="retakeTest()">إعادة الاختبار</button>
+                    <button class="btn btn-success" onclick="showMainPage()">العودة للرئيسية</button>
+                </div>
             </div>
         </div>
     </section>
 
     <script>
+        // بيانات الاختبارات
+        const testsData = {
+            1: {
+                title: "اختبار الوحدة الأولى: المادة والطاقة",
+                questions: [
+                    {
+                        question: "ما هي حالات المادة الثلاث الرئيسية؟",
+                        options: [
+                            "الصلبة، السائلة، الغازية",
+                            "السائلة، البلازما، الصلبة", 
+                            "الغازية، الصلبة، البلورية",
+                            "المذابة، المعلقة، الصلبة"
+                        ],
+                        correct: 0,
+                        explanation: "الحالات الرئيسية للمادة هي: الصلبة، السائلة، الغازية"
+                    },
+                    {
+                        question: "عند تسخين المادة الصلبة تتحول إلى:",
+                        options: [
+                            "الحالة السائلة",
+                            "الحالة الغازية",
+                            "تبقى صلبة",
+                            "تتحول إلى بلازما"
+                        ],
+                        correct: 0,
+                        explanation: "تتحول المادة الصلبة إلى سائلة عند التسخين في عملية تسمى الانصهار"
+                    }
+                ],
+                time: 15
+            },
+            2: {
+                title: "اختبار الوحدة الثانية: التفاعلات الكيميائية",
+                questions: [
+                    {
+                        question: "التفاعل الكيميائي هو عملية:",
+                        options: [
+                            "تغير في شكل المادة فقط",
+                            "تغير في ترتيب الذرات وتكوين مواد جديدة",
+                            "تغير في حجم المادة فقط",
+                            "تغير في لون المادة فقط"
+                        ],
+                        correct: 1,
+                        explanation: "التفاعل الكيميائي يتضمن تكسير روابط وتكوين رواق جديدة مما ينتج مواد جديدة"
+                    }
+                ],
+                time: 12
+            },
+            3: {
+                title: "اختبار الوحدة الثالثة: العمليات الحيوية", 
+                questions: [
+                    {
+                        question: "البناء الضوئي يحدث في:",
+                        options: [
+                            "الجذور فقط",
+                            "الأوراق الخضراء",
+                            "الساق فقط", 
+                            "جميع أجزاء النبات"
+                        ],
+                        correct: 1,
+                        explanation: "البناء الضوئي يحدث primarily في الأوراق الخضراء حيث توجد البلاستيدات الخضراء"
+                    }
+                ],
+                time: 18
+            }
+        };
+
+        // بيانات البحث
+        const searchData = [
+            {
+                title: "الوحدة الأولى: المادة والطاقة",
+                description: "حالات المادة - تغير حالات المادة - الطاقة الداخلية ودرجة الحرارة - طرق انتقال الحرارة",
+                type: "unit",
+                id: 1,
+                keywords: "الوحدة الأولى المادة الطاقة حالات المادة تغير حالات الطاقة الداخلية درجة الحرارة طرق انتقال الحرارة"
+            },
+            {
+                title: "الوحدة الثانية: المادة والتفاعلات الكيميائية",
+                description: "التفاعلات الكيميائية - المعادلة الكيميائية - كيمياء التغذية",
+                type: "unit", 
+                id: 2,
+                keywords: "الوحدة الثانية المادة التفاعلات الكيميائية المعادلة الكيميائية كيمياء التغذية"
+            },
+            {
+                title: "الوحدة الثالثة: تدفق الطاقة في العمليات الحيوية",
+                description: "البناء الضوئي - التنفس الخلوي",
+                type: "unit",
+                id: 3,
+                keywords: "الوحدة الثالثة تدفق الطاقة العمليات الحيوية البناء الضوئي التنفس الخلوي"
+            }
+        ];
+
+        // متغيرات الاختبار
+        let currentTest = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let startTime = null;
+        let timerInterval = null;
+        let timeLeft = 0;
+
         // دوال التنقل بين الصفحات
         function showUnit(unitNumber) {
             document.getElementById('mainPage').style.display = 'none';
             document.querySelectorAll('.unit-page').forEach(page => {
                 page.style.display = 'none';
             });
-            document.getElementById('unit' + unitNumber).style.display = 'block';
-            window.scrollTo(0, 0);
+            
+            if (unitNumber === 4) {
+                alert('📚 الوحدة الرابعة قيد التطوير وسيتم إضافتها قريباً!');
+                showMainPage();
+            } else {
+                document.getElementById('unit' + unitNumber).style.display = 'block';
+                window.scrollTo(0, 0);
+            }
         }
         
         function showMainPage() {
@@ -296,7 +543,219 @@
             window.scrollTo(0, 0);
         }
 
-        // دوال التجارب الافتراضية
+        function showTestsPage() {
+            hideAllPages();
+            // يمكن إضافة صفحة خاصة بالاختبارات هنا
+            showMainPage();
+        }
+
+        // دوال الاختبارات
+        function startTest(testId) {
+            if (!testsData[testId]) {
+                alert('هذا الاختبار غير متاح حالياً');
+                return;
+            }
+            
+            currentTest = testId;
+            currentQuestionIndex = 0;
+            userAnswers = new Array(testsData[testId].questions.length).fill(null);
+            startTime = new Date();
+            timeLeft = testsData[testId].time * 60;
+            
+            startTimer();
+            
+            hideAllPages();
+            document.getElementById('testContainer').style.display = 'block';
+            document.getElementById('testTitle').textContent = testsData[testId].title;
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const test = testsData[currentTest];
+            const question = test.questions[currentQuestionIndex];
+            
+            updateProgress();
+            
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = `option ${userAnswers[currentQuestionIndex] === index ? 'selected' : ''}`;
+                optionElement.innerHTML = `
+                    <input type="radio" name="answer" value="${index}" ${userAnswers[currentQuestionIndex] === index ? 'checked' : ''} 
+                           onchange="selectAnswer(${index})" id="option${index}">
+                    <label for="option${index}">${option}</label>
+                `;
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('prevBtn').style.display = currentQuestionIndex > 0 ? 'inline-block' : 'none';
+            document.getElementById('nextBtn').style.display = currentQuestionIndex < test.questions.length - 1 ? 'inline-block' : 'none';
+            document.getElementById('submitBtn').style.display = currentQuestionIndex === test.questions.length - 1 ? 'inline-block' : 'none';
+        }
+
+        function selectAnswer(answerIndex) {
+            userAnswers[currentQuestionIndex] = answerIndex;
+            loadQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < testsData[currentTest].questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const test = testsData[currentTest];
+            const progress = ((currentQuestionIndex + 1) / test.questions.length) * 100;
+            
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `السؤال ${currentQuestionIndex + 1} من ${test.questions.length}`;
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `⏰ ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            const test = testsData[currentTest];
+            let correctCount = 0;
+            
+            userAnswers.forEach((answer, index) => {
+                if (answer === test.questions[index].correct) {
+                    correctCount++;
+                }
+            });
+            
+            const score = Math.round((correctCount / test.questions.length) * 100);
+            const timeTaken = Math.round((new Date() - startTime) / 1000);
+            
+            saveBestScore(currentTest, score);
+            showResults(score, correctCount, test.questions.length, timeTaken);
+        }
+
+        function showResults(score, correctCount, totalQuestions, timeTaken) {
+            hideAllPages();
+            document.getElementById('resultsPage').style.display = 'block';
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('resultTestName').textContent = testsData[currentTest].title;
+            document.getElementById('correctAnswers').textContent = `${correctCount}/${totalQuestions}`;
+            document.getElementById('percentage').textContent = `${score}%`;
+            
+            const minutes = Math.floor(timeTaken / 60);
+            const seconds = timeTaken % 60;
+            document.getElementById('timeTaken').textContent = `${minutes} دقيقة ${seconds} ثانية`;
+            
+            const bestScore = getBestScore(currentTest);
+            document.getElementById('bestResult').textContent = `${bestScore}%`;
+        }
+
+        function saveBestScore(testId, score) {
+            const bestScores = JSON.parse(localStorage.getItem('bestScores') || '{}');
+            if (!bestScores[testId] || score > bestScores[testId]) {
+                bestScores[testId] = score;
+                localStorage.setItem('bestScores', JSON.stringify(bestScores));
+            }
+        }
+
+        function getBestScore(testId) {
+            const bestScores = JSON.parse(localStorage.getItem('bestScores') || '{}');
+            return bestScores[testId] || 0;
+        }
+
+        function reviewTest() {
+            alert('سيتم إضافة صفحة مراجعة الإجابات قريباً!');
+        }
+
+        function retakeTest() {
+            startTest(currentTest);
+        }
+
+        function hideAllPages() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.querySelectorAll('.unit-page').forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+
+        // دوال البحث
+        function searchContent() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (searchTerm.length === 0) {
+                resultsContainer.innerHTML = '';
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            const filteredResults = searchData.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) ||
+                item.description.toLowerCase().includes(searchTerm) ||
+                item.keywords.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredResults.length > 0) {
+                let resultsHTML = '<div class="search-results-list">';
+                filteredResults.forEach(result => {
+                    resultsHTML += `
+                        <div class="search-result-item" onclick="navigateToSearchResult(${result.id}, '${result.type}')">
+                            <h4>${result.title}</h4>
+                            <p>${result.description}</p>
+                            <span class="result-type">${result.type === 'unit' ? '🔬 وحدة' : '📖 درس'}</span>
+                        </div>
+                    `;
+                });
+                resultsHTML += '</div>';
+                resultsContainer.innerHTML = resultsHTML;
+                resultsContainer.style.display = 'block';
+            } else {
+                resultsContainer.innerHTML = '<div class="no-results">🚫 لا توجد نتائج مطابقة للبحث</div>';
+                resultsContainer.style.display = 'block';
+            }
+        }
+
+        function navigateToSearchResult(id, type) {
+            if (type === 'unit') {
+                showUnit(id);
+            }
+            
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+        }
+
+        // دوال أخرى للتفاعل
         function openVirtualLab() {
             window.location.href = 'stemulation/experiments/index.html';
         }
@@ -305,13 +764,12 @@
             window.location.href = 'stemulation/experiments/' + experimentName + '/index.html';
         }
 
-        // دوال أخرى للتفاعل
         function showAllVideos() {
             alert('🎬 سيتم فتح مكتبة الفيديوهات قريباً!');
         }
 
-        function takeTest(unitNumber) {
-            alert('📝 سيتم بدء اختبار الوحدة ' + unitNumber + ' قريباً!');
+        function takeQuiz(lessonNumber) {
+            alert('🎯 سيتم بدء اختبار الدرس ' + lessonNumber + ' قريباً!');
         }
 
         function showCompetition() {
@@ -328,10 +786,6 @@
             alert('📥 سيتم تحميل ' + types[type] + ' قريباً!');
         }
 
-        function takeQuiz(lessonNumber) {
-            alert('🎯 سيتم بدء اختبار الدرس ' + lessonNumber + ' قريباً!');
-        }
-
         function showAbout() {
             alert('ℹ️ معلومات عن الموقع والتطوير');
         }
@@ -345,6 +799,14 @@
             document.querySelectorAll('.unit-page').forEach(page => {
                 page.style.display = 'none';
             });
+        });
+
+        // إخفاء نتائج البحث عند النقر خارجها
+        document.addEventListener('click', function(event) {
+            const searchContainer = document.querySelector('.search-container');
+            if (!searchContainer.contains(event.target)) {
+                document.getElementById('searchResults').style.display = 'none';
+            }
         });
     </script>
 </body>
