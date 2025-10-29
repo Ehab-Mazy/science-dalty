@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبارات - علوم الصف الثاني الإعدادي</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/tests.css">
+    <link rel="icon" href="images/dalty-logo.jpg" type="image/jpeg">
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/dalty-logo.jpg" alt="شعار دالتي" class="site-logo">
+                <div class="logo-text">
+                    <h1>🎯 الاختبارات التفاعلية - علوم الصف الثاني الإعدادي</h1>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 الرئيسية</a></li>
+                    <li><a href="#unit1">🔬 الوحدة الأولى</a></li>
+                    <li><a href="#unit2">🧪 الوحدة الثانية</a></li>
+                    <li><a href="#unit3">🌿 الوحدة الثالثة</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- شريط التقدم العام -->
+        <div class="card progress-card">
+            <h2>📊 تقدمك في الاختبارات</h2>
+            <div class="overall-progress">
+                <div class="progress-info">
+                    <div class="progress-stat">
+                        <span class="stat-number" id="totalPoints">0</span>
+                        <span class="stat-label">النقاط</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span class="stat-number" id="completedTests">0</span>
+                        <span class="stat-label">اختبارات مكتملة</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span class="stat-number" id="successRate">0%</span>
+                        <span class="stat-label">معدل النجاح</span>
+                    </div>
+                </div>
+                <div class="progress-bar-large">
+                    <div class="progress-fill-large" id="overallProgress"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الوحدة الأولى -->
+        <section id="unit1" class="unit-section">
+            <div class="unit-header">
+                <img src="images/unit1.png" alt="الوحدة الأولى" class="unit-icon">
+                <div class="unit-info">
+                    <h2>🔬 الوحدة الأولى: المادة والطاقة</h2>
+                    <p>استكشف عالم المادة والطاقة وتفاعلاتهما المذهلة</p>
+                </div>
+                <div class="unit-progress">
+                    <div class="progress-circle">
+                        <svg width="80" height="80">
+                            <circle cx="40" cy="40" r="35" stroke="#e0e0e0" stroke-width="8" fill="none"></circle>
+                            <circle cx="40" cy="40" r="35" stroke="#667eea" stroke-width="8" fill="none" 
+                                    stroke-dasharray="220" stroke-dashoffset="220" id="unit1Progress"></circle>
+                        </svg>
+                        <span class="progress-percent" id="unit1Percent">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- درس 1 -->
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <h3>📚 حالات المادة وتحولاتها</h3>
+                        <span class="lesson-status completed">مكتمل</span>
+                    </div>
+                    <p>افهم الخصائص المختلفة للمواد في حالاتها المتعددة</p>
+                    <div class="lesson-meta">
+                        <span>⏱️ 10 دقائق</span>
+                        <span>❓ 5 أسئلة</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startLessonTest('unit1', 'lesson1')">
+                        ✏️ بدء اختبار الدرس
+                    </button>
+                </div>
+
+                <!-- درس 2 -->
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <h3>📚 تغير حالات المادة</h3>
+                        <span class="lesson-status in-progress">قيد التقدم</span>
+                    </div>
+                    <p>كيف تتحول المادة من صورة إلى أخرى</p>
+                    <div class="lesson-meta">
+                        <span>⏱️ 8 دقائق</span>
+                        <span>❓ 4 أسئلة</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startLessonTest('unit1', 'lesson2')">
+                        ✏️ بدء اختبار الدرس
+                    </button>
+                </div>
+
+                <!-- اختبار الوحدة -->
+                <div class="unit-test-card">
+                    <div class="test-badge">🏆 اختبار الوحدة</div>
+                    <h3>🔬 اختبار الوحدة الأولى الشامل</h3>
+                    <p>اختبر معلوماتك في جميع دروس الوحدة الأولى</p>
+                    <div class="test-stats">
+                        <div class="stat">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">سؤال</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">20</span>
+                            <span class="stat-label">دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="unit1Score">--</span>
+                            <span class="stat-label">أفضل نتيجة</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-warning" onclick="startUnitTest(1)">
+                        🚀 بدء اختبار الوحدة
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- الوحدة الثانية -->
+        <section id="unit2" class="unit-section">
+            <div class="unit-header">
+                <img src="images/unit2.png" alt="الوحدة الثانية" class="unit-icon">
+                <div class="unit-info">
+                    <h2>🧪 الوحدة الثانية: التفاعلات الكيميائية</h2>
+                    <p>اكتشف عالم التفاعلات الكيميائية وتطبيقاتها في الحياة</p>
+                </div>
+                <div class="unit-progress">
+                    <div class="progress-circle">
+                        <svg width="80" height="80">
+                            <circle cx="40" cy="40" r="35" stroke="#e0e0e0" stroke-width="8" fill="none"></circle>
+                            <circle cx="40" cy="40" r="35" stroke="#48bb78" stroke-width="8" fill="none" 
+                                    stroke-dasharray="220" stroke-dashoffset="220" id="unit2Progress"></circle>
+                        </svg>
+                        <span class="progress-percent" id="unit2Percent">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- درس 1 -->
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <h3>📚 مقدمة في التفاعلات الكيميائية</h3>
+                        <span class="lesson-status not-started">لم يبدأ</span>
+                    </div>
+                    <p>افهم أساسيات التفاعلات الكيميائية وأنواعها</p>
+                    <div class="lesson-meta">
+                        <span>⏱️ 12 دقائق</span>
+                        <span>❓ 6 أسئلة</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startLessonTest('unit2', 'lesson1')">
+                        ✏️ بدء اختبار الدرس
+                    </button>
+                </div>
+
+                <!-- اختبار الوحدة -->
+                <div class="unit-test-card">
+                    <div class="test-badge">🏆 اختبار الوحدة</div>
+                    <h3>🧪 اختبار الوحدة الثانية الشامل</h3>
+                    <p>اختبر معلوماتك في جميع دروس الوحدة الثانية</p>
+                    <div class="test-stats">
+                        <div class="stat">
+                            <span class="stat-value">10</span>
+                            <span class="stat-label">سؤال</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="unit2Score">--</span>
+                            <span class="stat-label">أفضل نتيجة</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-warning" onclick="startUnitTest(2)">
+                        🚀 بدء اختبار الوحدة
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- الوحدة الثالثة -->
+        <section id="unit3" class="unit-section">
+            <div class="unit-header">
+                <img src="images/unit3.png" alt="الوحدة الثالثة" class="unit-icon">
+                <div class="unit-info">
+                    <h2>🌿 الوحدة الثالثة: تدفق الطاقة في العمليات الحيوية</h2>
+                    <p>افهم العمليات الحيوية وتحولات الطاقة في الكائنات الحية</p>
+                </div>
+                <div class="unit-progress">
+                    <div class="progress-circle">
+                        <svg width="80" height="80">
+                            <circle cx="40" cy="40" r="35" stroke="#e0e0e0" stroke-width="8" fill="none"></circle>
+                            <circle cx="40" cy="40" r="35" stroke="#ed8936" stroke-width="8" fill="none" 
+                                    stroke-dasharray="220" stroke-dashoffset="220" id="unit3Progress"></circle>
+                        </svg>
+                        <span class="progress-percent" id="unit3Percent">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- درس 1 -->
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <h3>📚 البناء الضوئي</h3>
+                        <span class="lesson-status not-started">لم يبدأ</span>
+                    </div>
+                    <p>عملية تحويل الطاقة الضوئية إلى طاقة كيميائية</p>
+                    <div class="lesson-meta">
+                        <span>⏱️ 10 دقائق</span>
+                        <span>❓ 5 أسئلة</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="startLessonTest('unit3', 'lesson1')">
+                        ✏️ بدء اختبار الدرس
+                    </button>
+                </div>
+
+                <!-- اختبار الوحدة -->
+                <div class="unit-test-card">
+                    <div class="test-badge">🏆 اختبار الوحدة</div>
+                    <h3>🌿 اختبار الوحدة الثالثة الشامل</h3>
+                    <p>اختبر معلوماتك في جميع دروس الوحدة الثالثة</p>
+                    <div class="test-stats">
+                        <div class="stat">
+                            <span class="stat-value">8</span>
+                            <span class="stat-label">سؤال</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">12</span>
+                            <span class="stat-label">دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="unit3Score">--</span>
+                            <span class="stat-label">أفضل نتيجة</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-warning" onclick="startUnitTest(3)">
+                        🚀 بدء اختبار الوحدة
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- الاختبارات الإضافية -->
+        <section class="unit-section">
+            <div class="unit-header">
+                <h2>🎯 الاختبارات الإضافية</h2>
+                <p>اختبارات متنوعة لتعزيز فهمك للمادة العلمية</p>
+            </div>
+            <div id="additionalTests" class="additional-tests">
+                <!-- الاختبارات الإضافية تظهر هنا -->
+            </div>
+        </section>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="container">
+            <h3>🎓 نظام الاختبارات التفاعلية</h3>
+            <p>مدرسة الشهيد حمزة السحيتي الإعدادية</p>
+            <p class="copyright">© 2024 جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+    <script src="../js/my-tests.js"></script>
+    <script src="../js/tests-system.js"></script>
+</body>
+</html>

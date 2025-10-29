@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج الاختبارات - علوم الصف الثاني الإعدادي</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/tests.css">
+
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/dalty-logo.jpg" alt="شعار دالتي" class="site-logo">
+                <div class="logo-text">
+                    <h1>📊 نتائج الاختبارات - علوم الصف الثاني الإعدادي</h1>
+                    <p>مدرسة الشهيد حمزة السحيتي الإعدادية</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 الرئيسية</a></li>
+                    <li><a href="tests.html">📝 الاختبارات</a></li>
+                    <li><a href="#detailed-results">📈 نتائج مفصلة</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- إحصائيات النتائج -->
+        <section class="results-stats">
+            <h2>📈 إحصائيات أدائك</h2>
+            <div class="stats-cards">
+                <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </div>
+        </section>
+
+        <!-- الرسوم البيانية -->
+        <section class="charts-section">
+            <h2>📊 تطور أدائك</h2>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>نتائج الاختبارات</h3>
+                    <canvas id="scoresChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>الوقت المستغرق</h3>
+                    <canvas id="timeChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- النتائج المفصلة -->
+        <section id="detailed-results" class="detailed-results">
+            <h2>📋 جميع النتائج</h2>
+            <div class="results-table">
+                <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </div>
+        </section>
+    </div>
+
+    <script src="js/results.js"></script>
+</body>
+</html>

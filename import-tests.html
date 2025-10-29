@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استيراد الاختبارات - علوم الصف الثاني الإعدادي</title>
+    
+    <!-- التنسيقات -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/dalty-logo.jpg" type="image/jpg">
+
+    <style>
+        /* تنسيقات خاصة بصفحة الاستيراد */
+        .import-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .import-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .import-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .import-header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2d3748;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #4a5568;
+            transform: translateX(-5px);
+        }
+
+        .import-steps-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .steps-sidebar {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .step-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .step-indicator.active .step-number {
+            background: white;
+            color: #667eea;
+        }
+
+        .step-indicator.completed .step-number {
+            background: #38a169;
+            color: white;
+        }
+
+        .step-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* تنسيقات الخطوة 1 */
+        .instructions-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .instruction-card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-right: 4px solid #667eea;
+        }
+
+        .instruction-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-table {
+            overflow-x: auto;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .example-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .example-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .example-table td {
+            padding: 10px 8px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            background: white;
+        }
+
+        .example-table tr:nth-child(even) td {
+            background: #f7fafc;
+        }
+
+        /* تنسيقات الخطوة 2 */
+        .paste-area {
+            margin-bottom: 30px;
+        }
+
+        .paste-area textarea {
+            width: 100%;
+            padding: 20px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            min-height: 200px;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+        }
+
+        .paste-area textarea:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .paste-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* تنسيقات الخطوة 3 */
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .preview-stats {
+            display: flex;
+            gap: 25px;
+        }
+
+        .stat {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .questions-preview {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f7fafc;
+        }
+
+        .question-preview {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-right: 4px solid #48bb78;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-header strong {
+            color: #2d3748;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .correct-answer {
+            background: #48bb78;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            color: #2d3748;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-right: 3px solid #667eea;
+        }
+
+        .options-preview {
+            margin: 15px 0;
+        }
+
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-right: 4px solid #a0aec0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option.correct {
+            background: #c6f6d5;
+            border-right-color: #48bb78;
+            font-weight: 600;
+            color: #22543d;
+        }
+
+        .option::before {
+            content: attr(data-letter);
+            background: #a0aec0;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .option.correct::before {
+            background: #48bb78;
+        }
+
+        .explanation {
+            background: #fff5eb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #744210;
+            border-right: 3px solid #ed8936;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        /* تنسيقات الخطوة 4 */
+        .test-settings {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .summary {
+            background: #ebf8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-right: 4px solid #3182ce;
+        }
+
+        .summary h4 {
+            color: #2b6cb0;
+            margin-bottom: 15px;
+        }
+
+        .summary p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #2d3748;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .save-actions {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        /* أزرار التنقل */
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        /* تخصيص شريط التمرير */
+        .questions-preview::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .questions-preview::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .questions-preview::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .import-steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-sidebar {
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .step-content {
+                padding: 20px;
+            }
+
+            .preview-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .preview-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .step-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .save-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/dalty-logo.jpg" alt="شعار دالتي" class="site-logo">
+                <div class="logo-text">
+                    <h1>🌍 استيراد الاختبارات - علوم الصف الثاني الإعدادي</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container import-container">
+        <!-- زر العودة -->
+        <a href="index.html" class="back-button">
+            ← العودة للرئيسية
+        </a>
+
+        <!-- الهيدر الرئيسي -->
+        <div class="import-header">
+            <h1>📊 استيراد الاختبارات من Excel</h1>
+            <p>أضف اختباراتك بسهولة من خلال نسخ البيانات من Excel</p>
+        </div>
+
+        <!-- الخطوات -->
+        <div class="import-steps-container">
+            <!-- الشريط الجانبي للخطوات -->
+            <div class="steps-sidebar">
+                <div class="step-indicator active" onclick="showStep(1)">
+                    <div class="step-number">1</div>
+                    <div class="step-info">
+                        <strong>التعليمات</strong>
+                        <small>تعرف على طريقة الاستيراد</small>
+                    </div>
+                </div>
+                <div class="step-indicator" onclick="showStep(2)">
+                    <div class="step-number">2</div>
+                    <div class="step-info">
+                        <strong>لصق البيانات</strong>
+                        <small>انسخ من Excel والصق هنا</small>
+                    </div>
+                </div>
+                <div class="step-indicator" onclick="showStep(3)">
+                    <div class="step-number">3</div>
+                    <div class="step-info">
+                        <strong>المعاينة</strong>
+                        <small>راجع الأسئلة المستوردة</small>
+                    </div>
+                </div>
+                <div class="step-indicator" onclick="showStep(4)">
+                    <div class="step-number">4</div>
+                    <div class="step-info">
+                        <strong>الحفظ</strong>
+                        <small>احفظ الاختبار الجديد</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- محتوى الخطوات -->
+            <div class="step-content">
+                <!-- الخطوة 1: التعليمات -->
+                <div class="step-panel active" id="step1-panel">
+                    <h2 class="step-title">📝 تعليمات الاستيراد</h2>
+                    
+                    <div class="instructions-grid">
+                        <div class="instruction-card">
+                            <h3>📋 تنسيق البيانات</h3>
+                            <p>انسخ بيانات Excel بهذا الشكل بالضبط:</p>
+                            <div class="example-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>السؤال</th>
+                                            <th>الإجابة أ</th>
+                                            <th>الإجابة ب</th>
+                                            <th>الإجابة ج</th>
+                                            <th>الإجابة د</th>
+                                            <th>الصحيحة</th>
+                                            <th>الشرح</th>
+                                        </tr>
+                                    </thead>
+                                        <!-- JavaScript -->
+    <script>
+        // بيانات التطبيق
+        let importedQuestions = [];
+        let currentStep = 1;
+
+        // وظائف التنقل بين الخطوات
+        function showStep(stepNumber) {
+            // إخفاء جميع الخطوات
+            document.querySelectorAll('.step-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // إزالة النشاط من جميع المؤشرات
+            document.querySelectorAll('.step-indicator').forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+            
+            // إظهار الخطوة المطلوبة
+            document.getElementById(`step${stepNumber}-panel`).classList.add('active');
+            
+            // تفعيل المؤشر الحالي
+            document.querySelectorAll('.step-indicator')[stepNumber - 1].classList.add('active');
+            
+            currentStep = stepNumber;
+            
+            // تحديث الإحصائيات في الخطوة 4
+            if (stepNumber === 4) {
+                updateFinalStats();
+            }
+        }
+
+        // وظيفة مسح البيانات
+        function clearData() {
+            document.getElementById('excelData').value = '';
+            importedQuestions = [];
+            updatePreview();
+        }
+
+        // وظيفة تحليل البيانات
+        function parseData() {
+            const excelData = document.getElementById('excelData').value.trim();
+            if (!excelData) {
+                alert('⚠️ يرجى لصق بيانات Excel أولاً');
+                return;
+            }
+
+            const lines = excelData.split('\n');
+            const newQuestions = [];
+
+            lines.forEach((line, index) => {
+                const columns = line.split('\t');
+                
+                if (columns.length >= 6) {
+                    const question = {
+                        id: Date.now() + index,
+                        text: columns[0]?.trim() || 'بدون نص',
+                        options: [
+                            columns[1]?.trim() || 'بدون نص',
+                            columns[2]?.trim() || 'بدون نص',
+                            columns[3]?.trim() || 'بدون نص',
+                            columns[4]?.trim() || 'بدون نص'
+                        ],
+                        correctAnswer: parseCorrectAnswer(columns[5]?.trim()),
+                        explanation: columns[6]?.trim() || ''
+                    };
+                    
+                    newQuestions.push(question);
+                }
+            });
+
+            if (newQuestions.length > 0) {
+                importedQuestions = [...importedQuestions, ...newQuestions];
+                updatePreview();
+                showStep(3);
+            } else {
+                alert('❌ لم يتم العثور على أسئلة بصيغة صحيحة');
+            }
+        }
+
+        // وظيفة تحليل الإجابة الصحيحة
+        function parseCorrectAnswer(answer) {
+            if (!answer) return 0;
+            
+            // إذا كانت الإجابة رقماً
+            if (/^[1-4]$/.test(answer)) {
+                return parseInt(answer) - 1;
+            }
+            
+            // إذا كانت الإجابة حرفاً عربياً
+            const arabicLetters = {'أ': 0, 'ب': 1, 'ج': 2, 'د': 3};
+            if (arabicLetters.hasOwnProperty(answer)) {
+                return arabicLetters[answer];
+            }
+            
+            // إذا كانت الإجابة حرفاً إنجليزياً
+            const englishLetters = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'A': 0, 'B': 1, 'C': 2, 'D': 3};
+            if (englishLetters.hasOwnProperty(answer)) {
+                return englishLetters[answer];
+            }
+            
+            return 0;
+        }
+
+        // وظيفة تحديث المعاينة
+        function updatePreview() {
+            const previewContainer = document.getElementById('questionsPreview');
+            const questionsCount = document.getElementById('questionsCount');
+            const suggestedTime = document.getElementById('suggestedTime');
+
+            questionsCount.textContent = importedQuestions.length;
+            suggestedTime.textContent = Math.max(15, Math.ceil(importedQuestions.length * 1.5));
+
+            if (importedQuestions.length === 0) {
+                previewContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #718096;">
+                        📝 لم يتم استيراد أي أسئلة بعد
+                    </div>
+                `;
+                return;
+            }
+
+            let previewHTML = '';
+            importedQuestions.forEach((question, index) => {
+                const correctAnswerLetter = ['أ', 'ب', 'ج', 'د'][question.correctAnswer];
+                
+                previewHTML += `
+                    <div class="question-preview">
+                        <div class="question-header">
+                            <strong>سؤال ${index + 1}</strong>
+                            <span class="correct-answer">الإجابة الصحيحة: ${correctAnswerLetter}</span>
+                        </div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="options-preview">
+                            ${question.options.map((option, optIndex) => `
+                                <div class="option ${optIndex === question.correctAnswer ? 'correct' : ''}" data-letter="${['أ', 'ب', 'ج', 'د'][optIndex]}">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${question.explanation ? `
+                            <div class="explanation">
+                                <strong>شرح:</strong> ${question.explanation}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            previewContainer.innerHTML = previewHTML;
+        }
+
+        // وظيفة إضافة سؤال يدوي
+        function addManualQuestion() {
+            const newQuestion = {
+                id: Date.now(),
+                text: 'سؤال جديد - يرجى تعديل النص',
+                options: ['اختيار 1', 'اختيار 2', 'اختيار 3', 'اختيار 4'],
+                correctAnswer: 0,
+                explanation: ''
+            };
+            
+            importedQuestions.push(newQuestion);
+            updatePreview();
+        }
+
+        // وظيفة مسح جميع الأسئلة
+        function clearAllQuestions() {
+            if (confirm('⚠️ هل أنت متأكد من مسح جميع الأسئلة؟')) {
+                importedQuestions = [];
+                updatePreview();
+            }
+        }
+
+        // وظيفة تحديث الإحصائيات النهائية
+        function updateFinalStats() {
+            document.getElementById('finalQuestionsCount').textContent = importedQuestions.length;
+            document.getElementById('finalSuggestedTime').textContent = 
+                document.getElementById('testTimeInput').value;
+        }
+
+        // وظائف الحفظ
+        function saveTest() {
+            const testTitle = document.getElementById('testTitleInput').value.trim();
+            const testTime = document.getElementById('testTimeInput').value;
+
+            if (!testTitle) {
+                alert('⚠️ يرجى إدخال عنوان للاختبار');
+                return;
+            }
+
+            if (importedQuestions.length === 0) {
+                alert('⚠️ لا توجد أسئلة لحفظها');
+                return;
+            }
+
+            // إنشاء كائن الاختبار
+            const testData = {
+                id: 'test_' + Date.now(),
+                title: testTitle,
+                time: parseInt(testTime),
+                questions: importedQuestions,
+                createdAt: new Date().toISOString(),
+                subject: 'علوم',
+                grade: 'الصف الثاني الإعدادي',
+                questionCount: importedQuestions.length
+            };
+
+            // حفظ الاختبار في localStorage
+            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+            savedTests[testData.id] = testData;
+            localStorage.setItem('savedTests', JSON.stringify(savedTests));
+
+            // تحديث حالة الحفظ
+            document.getElementById('testStatus').textContent = 'محفوظ بنجاح';
+            document.getElementById('testStatus').style.color = '#38a169';
+
+            alert('✅ تم حفظ الاختبار بنجاح!');
+            
+            return testData.id;
+        }
+
+        function saveAndStartTest() {
+            const testId = saveTest();
+            if (testId) {
+                // تحويل المستخدم لصفحة الاختبار
+                window.location.href = `test.html?testId=${testId}`;
+            }
+        }
+
+        function saveAndNew() {
+            saveTest();
+            // إعادة تعيين النموذج لبدء اختبار جديد
+            document.getElementById('testTitleInput').value = '';
+            document.getElementById('testTimeInput').value = '15';
+            document.getElementById('testStatus').textContent = 'غير محفوظ';
+            document.getElementById('testStatus').style.color = '#e53e3e';
+            importedQuestions = [];
+            showStep(1);
+            clearData();
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديث وقت الاختبار المقترح
+            document.getElementById('testTimeInput').addEventListener('input', function() {
+                document.getElementById('finalSuggestedTime').textContent = this.value;
+            });
+        });
+    </script>
+                                    <tbody>
+                                        <tr>
+                                            <td>ما هي حالات المادة؟</td>
+                                            <td>صلبة</td>
+                                            <td>سائلة</td>
+                                            <td>غازية</td>
+                                            <td>جميع ما سبق</td>
+                                            <td>4</td>
+                                            <td>حالات المادة ثلاثة</td>
+                                        </tr>
+                                        <tr>
+                                            <td>أين يحدث البناء الضوئي؟</td>
+                                            <td>الجذور</td>
+                                            <td>الأوراق</td>
+                                            <td>الساق</td>
+                                            <td>الزهور</td>
+                                            <td>2</td>
+                                            <td>في البلاستيدات الخضراء</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="instruction-card">
+                            <h3>💡 ملاحظات هامة</h3>
+                            <ul>
+                                <li>الإجابة الصحيحة: استخدم الأرقام (1, 2, 3, 4) أو الحروف (أ, ب, ج, د)</li>
+                                <li>الشرح حقل اختياري - يمكن تركه فارغاً</li>
+                                <li>يفصل بين الأعمدة بعلامة Tab (النسخ العادي من Excel)</li>
+                                <li>يمكن استيراد أي عدد من الأسئلة في مرة واحدة</li>
+                            </ul>
+                        </div>
+
+                        <div class="instruction-card">
+                            <h3>🚀 خطوات سريعة</h3>
+                            <ol>
+                                <li>افتح ملف Excel الذي يحتوي على الأسئلة</li>
+                                <li>اختر الخلايا التي تريد استيرادها</li>
+                                <li>انسخ بالضغط على Ctrl+C</li>
+                                <li>ارجع إلى هذه الصفحة والصق في الخطوة التالية</li>
+                                <li>راجع الأسئلة ثم احفظ الاختبار</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <div></div> <!-- مساحة فارغة -->
+                        <button class="btn btn-primary" onclick="showStep(2)">
+                            التالي →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- الخطوة 2: لصق البيانات -->
+                <div class="step-panel" id="step2-panel">
+                    <h2 class="step-title">📋 لصق بيانات Excel</h2>
+                    
+                    <div class="paste-area">
+                        <textarea 
+                            id="excelData" 
+                            placeholder="الصق بيانات Excel هنا...
+مثال:
+ما هي حالات المادة؟	صلبة	سائلة	غازية	جميع ما سبق	4	حالات المادة ثلاثة
+أين يحدث البناء الضوئي؟	الجذور	الأوراق	الساق	الزهور	2	في البلاستيدات الخضراء
+ما مصدر الطاقة في البناء الضوئي؟	الماء	الهواء	الشمس	التربة	3	ضوء الشمس هو مصدر الطاقة"
+                            rows="12"
+                        ></textarea>
+                        
+                        <div class="paste-actions">
+                            <button class="btn btn-secondary" onclick="clearData()">
+                                🗑️ مسح البيانات
+                            </button>
+                            <button class="btn btn-primary" onclick="parseData()">
+                                🔍 معاينة الأسئلة
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button class="btn btn-outline" onclick="showStep(1)">
+                            ← السابق
+                        </button>
+                        <button class="btn btn-primary" onclick="showStep(3)">
+                            التالي →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- الخطوة 3: المعاينة -->
+                <div class="step-panel" id="step3-panel">
+                    <h2 class="step-title">👀 معاينة الأسئلة</h2>
+                    
+                    <div class="preview-header">
+                        <div class="preview-stats">
+                            <span class="stat">عدد الأسئلة: <strong id="questionsCount">0</strong></span>
+                            <span class="stat">الوقت المقترح: <strong id="suggestedTime">15</strong> دقيقة</span>
+                        </div>
+                        <button class="btn btn-warning" onclick="addManualQuestion()">
+                            ➕ إضافة سؤال يدوي
+                        </button>
+                    </div>
+
+                    <div id="questionsPreview" class="questions-preview">
+                        <div style="text-align: center; padding: 40px; color: #718096;">
+                            📝 لم يتم استيراد أي أسئلة بعد
+                        </div>
+                    </div>
+
+                    <div class="preview-actions">
+                        <button class="btn btn-danger" onclick="clearAllQuestions()">
+                            🗑️ مسح جميع الأسئلة
+                        </button>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button class="btn btn-outline" onclick="showStep(2)">
+                            ← السابق
+                        </button>
+                        <button class="btn btn-primary" onclick="showStep(4)">
+                            التالي →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- الخطوة 4: الحفظ -->
+                <div class="step-panel" id="step4-panel">
+                    <h2 class="step-title">💾 حفظ الاختبار</h2>
+                    
+                    <div class="test-settings">
+                        <div class="form-group">
+                            <label>عنوان الاختبار:</label>
+                            <input type="text" id="testTitleInput" placeholder="مثال: اختبار العلوم - الوحدة الأولى" class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>وقت الاختبار (دقائق):</label>
+                            <input type="number" id="testTimeInput" value="15" min="5" max="120" class="form-input">
+                        </div>
+                        
+                        <div class="summary">
+                            <h4>ملخص الاختبار:</h4>
+                            <p>عدد الأسئلة: <span id="finalQuestionsCount">0</span></p>
+                            <p>الوقت المقترح: <span id="finalSuggestedTime">15</span> دقيقة</p>
+                            <p>الحالة: <span id="testStatus" style="color: #e53e3e;">غير محفوظ</span></p>
+                        </div>
+                    </div>
+
+                    <div class="save-actions">
+                        <button class="btn btn-success" onclick="saveTest()">
+                            💾 حفظ الاختبار
+                        </button>
+                        <button class="btn btn-primary" onclick="saveAndStartTest()">
+                            🚀 حفظ وبدء الاختبار
+                        </button>
+                        <button class="btn btn-outline" onclick="saveAndNew()">
+                            📝 حفظ وبدء اختبار جديد
+                        </button>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button class="btn btn-outline" onclick="showStep(3)">
+                            ← السابق
+                        </button>
+                        <a href="index.html" class="btn btn-secondary">
+                            🏠 العودة للرئيسية
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="container">
+            <h3>🎓 نظام استيراد الاختبارات</h3>
+            <p>مدرسة الشهيد حمزة السحيتي الإعدادية</p>
+            <p class="copyright">© 2024 جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // بيانات التطبيق
+        let importedQuestions = [];
+        let currentStep = 1;
+
+        // وظائف التنقل بين الخطوات
+        function showStep(stepNumber) {
+            // إخفاء جميع الخطوات
+            document.querySelectorAll('.step-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // إزالة النشاط من جميع المؤشرات
+            document.querySelectorAll('.step-indicator').forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+            
+            // إظهار الخطوة المطلوبة
+            document.getElementById(`step${stepNumber}-panel`).classList.add('active');
+            
+            // تفعيل المؤشر الحالي
+            document.querySelectorAll('.step-indicator')[stepNumber - 1].classList.add('active');
+            
+            currentStep = stepNumber;
+            
+            // تحديث الإحصائيات في الخطوة 4
+            if (stepNumber === 4) {
+                updateFinalStats();
+            }
+        }
+
+        // وظيفة مسح البيانات
+        function clearData() {
+            document.getElementById('excelData').value = '';
+            importedQuestions = [];
+            updatePreview();
+        }
+
+        // وظيفة تحليل البيانات
+        function parseData() {
+            const excelData = document.getElementById('excelData').value.trim();
+            if (!excelData) {
+                alert('⚠️ يرجى لصق بيانات Excel أولاً');
+                return;
+            }
+
+            const lines = excelData.split('\n');
+            const newQuestions = [];
+
+            lines.forEach((line, index) => {
+                const columns = line.split('\t');
+                
+                if (columns.length >= 6) {
+                    const question = {
+                        id: Date.now() + index,
+                        text: columns[0]?.trim() || 'بدون نص',
+                        options: [
+                            columns[1]?.trim() || 'بدون نص',
+                            columns[2]?.trim() || 'بدون نص',
+                            columns[3]?.trim() || 'بدون نص',
+                            columns[4]?.trim() || 'بدون نص'
+                        ],
+                        correctAnswer: parseCorrectAnswer(columns[5]?.trim()),
+                        explanation: columns[6]?.trim() || ''
+                    };
+                    
+                    newQuestions.push(question);
+                }
+            });
+
+            if (newQuestions.length > 0) {
+                importedQuestions = [...importedQuestions, ...newQuestions];
+                updatePreview();
+                showStep(3);
+            } else {
+                alert('❌ لم يتم العثور على أسئلة بصيغة صحيحة');
+            }
+        }
+
+        // وظيفة تحليل الإجابة الصحيحة
+        function parseCorrectAnswer(answer) {
+            if (!answer) return 0;
+            
+            // إذا كانت الإجابة رقماً
+            if (/^[1-4]$/.test(answer)) {
+                return parseInt(answer) - 1;
+            }
+            
+            // إذا كانت الإجابة حرفاً عربياً
+            const arabicLetters = {'أ': 0, 'ب': 1, 'ج': 2, 'د': 3};
+            if (arabicLetters.hasOwnProperty(answer)) {
+                return arabicLetters[answer];
+            }
+            
+            return 0;
+        }
+
+        // وظيفة تحديث المعاينة
+        function updatePreview() {
+            const previewContainer = document.getElementById('questionsPreview');
+            const questionsCount = document.getElementById('questionsCount');
+            const suggestedTime = document.getElementById('suggestedTime');
+
+            questionsCount.textContent = importedQuestions.length;
+            suggestedTime.textContent = Math.max(15, Math.ceil(importedQuestions.length * 1.5));
+
+            if (importedQuestions.length === 0) {
+                previewContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #718096;">
+                        📝 لم يتم استيراد أي أسئلة بعد
+                    </div>
+                `;
+                return;
+            }
+
+            let previewHTML = '';
+            importedQuestions.forEach((question, index) => {
+                const correctAnswerLetter = ['أ', 'ب', 'ج', 'د'][question.correctAnswer];
+                
+                previewHTML += `
+                    <div class="question-preview">
+                        <div class="question-header">
+                            <strong>سؤال ${index + 1}</strong>
+                            <span class="correct-answer">الإجابة الصحيحة: ${correctAnswerLetter}</span>
+                        </div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="options-preview">
+                            ${question.options.map((option, optIndex) => `
+                                <div class="option ${optIndex === question.correctAnswer ? 'correct' : ''}" data-letter="${['أ', 'ب', 'ج', 'د'][optIndex]}">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${question.explanation ? `
+                            <div class="explanation">
+                                <strong>شرح:</strong> ${question.explanation}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            previewContainer.innerHTML = previewHTML;
+        }
+
+        // وظيفة إضافة سؤال يدوي
+        function addManualQuestion() {
+            const newQuestion = {
+                id: Date.now(),
+                text: 'سؤال جديد - يرجى تعديل النص',
+                options: ['اختيار 1', 'اختيار 2', 'اختيار 3', 'اختيار 4'],
+                correctAnswer: 0,
+                explanation: ''
+            };
+            
+            importedQuestions.push(newQuestion);
+            updatePreview();
+        }
+
+        // وظيفة مسح جميع الأسئلة
+        function clearAllQuestions() {
+            if (confirm('⚠️ هل أنت متأكد من مسح جميع الأسئلة؟')) {
+                importedQuestions = [];
+                updatePreview();
+            }
+        }
+
+        // وظيفة تحديث الإحصائيات النهائية
+        function updateFinalStats() {
+            document.getElementById('finalQuestionsCount').textContent = importedQuestions.length;
+            document.getElementById('finalSuggestedTime').textContent = 
+                document.getElementById('testTimeInput').value;
+        }
+
+        // وظائف الحفظ
+        function saveTest() {
+            const testTitle = document.getElementById('testTitleInput').value.trim();
+            const testTime = document.getElementById('testTimeInput').value;
+
+            if (!testTitle) {
+                alert('⚠️ يرجى إدخال عنوان للاختبار');
+                return;
+            }
+
+            if (importedQuestions.length === 0) {
+                alert('⚠️ لا توجد أسئلة لحفظها');
+                return;
+            }
+
+            // إنشاء كائن الاختبار
+            const testData = {
+                id: 'test_' + Date.now(),
+                title: testTitle,
+                time: parseInt(testTime),
+                questions: importedQuestions,
+                createdAt: new Date().toISOString(),
+                subject: 'علوم',
+                grade: 'الصف الثاني الإعدادي'
+            };
+
+            // حفظ الاختبار في localStorage
+            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+            savedTests[testData.id] = testData;
+            localStorage.setItem('savedTests', JSON.stringify(savedTests));
+
+            // تحديث حالة الحفظ
+            document.getElementById('testStatus').textContent = 'محفوظ بنجاح';
+            document.getElementById('testStatus').style.color = '#38a169';
+
+            alert('✅ تم حفظ الاختبار بنجاح!');
+        }
+
+        function saveAndStartTest() {
+            saveTest();
+            // هنا يمكن إضافة تحويل المستخدم لصفحة الاختبار
+            alert('🚀 سيتم بدء الاختبار قريباً...');
+        }
+
+        function saveAndNew() {
+            saveTest();
+            // إعادة تعيين النموذج لبدء اختبار جديد
+            document.getElementById('testTitleInput').value = '';
+            document.getElementById('testTimeInput').value = '15';
+            document.getElementById('testStatus').textContent = 'غير محفوظ';
+            document.getElementById('testStatus').style.color = '#e53e3e';
+            importedQuestions = [];
+            showStep(1);
+            clearData();
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديث وقت الاختبار المقترح
+            document.getElementById('testTimeInput').addEventListener('input', function() {
+                document.getElementById('finalSuggestedTime').textContent = this.value;
+            });
+        });
+    </script>
+</body>
+</html>

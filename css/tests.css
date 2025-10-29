@@ -1,0 +1,318 @@
+/* تنسيقات صفحة الاختبارات */
+.progress-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin-bottom: 30px;
+}
+
+.progress-card h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.overall-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.progress-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.progress-bar-large {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill-large {
+    height: 100%;
+    background: white;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+/* تنسيقات الوحدات */
+.unit-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.unit-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.unit-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.unit-info {
+    flex: 1;
+}
+
+.unit-info h2 {
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.unit-info p {
+    color: #4a5568;
+    margin: 0;
+}
+
+.unit-progress {
+    display: flex;
+    align-items: center;
+}
+
+.progress-circle {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.progress-percent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #2d3748;
+    font-size: 0.9rem;
+}
+
+/* تنسيقات الدروس */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.lesson-card {
+    background: #f7fafc;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-color: #667eea;
+}
+
+.lesson-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.lesson-header h3 {
+    color: #2d3748;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.lesson-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.lesson-status.completed {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.lesson-status.in-progress {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.lesson-status.not-started {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.lesson-card p {
+    color: #4a5568;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.lesson-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+.lesson-card .btn {
+    width: 100%;
+}
+
+/* تنسيقات اختبار الوحدة */
+.unit-test-card {
+    background: linear-gradient(135deg, #fff9db 0%, #ffeaa7 100%);
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid #fdcb6e;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+.test-badge {
+    background: #e17055;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.unit-test-card h3 {
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.unit-test-card p {
+    color: #4a5568;
+    margin-bottom: 20px;
+}
+
+.test-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3748;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-top: 5px;
+}
+
+.unit-test-card .btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* الاختبارات الإضافية */
+.additional-tests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* تنسيقات متجاوبة */
+@media (max-width: 768px) {
+    .unit-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .lessons-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .test-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .lesson-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .lesson-status {
+        align-self: flex-start;
+    }
+}
+
+/* رسوم متحركة */
+@keyframes progressFill {
+    from { stroke-dashoffset: 220; }
+    to { stroke-dashoffset: var(--progress); }
+}
+
+.progress-circle circle:last-child {
+    animation: progressFill 1s ease-out forwards;
+}
+
+.lesson-card, .unit-test-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
