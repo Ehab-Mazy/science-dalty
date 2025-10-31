@@ -346,3 +346,24 @@ function setAlternativeThumbnail(img) {
         parent.addEventListener('click', handleVideoThumbnailClick);
     }
  }
+ class LessonQuizSystem {
+    constructor() {
+        this.savedTests = {};
+        this.loadTestsFromJSON();
+    }
+
+    async loadTestsFromJSON() {
+        try {
+            const response = await fetch('../data/tests.json');
+            const data = await response.json();
+            this.savedTests = data.tests.reduce((acc, test) => {
+                acc[test.id] = test;
+                return acc;
+            }, {});
+        } catch (error) {
+            console.error('Failed to load tests:', error);
+        }
+    }
+
+    // ... rest of the code
+}
