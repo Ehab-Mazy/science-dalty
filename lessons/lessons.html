@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدروس - Smart Science by Dalty</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="lessons.css">
+    <script src="lesson-quiz-system.js"></script>
+    <style>
+        /* تحسينات لنظام الفيديو */
+        .lesson-image-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            height: 220px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .video-thumbnail:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2;
+            border: 3px solid white;
+        }
+        
+        .play-button::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 22px solid white;
+            margin-right: 4px;
+        }
+        
+        .video-thumbnail:hover .play-button {
+            background: rgba(255, 0, 0, 0.9);
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+        
+        .thumbnail-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .video-thumbnail:hover .thumbnail-image {
+            transform: scale(1.08);
+        }
+        
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            z-index: 1;
+        }
+        
+        .video-duration {
+            background: rgba(0,0,0,0.7);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .watch-now {
+            font-weight: 600;
+        }
+        
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 95%;
+            max-width: 900px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 32px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            background: rgba(0,0,0,0.6);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            background: rgba(255,0,0,0.8);
+            transform: scale(1.1);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .video-info {
+            padding: 20px 25px;
+            background: white;
+        }
+        
+        .video-info h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .video-info p {
+            color: #718096;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .thumbnail-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .video-error {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            border: 3px dashed #cbd5e0;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .video-error .icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .video-error div {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .video-error small {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* تحسين أزرار الدروس */
+        .btn-quiz {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-quiz:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-download {
+            background: #718096;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-download:hover {
+            background: #4a5568;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(113, 128, 150, 0.3);
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .lesson-meta span {
+            background: #f7fafc;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lesson-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 3;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+
+        /* تحسينات للدروس */
+        .lesson-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            height: fit-content;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .lesson-content h3 {
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .lesson-content p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .lesson-actions {
+            margin-top: 20px;
+        }
+
+        /* أنيميشن */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تحسينات للشبكة */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .lessons-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .video-thumbnail {
+                height: 200px;
+            }
+            
+            .lesson-card {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-thumbnail {
+                height: 180px;
+            }
+            
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .play-button::after {
+                border-top: 12px solid transparent;
+                border-bottom: 12px solid transparent;
+                border-left: 18px solid white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- نافذة الفيديو -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="video-container">
+                <iframe id="videoPlayer" width="100%" height="400" 
+                        src="" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            <div class="video-info">
+                <h3 id="videoTitle">عنوان الفيديو</h3>
+                <p id="videoDescription">وصف الفيديو</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- الهيدر -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="../images/dalty-logo.jpg" alt="شعار المدرسة" class="school-logo">
+                    <img src="../images/ehab .jpg" alt="صورة الأستاذ إيهاب" class="teacher-photo">
+                </div>
+                <div class="header-text">
+                    <h1 class="logo">📚 الدروس التعليمية</h1>
+                    <p class="subtitle">Discover with Dalty - تعليم تفاعلي</p>
+                    <a href="../index.html" class="btn">العودة للرئيسية</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#unit1">الوحدة الأولى</a>
+            <a href="#unit2">الوحدة الثانية</a>
+            <a href="#unit3">الوحدة الثالثة</a>
+            <a href="#unit4">الوحدة الرابعة</a>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <!-- الوحدة الأولى -->
+        <section id="unit1" class="unit-section">
+            <div class="unit-header">
+                <h2>⚗️ الوحدة الأولى: المادة والطاقة</h2>
+                <div class="unit-progress">
+                    <div class="progress-bar-unit">
+                        <div class="progress-fill" data-progress="25"></div>
+                    </div>
+                    <span>25% مكتمل</span>
+                </div>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- درس 1 - حالات المادة -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 1</div>
+                        <div class="video-thumbnail" 
+                             data-video="E6c_yUApPcQ"
+                             data-title="حالات المادة - العلوم"
+                             data-description="تعرف على الحالات المختلفة للمادة والخصائص المميزة لكل حالة">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/E6c_yUApPcQ/maxresdefault.jpg" 
+                                 alt="فيديو حالات المادة" 
+                                 class="thumbnail-image"
+                                 onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/E6c_yUApPcQ/sddefault.jpg'">
+                            <div class="video-overlay">
+                                <span class="video-duration">15:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>حالات المادة</h3>
+                        <p>تعرف على الحالات المختلفة للمادة والخصائص المميزة لكل حالة</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 15 دقيقة</span>
+                            <span class="difficulty">🟢 مبتدئ</span>
+                            <span class="views">👁️ 1,234 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson1', 'حالات المادة')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 2 - تغير حالات المادة -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 2</div>
+                        <div class="video-thumbnail" 
+                             data-video="fjXhBGowBpk"
+                             data-title="تغير حالات المادة - العلوم"
+                             data-description="شاهد كيف تتحول المادة من حالة إلى أخرى والعوامل المؤثرة في ذلك">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/fjXhBGowBpk/maxresdefault.jpg" 
+                                 alt="فيديو تغير حالات المادة" 
+                                 class="thumbnail-image"
+                                 onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/fjXhBGowBpk/sddefault.jpg'">
+                            <div class="video-overlay">
+                                <span class="video-duration">15:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>تغير حالات المادة</h3>
+                        <p>شاهد كيف تتحول المادة من حالة إلى أخرى والعوامل المؤثرة في ذلك</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 15 دقيقة</span>
+                            <span class="difficulty">🟢 مبتدئ</span>
+                            <span class="views">👁️ 1,234 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson2', 'تغير حالات المادة')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 3 - الطاقة الداخلية ودرجة الحرارة -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 3</div>
+                        <div class="video-thumbnail" 
+                             data-video="jilQ6mhf5sY"
+                             data-title="الطاقة الداخلية ودرجة الحرارة - العلوم"
+                             data-description="الفرق بين الطاقة الداخلية ودرجة الحرارة وطرق قياسها">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/jilQ6mhf5sY/maxresdefault.jpg" 
+                                 alt="فيديو الطاقة الداخلية" 
+                                 class="thumbnail-image"
+                                 onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/jilQ6mhf5sY/sddefault.jpg'">
+                            <div class="video-overlay">
+                                <span class="video-duration">25:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>الطاقة الداخلية ودرجة الحرارة</h3>
+                        <p>الفرق بين الطاقة الداخلية ودرجة الحرارة وطرق قياسها</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 25 دقيقة</span>
+                            <span class="difficulty">🟡 متوسط</span>
+                            <span class="views">👁️ 856 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson3', 'الطاقة الداخلية ودرجة الحرارة')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 4 - الحرارة النوعية -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 4</div>
+                        <div class="video-thumbnail" 
+                             data-video="MQEDytfSKmU"
+                             data-title="الحرارة النوعية - العلوم"
+                             data-description="تعرف على كيف تقاوم المواد التغير في درجة الحرارة">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/MQEDytfSKmU/maxresdefault.jpg" 
+                                 alt="فيديو الحرارة النوعية" 
+                                 class="thumbnail-image"
+                                 onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/MQEDytfSKmU/sddefault.jpg'">
+                            <div class="video-overlay">
+                                <span class="video-duration">25:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>الحرارة النوعية</h3>
+                        <p>تعرف على كيف تقاوم المواد التغير في درجة الحرارة</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 25 دقيقة</span>
+                            <span class="difficulty">🟡 متوسط</span>
+                            <span class="views">👁️ 723 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson4', 'الحرارة النوعية')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 5 - مراجعة حالات المادة -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 5</div>
+                        <div class="video-thumbnail" 
+                             data-video="IKVaPzUX8nY"
+                             data-title="مراجعة حالات المادة وتغير حالاتها"
+                             data-description="السر الذي يتحكم في حالات المادة ويغير حالتها">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/IKVaPzUX8nY/maxresdefault.jpg" 
+                                 alt="رحلة الجسيم" 
+                                 class="thumbnail-image"
+                                 onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/IKVaPzUX8nY/sddefault.jpg'">
+                            <div class="video-overlay">
+                                <span class="video-duration">30:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>مراجعة على حالات المادة وتغير حالاتها</h3>
+                        <p>المادة والطاقة ورحلة الجسيم</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 30 دقيقة</span>
+                            <span class="difficulty">🔴 متقدم</span>
+                            <span class="views">👁️ 543 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson5', 'مراجعة حالات المادة')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 6 - قمة الجبل الأبرد -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 6</div>
+                        <div class="video-thumbnail" 
+                             data-video="yNRiHYJwJ9s"
+                             data-title="مفارقة قمة الجبل الأبرد"
+                             data-description="لماذا تكون قمة الجبل أبرد">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/yNRiHYJwJ9s/maxresdefault.jpg" 
+                                 alt="قمة الجبل" 
+                                 class="thumbnail-image"
+                                 onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/yNRiHYJwJ9s/sddefault.jpg'">
+                            <div class="video-overlay">
+                                <span class="video-duration">30:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>قمة الجبل الأبرد</h3>
+                        <p>لماذا تكون قمة الجبل أبرد</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 30 دقيقة</span>
+                            <span class="difficulty">🔴 متقدم</span>
+                            <span class="views">👁️ 612 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson6', 'الارتفاع ودرجة الحرارة')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 7 - طرق انتقال الحرارة -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 7</div>
+                        <div class="video-thumbnail" 
+                             data-video=""
+                             data-title="طرق انتقال الحرارة - العلوم"
+                             data-description="التوصيل والحمل والإشعاع - الطرق الثلاث لانتقال الطاقة الحرارية">
+                            <div class="play-button"></div>
+                            <div class="thumbnail-placeholder">
+                                <span>🎬 الفيديو قيد الإعداد</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>طرق انتقال الحرارة</h3>
+                        <p>التوصيل والحمل والإشعاع - الطرق الثلاث لانتقال الطاقة الحرارية</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 30 دقيقة</span>
+                            <span class="difficulty">🔴 متقدم</span>
+                            <span class="views">👁️ قريباً</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson7', 'انتقال الحرارة')">
+                                <span>📝</span> اختبار الدرس
+                            </button>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- باقي الوحدات... -->
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Discover with Dalty - الأستاذ إيهاب مازي</p>
+        </div>
+    </footer>
+
+    <script>
+        // نظام تشغيل الفيديو
+        document.addEventListener('DOMContentLoaded', function() {
+            // الحصول على جميع عناصر الفيديو
+            const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+            const videoModal = document.getElementById('videoModal');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoTitle = document.getElementById('videoTitle');
+            const videoDescription = document.getElementById('videoDescription');
+            const closeModal = document.querySelector('.close-modal');
+            
+            // إضافة حدث النقر لكل فيديو
+            videoThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    const videoId = this.getAttribute('data-video');
+                    const title = this.getAttribute('data-title');
+                    const description = this.getAttribute('data-description');
+                    
+                    // إذا كان هناك معرف فيديو، شغّل الفيديو
+                    if (videoId && videoId.trim() !== '') {
+                        videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                        videoTitle.textContent = title;
+                        videoDescription.textContent = description;
+                        videoModal.style.display = 'flex';
+                        document.body.style.overflow = 'hidden'; // منع التمرير
+                    } else {
+                        alert('🎬 هذا الفيديو قيد الإعداد وسيتم إضافته قريباً');
+                    }
+                });
+            });
+            
+            // إغلاق النافذة عند النقر على X
+            closeModal.addEventListener('click', function() {
+                videoModal.style.display = 'none';
+                videoPlayer.src = ''; // إيقاف الفيديو
+                document.body.style.overflow = 'auto'; // إعادة التمرير
+            });
+            
+            // إغلاق النافذة عند النقر خارجها
+            videoModal.addEventListener('click', function(e) {
+                if (e.target === videoModal) {
+                    videoModal.style.display = 'none';
+                    videoPlayer.src = ''; // إيقاف الفيديو
+                    document.body.style.overflow = 'auto'; // إعادة التمرير
+                }
+            });
+            
+            // إغلاق النافذة بمفتاح ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    videoModal.style.display = 'none';
+                    videoPlayer.src = ''; // إيقاف الفيديو
+                    document.body.style.overflow = 'auto'; // إعادة التمرير
+                }
+            });
+
+            // معالجة أخطاء تحميل الصور
+            document.querySelectorAll('.thumbnail-image').forEach(img => {
+                img.addEventListener('error', function() {
+                    console.log('فشل تحميل صورة الفيديو:', this.src);
+                    const parent = this.parentElement;
+                    const videoId = parent.getAttribute('data-video');
+                    const title = parent.getAttribute('data-title') || 'فيديو الدرس';
+                    
+                    // محاولة استخدام صورة بديلة
+                    if (videoId) {
+                        // حاول مع sddefault
+                        this.src = `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`;
+                        this.onerror = function() {
+                            // إذا فشلت أيضًا، استخدم hqdefault
+                            this.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                            this.onerror = function() {
+                                // إذا فشلت جميع المحاولات، استخدم placeholder
+                                this.style.display = 'none';
+                                parent.innerHTML = `
+                                    <div class="video-error">
+                                        <div class="icon">🎬</div>
+                                        <div>${title}</div>
+                                        <small>انقر للمشاهدة</small>
+                                    </div>
+                                    <div class="play-button"></div>
+                                    <div class="video-overlay">
+                                        <span class="video-duration">--:--</span>
+                                        <span class="watch-now">شاهد الآن</span>
+                                    </div>
+                                `;
+                            };
+                        };
+                    }
+                });
+            });
+
+            // التحقق من جودة الصور بعد التحميل
+            setTimeout(() => {
+                document.querySelectorAll('.thumbnail-image').forEach(img => {
+                    if (img.complete && img.naturalHeight === 90) {
+                        // هذه صورة YouTube الافتراضية عندما لا يوجد thumbnail مخصص
+                        console.log('صورة افتراضية - جرب صورة بديلة:', img.src);
+                        img.dispatchEvent(new Event('error'));
+                    }
+                });
+            }, 2000);
+        });
+
+        // دالة للتحقق من الربط مع الاختبارات
+        function checkQuizConnection() {
+            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+            console.log('الاختبارات المحفوظة:', savedTests);
+            
+            // التحقق من وجود اختبارات لكل درس
+            const lessons = [
+                'unit1-lesson1', 'unit1-lesson2', 'unit1-lesson3', 
+                'unit1-lesson4', 'unit1-lesson5', 'unit1-lesson6', 'unit1-lesson7'
+            ];
+            
+            lessons.forEach(lessonId => {
+                const testsForLesson = Object.values(savedTests).filter(test => 
+                    test.lessonLink === lessonId
+                );
+                console.log(`الدرس ${lessonId}: ${testsForLesson.length} اختبار`);
+            });
+        }
+
+        // تشغيل التحقق عند تحميل الصفحة
+        setTimeout(checkQuizConnection, 1000);
+    </script>
+</body>
+</html>

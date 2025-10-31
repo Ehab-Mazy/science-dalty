@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار العلوم - Smart Science by Dalty</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* تنسيقات صفحة الاختبار */
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #e53e3e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        .question-container {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-right: 4px solid #667eea;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #2d3748;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .option.selected .option-letter {
+            background: #667eea;
+            color: white;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-success {
+            background: #38a169;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855a;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .results-container {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0 auto 30px;
+        }
+
+        .question-review {
+            text-align: right;
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: #f7fafc;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-right: 4px solid #e2e8f0;
+        }
+
+        .review-item.correct {
+            border-right-color: #38a169;
+            background: #f0fff4;
+        }
+
+        .review-item.incorrect {
+            border-right-color: #e53e3e;
+            background: #fed7d7;
+        }
+
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 10px;
+            }
+            
+            .test-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .timer-container {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- العداد -->
+    <div class="timer-container">
+        ⏱️ الوقت المتبقي: <span id="timer">00:00</span>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="test-container">
+        <!-- رأس الاختبار -->
+        <div class="test-header">
+            <h1 id="testTitle">اختبار العلوم</h1>
+            <div class="test-info">
+                <div class="info-item" id="questionsCount">عدد الأسئلة: 0</div>
+                <div class="info-item" id="testTime">الوقت: 0 دقيقة</div>
+                <div class="info-item" id="currentQuestion">السؤال: 1/0</div>
+            </div>
+        </div>
+
+        <!-- شريط التقدم -->
+        <div class="progress-container">
+            <div class="progress-bar" id="testProgress" style="width: 0%"></div>
+        </div>
+
+        <!-- منطقة الأسئلة -->
+        <div id="questionsArea">
+            <!-- سيتم ملؤها ديناميكياً -->
+        </div>
+
+        <!-- أزرار التنقل -->
+        <div class="navigation-buttons">
+            <button class="btn btn-outline" onclick="previousQuestion()" id="prevBtn">
+                ← السابق
+            </button>
+            <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">
+                التالي →
+            </button>
+            <button class="btn btn-success" onclick="submitTest()" id="submitBtn" style="display: none;">
+                إنهاء الاختبار ✅
+            </button>
+        </div>
+
+        <!-- نتائج الاختبار -->
+        <div class="results-container" id="resultsContainer">
+            <div class="score-circle" id="finalScore">0%</div>
+            <h2 id="resultMessage">نتيجة الاختبار</h2>
+            <p id="scoreDetails">الإجابات الصحيحة: <span id="correctAnswers">0</span> من <span id="totalQuestions">0</span></p>
+            <div class="question-review" id="questionReview">
+                <!-- مراجعة الأسئلة -->
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="btn btn-primary" onclick="restartTest()">
+                    إعادة الاختبار
+                </button>
+                <button class="btn btn-outline" onclick="goBackToLessons()">
+                    العودة للدروس
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات الاختبار
+        let currentTest = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let timerInterval = null;
+        let timeLeft = 0;
+
+        // تحميل الاختبار عند بدء الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTest();
+        });
+
+        // تحميل الاختبار من localStorage
+        function loadTest() {
+            const testId = localStorage.getItem('currentTestId');
+            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+            
+            if (testId && savedTests[testId]) {
+                currentTest = savedTests[testId];
+                initializeTest();
+            } else {
+                showError('لم يتم العثور على الاختبار');
+            }
+        }
+
+        // تهيئة الاختبار
+        function initializeTest() {
+            document.getElementById('testTitle').textContent = currentTest.title;
+            document.getElementById('questionsCount').textContent = `عدد الأسئلة: ${currentTest.questions.length}`;
+            document.getElementById('testTime').textContent = `الوقت: ${currentTest.time} دقيقة`;
+            
+            // تهيئة الوقت
+            timeLeft = currentTest.time * 60; // تحويل إلى ثواني
+            updateTimerDisplay();
+            startTimer();
+            
+            // تهيئة الإجابات
+            userAnswers = new Array(currentTest.questions.length).fill(null);
+            
+            // عرض السؤال الأول
+            showQuestion(0);
+            updateProgress();
+        }
+
+        // بدء العداد
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        // تحديث عرض العداد
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // عرض السؤال
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            const question = currentTest.questions[index];
+            
+            let optionsHTML = '';
+            const optionsLetters = ['أ', 'ب', 'ج', 'د'];
+            
+            question.options.forEach((option, optIndex) => {
+                const isSelected = userAnswers[index] === optIndex;
+                optionsHTML += `
+                    <div class="option ${isSelected ? 'selected' : ''}" 
+                         onclick="selectOption(${optIndex})">
+                        <div class="option-letter">${optionsLetters[optIndex]}</div>
+                        <div class="option-text">${option}</div>
+                    </div>
+                `;
+            });
+            
+            const questionHTML = `
+                <div class="question-container">
+                    <div class="question-number">السؤال ${index + 1} من ${currentTest.questions.length}</div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('questionsArea').innerHTML = questionHTML;
+            document.getElementById('currentQuestion').textContent = `السؤال: ${index + 1}/${currentTest.questions.length}`;
+            
+            // تحديث أزرار التنقل
+            updateNavigationButtons();
+        }
+
+        // اختيار إجابة
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            showQuestion(currentQuestionIndex); // إعادة عرض السؤال لتحديث التحديد
+        }
+
+        // تحديث أزرار التنقل
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            prevBtn.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            
+            if (currentQuestionIndex === currentTest.questions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        // السؤال التالي
+        function nextQuestion() {
+            if (currentQuestionIndex < currentTest.questions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+                updateProgress();
+            }
+        }
+
+        // السؤال السابق
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+                updateProgress();
+            }
+        }
+
+        // تحديث شريط التقدم
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / currentTest.questions.length) * 100;
+            document.getElementById('testProgress').style.width = `${progress}%`;
+        }
+
+        // إنهاء الاختبار
+        function submitTest() {
+            clearInterval(timerInterval);
+            calculateResults();
+        }
+
+        // حساب النتائج
+        function calculateResults() {
+            let correctCount = 0;
+            let reviewHTML = '';
+            
+            currentTest.questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.correctAnswer;
+                
+                if (isCorrect) {
+                    correctCount++;
+                }
+                
+                const optionsLetters = ['أ', 'ب', 'ج', 'د'];
+                const userAnswerText = userAnswer !== null ? 
+                    optionsLetters[userAnswer] : 'لم يتم الإجابة';
+                const correctAnswerText = optionsLetters[question.correctAnswer];
+                
+                reviewHTML += `
+                    <div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <strong>السؤال ${index + 1}:</strong> ${question.text}
+                        <div style="margin-top: 10px;">
+                            <span style="color: ${isCorrect ? '#38a169' : '#e53e3e'}">
+                                إجابتك: ${userAnswerText}
+                            </span>
+                            ${!isCorrect ? `
+                                <span style="color: #38a169; margin-right: 15px;">
+                                    الإجابة الصحيحة: ${correctAnswerText}
+                                </span>
+                            ` : ''}
+                        </div>
+                        ${question.explanation ? `
+                            <div style="margin-top: 10px; color: #718096;">
+                                <strong>شرح:</strong> ${question.explanation}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            const score = Math.round((correctCount / currentTest.questions.length) * 100);
+            
+            // عرض النتائج
+            document.getElementById('finalScore').textContent = `${score}%`;
+            document.getElementById('correctAnswers').textContent = correctCount;
+            document.getElementById('totalQuestions').textContent = currentTest.questions.length;
+            document.getElementById('questionReview').innerHTML = reviewHTML;
+            
+            // رسالة النتيجة
+            let message = '';
+            if (score >= 90) message = 'ممتاز! 🎉';
+            else if (score >= 80) message = 'جيد جداً! 👍';
+            else if (score >= 70) message = 'جيد 👌';
+            else if (score >= 60) message = 'مقبول 💪';
+            else message = 'يحتاج للمزيد من المذاكرة 📚';
+            
+            document.getElementById('resultMessage').textContent = message;
+            
+            // إخفاء الأسئلة وإظهار النتائج
+            document.getElementById('questionsArea').style.display = 'none';
+            document.querySelector('.navigation-buttons').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+        }
+
+        // إعادة الاختبار
+        function restartTest() {
+            userAnswers = new Array(currentTest.questions.length).fill(null);
+            currentQuestionIndex = 0;
+            timeLeft = currentTest.time * 60;
+            
+            document.getElementById('questionsArea').style.display = 'block';
+            document.querySelector('.navigation-buttons').style.display = 'flex';
+            document.querySelector('.progress-container').style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'none';
+            
+            startTimer();
+            showQuestion(0);
+            updateProgress();
+        }
+
+        // العودة للدروس
+        function goBackToLessons() {
+            window.location.href = '../lessons/lessons.html';
+        }
+
+        // عرض خطأ
+        function showError(message) {
+            document.getElementById('questionsArea').innerHTML = `
+                <div style="text-align: center; padding: 50px; color: #e53e3e;">
+                    <h3>❌ ${message}</h3>
+                    <button class="btn btn-primary" onclick="goBackToLessons()" style="margin-top: 20px;">
+                        العودة للدروس
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

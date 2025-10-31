@@ -1,230 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار تجريبي - علوم</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* نفس تنسيقات test.html السابقة */
-        .test-container { max-width: 800px; margin: 0 auto; padding: 20px; }
-        .test-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
-        /* ... باقي التنسيقات مثل السابق */
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <img src="images/dalty-logo.jpg" alt="شعار دالتي" class="site-logo">
-                <div class="logo-text">
-                    <h1>🎯 اختبار تجريبي - علوم</h1>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="container test-container">
-        <a href="index.html" class="back-button">← العودة للرئيسية</a>
-        
-        <div class="test-header">
-            <h1>اختبار العلوم التجريبي</h1>
-            <div class="test-info">
-                <div class="info-item">📝 5 أسئلة</div>
-                <div class="info-item">⏱️ 10 دقيقة</div>
-                <div class="info-item">🎯 علوم</div>
-            </div>
-        </div>
-
-        <div id="testArea">
-            <!-- سيتم تعبئة الأسئلة هنا -->
-        </div>
-    </div>
-
-    <script>
-        // بيانات الاختبار التجريبي
-        const demoTest = {
-            title: 'اختبار العلوم التجريبي',
-            time: 10,
-            questions: [
-                {
-                    text: 'ما هي حالات المادة الثلاث؟',
-                    options: ['صلبة', 'سائلة', 'غازية', 'بلازما'],
-                    correctAnswer: 2,
-                    explanation: 'حالات المادة الأساسية هي الصلبة والسائلة والغازية'
-                },
-                {
-                    text: 'أين تحدث عملية البناء الضوئي في النبات؟',
-                    options: ['الجذور', 'الأوراق', 'الساق', 'الزهرة'],
-                    correctAnswer: 1,
-                    explanation: 'تحدث في البلاستيدات الخضراء الموجودة في الأوراق'
-                },
-                {
-                    text: 'ما هو الغاز الذي يستهلكه النبات في عملية البناء الضوئي؟',
-                    options: ['الأكسجين', 'ثاني أكسيد الكربون', 'النيتروجين', 'الهيدروجين'],
-                    correctAnswer: 1,
-                    explanation: 'يستهلك ثاني أكسيد الكربون ويطلق الأكسجين'
-                },
-                {
-                    text: 'أي من هذه الكواكب أقرب إلى الشمس؟',
-                    options: ['الزهرة', 'المريخ', 'عطارد', 'الأرض'],
-                    correctAnswer: 2,
-                    explanation: 'عطارد هو أقرب كوكب إلى الشمس'
-                },
-                {
-                    text: 'ما الذي يسبب حدوث الفصول الأربعة؟',
-                    options: ['دوران الأرض حول محورها', 'بعد الأرض عن الشمس', 'ميل محور الأرض', 'حركة القمر'],
-                    correctAnswer: 2,
-                    explanation: 'بسبب ميل محور الأرض بمقدار 23.5 درجة'
-                }
-            ]
-        };
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let timeLeft = demoTest.time * 60;
-        let timer = null;
-
-        function startTest() {
-            userAnswers = new Array(demoTest.questions.length).fill(null);
-            displayQuestion();
-            startTimer();
-        }
-
-        function displayQuestion() {
-            const question = demoTest.questions[currentQuestionIndex];
-            
-            document.getElementById('testArea').innerHTML = `
-                <div class="timer-container">
-                    ⏰ الوقت المتبقي: <span id="timeDisplay">${formatTime(timeLeft)}</span>
-                </div>
-
-                <div class="question-counter">
-                    السؤال <span>${currentQuestionIndex + 1}</span> من ${demoTest.questions.length}
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${((currentQuestionIndex + 1) / demoTest.questions.length) * 100}%"></div>
-                </div>
-
-                <div class="question-container">
-                    <div class="question-number">السؤال ${currentQuestionIndex + 1}</div>
-                    <div class="question-text">${question.text}</div>
-                    
-                    <div class="options-container">
-                        ${question.options.map((option, index) => `
-                            <div class="option ${userAnswers[currentQuestionIndex] === index ? 'selected' : ''}" 
-                                 onclick="selectAnswer(${index})">
-                                <div class="option-letter">${['أ', 'ب', 'ج', 'د'][index]}</div>
-                                <div class="option-text">${option}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div class="navigation-buttons">
-                        <button class="btn btn-outline" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                            ← السابق
-                        </button>
-                        
-                        ${currentQuestionIndex === demoTest.questions.length - 1 ? 
-                            `<button class="btn btn-success" onclick="submitTest()">إنهاء الاختبار ✅</button>` : 
-                            `<button class="btn btn-primary" onclick="nextQuestion()">التالي →</button>`
-                        }
-                    </div>
-                </div>
-            `;
-        }
-
-        function selectAnswer(index) {
-            userAnswers[currentQuestionIndex] = index;
-            displayQuestion();
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex < demoTest.questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-            }
-        }
-
-        function startTimer() {
-            timer = setInterval(() => {
-                timeLeft--;
-                if (document.getElementById('timeDisplay')) {
-                    document.getElementById('timeDisplay').textContent = formatTime(timeLeft);
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    submitTest();
-                }
-            }, 1000);
-        }
-
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function submitTest() {
-            clearInterval(timer);
-            
-            let correctAnswers = 0;
-            demoTest.questions.forEach((question, index) => {
-                if (userAnswers[index] === question.correctAnswer) {
-                    correctAnswers++;
-                }
-            });
-            
-            const score = Math.round((correctAnswers / demoTest.questions.length) * 100);
-            
-            document.getElementById('testArea').innerHTML = `
-                <div class="results-container">
-                    <div class="score-circle">
-                        <div class="score-percentage">${score}%</div>
-                        <div class="score-text">النسبة المئوية</div>
-                    </div>
-                    
-                    <h2>🎉 تم إنهاء الاختبار!</h2>
-                    <p>${getScoreMessage(score)}</p>
-                    
-                    <div class="results-stats">
-                        <div class="stat-card">
-                            <div class="stat-number">${correctAnswers}</div>
-                            <div>إجابات صحيحة</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${demoTest.questions.length - correctAnswers}</div>
-                            <div>إجابات خاطئة</div>
-                        </div>
-                    </div>
-                    
-                    <div class="submit-section">
-                        <button class="btn btn-success" onclick="location.reload()">🔄 إعادة الاختبار</button>
-                        <a href="index.html" class="btn btn-outline">🏠 العودة للرئيسية</a>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getScoreMessage(score) {
-            if (score >= 90) return 'ممتاز! أداء رائع 🎯';
-            if (score >= 80) return 'جيد جداً! أحسنت عمل 💪';
-            if (score >= 70) return 'جيد! يمكنك التحسن 📈';
-            if (score >= 60) return 'مقبول! تحتاج للمزيد من المذاكرة 📚';
-            return 'يجب إعادة المذاكرة والمحاولة مرة أخرى 🔄';
-        }
-
-        // بدء الاختبار عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', startTest);
-    </script>
-</body>
-</html>
