@@ -1,0 +1,51 @@
+{
+  "students": [
+    {
+      "name": "أحمد محمود",
+      "class": "أ",
+      "oct1": 5,
+      "oct2": 7,
+      "oct3": 8,
+      "oct4": 6,
+      "octTest": 25,
+      "octTotal": 51,
+      "nov1": 6,
+      "nov2": 7,
+      "nov3": 8,
+      "nov4": 7,
+      "novTest": 26,
+      "novTotal": 54
+    },
+    {
+      "name": "فاطمة علي",
+      "class": "ب",
+      "oct1": 6,
+      "oct2": 8,
+      "oct3": 9,
+      "oct4": 7,
+      "octTest": 28,
+      "octTotal": 58,
+      "nov1": 7,
+      "nov2": 8,
+      "nov3": 9,
+      "nov4": 8,
+      "novTest": 29,
+      "novTotal": 61
+    }
+  ],
+  "settings": {
+    "showOct1": true,
+    "showOct2": true,
+    "showOct3": true,
+    "showOct4": true,
+    "showOctTest": false,
+    "showOctTotal": false,
+    "showNov1": true,
+    "showNov2": true,
+    "showNov3": true,
+    "showNov4": true,
+    "showNovTest": false,
+    "showNovTotal": false
+  },
+  "lastUpdated": "2023-11-15T10:30:00.000Z"
+}
