@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة درجات العلوم - الصف الثاني الإعدادي</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c0392b;
+        }
+        
+        .columns-control {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .column-group {
+            margin-bottom: 15px;
+        }
+        
+        .column-group h4 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-left: 10px;
+        }
+        
+        .instructions {
+            background-color: #fff9e6;
+            border-right: 4px solid #f1c40f;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .instructions h3 {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-right: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .error {
+            color: var(--accent-color);
+            background-color: #ffeaea;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .success {
+            color: var(--success-color);
+            background-color: #eaffea;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .preview-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: bold;
+        }
+        
+        .preview-link:hover {
+            background-color: #dde4e6;
+        }
+        
+        .headers-guide {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        .headers-guide h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .headers-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 8px;
+        }
+        
+        .header-item {
+            background-color: white;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+        }
+        
+        .copy-headers {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .copy-headers:hover {
+            background-color: #27ae60;
+        }
+        
+        .absent-note {
+            background-color: #fff0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-right: 4px solid var(--accent-color);
+            font-size: 0.9rem;
+        }
+        
+        .file-save-section {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px dashed var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>إدارة درجات مادة العلوم</h1>
+            <p class="subtitle">للصف الثاني الإعدادي - لوحة تحكم المعلم</p>
+        </header>
+        
+        <div class="instructions">
+            <h3>تعليمات الاستخدام:</h3>
+            <ol>
+                <li>انسخ البيانات من ملف Excel وألصقها في المربع المخصص</li>
+                <li>يجب أن تكون البيانات على شكل جدول يحتوي على الأعمدة: الاسم، الفصل، ثم تقويم أول، تقويم ثاني، تقويم ثالث، تقويم رابع، اختبار اكتوبر، مجموع اكتوبر، ثم نفس الأعمدة لشهر نوفمبر</li>
+                <li>يمكنك استخدام "غ" للطلاب الغائبين في أي من الحقول الرقمية</li>
+                <li>اختر الأعمدة التي تريد عرضها للطلاب حسب الوقت المناسب</li>
+                <li>انقر على "حفظ البيانات والإعدادات" لتطبيق التغييرات</li>
+                <li>استخدم رابط المعاينة للتأكد من ظهور البيانات بالشكل المطلوب</li>
+            </ol>
+        </div>
+        
+        <div class="main-content">
+            <div class="section">
+                <h2 class="section-title">إدخال البيانات</h2>
+                
+                <div class="headers-guide">
+                    <h4>رؤوس الأعمدة المطلوبة (بالترتيب):</h4>
+                    <div class="headers-list">
+                        <div class="header-item">الاسم</div>
+                        <div class="header-item">الفصل</div>
+                        <div class="header-item">تقويم1</div>
+                        <div class="header-item">تقويم2</div>
+                        <div class="header-item">تقويم3</div>
+                        <div class="header-item">تقويم4</div>
+                        <div class="header-item">اختبار اكتوبر</div>
+                        <div class="header-item">مجموع اكتوبر</div>
+                        <div class="header-item">تقويم1</div>
+                        <div class="header-item">تقويم2</div>
+                        <div class="header-item">تقويم3</div>
+                        <div class="header-item">تقويم4</div>
+                        <div class="header-item">اختبار نوفمبر</div>
+                        <div class="header-item">مجموع نوفمبر</div>
+                    </div>
+                    <button class="copy-headers" id="copyHeaders">نسخ رؤوس الأعمدة</button>
+                </div>
+                
+                <div class="absent-note">
+                    <strong>ملاحظة:</strong> يمكنك استخدام "غ" للطلاب الغائبين في أي من الحقول الرقمية. سيتم عرضها بشكل صحيح في صفحة العرض.
+                </div>
+                
+                <div class="form-group">
+                    <label for="excelData">لصق البيانات من ملف Excel:</label>
+                    <textarea id="excelData" placeholder="انسخ البيانات من Excel وألصقها هنا..."></textarea>
+                </div>
+                <button id="loadData">تحميل البيانات</button>
+                <div id="dataError" class="error"></div>
+                <div id="dataSuccess" class="success"></div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">التحكم في العرض</h2>
+                <p>اختر الأعمدة التي تريد عرضها للطلاب:</p>
+                
+                <div class="columns-control">
+                    <div class="column-group">
+                        <h4>شهر أكتوبر</h4>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showOct1" checked>
+                            <label for="showOct1">تقويم أول</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showOct2" checked>
+                            <label for="showOct2">تقويم ثاني</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showOct3" checked>
+                            <label for="showOct3">تقويم ثالث</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showOct4" checked>
+                            <label for="showOct4">تقويم رابع</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showOctTest">
+                            <label for="showOctTest">اختبار أكتوبر</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showOctTotal">
+                            <label for="showOctTotal">مجموع أكتوبر</label>
+                        </div>
+                    </div>
+                    
+                    <div class="column-group">
+                        <h4>شهر نوفمبر</h4>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showNov1">
+                            <label for="showNov1">تقويم أول</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showNov2">
+                            <label for="showNov2">تقويم ثاني</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showNov3">
+                            <label for="showNov3">تقويم ثالث</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showNov4">
+                            <label for="showNov4">تقويم رابع</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showNovTest">
+                            <label for="showNovTest">اختبار نوفمبر</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showNovTotal">
+                            <label for="showNovTotal">مجموع نوفمبر</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="saveSettings">حفظ البيانات والإعدادات</button>
+                <a href="index.html" class="preview-link" target="_blank">معاينة صفحة العرض للطلاب</a>
+                
+                <div class="file-save-section">
+                    <h3>حفظ البيانات في ملف الموقع</h3>
+                    <p>لحفظ البيانات في ملف يمكن للطلاب الوصول إليه:</p>
+                    <button id="downloadData">تحميل ملف البيانات (data.json)</button>
+                    <p class="small-text">انسخ محتوى الملف المرفوع إلى ملف data.json في مجلد موقعك</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // عناصر DOM
+        const excelDataTextarea = document.getElementById('excelData');
+        const loadDataButton = document.getElementById('loadData');
+        const saveSettingsButton = document.getElementById('saveSettings');
+        const downloadDataButton = document.getElementById('downloadData');
+        const dataErrorDiv = document.getElementById('dataError');
+        const dataSuccessDiv = document.getElementById('dataSuccess');
+        const copyHeadersButton = document.getElementById('copyHeaders');
+        
+        // عناصر التحكم في الأعمدة
+        const showOct1 = document.getElementById('showOct1');
+        const showOct2 = document.getElementById('showOct2');
+        const showOct3 = document.getElementById('showOct3');
+        const showOct4 = document.getElementById('showOct4');
+        const showOctTest = document.getElementById('showOctTest');
+        const showOctTotal = document.getElementById('showOctTotal');
+        const showNov1 = document.getElementById('showNov1');
+        const showNov2 = document.getElementById('showNov2');
+        const showNov3 = document.getElementById('showNov3');
+        const showNov4 = document.getElementById('showNov4');
+        const showNovTest = document.getElementById('showNovTest');
+        const showNovTotal = document.getElementById('showNovTotal');
+        
+        // تحميل الإعدادات المحفوظة
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedData = localStorage.getItem('studentsData');
+            const savedSettings = localStorage.getItem('displaySettings');
+            
+            if (savedData) {
+                excelDataTextarea.value = savedData;
+            }
+            
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                showOct1.checked = settings.showOct1 || false;
+                showOct2.checked = settings.showOct2 || false;
+                showOct3.checked = settings.showOct3 || false;
+                showOct4.checked = settings.showOct4 || false;
+                showOctTest.checked = settings.showOctTest || false;
+                showOctTotal.checked = settings.showOctTotal || false;
+                showNov1.checked = settings.showNov1 || false;
+                showNov2.checked = settings.showNov2 || false;
+                showNov3.checked = settings.showNov3 || false;
+                showNov4.checked = settings.showNov4 || false;
+                showNovTest.checked = settings.showNovTest || false;
+                showNovTotal.checked = settings.showNovTotal || false;
+            }
+            
+            // تحميل البيانات النموذجية للعرض الأولي إذا لم تكن هناك بيانات محفوظة
+            if (!savedData) {
+                const sampleData = `الاسم	الفصل	تقويم1	تقويم2	تقويم3	تقويم4	اختبار اكتوبر	مجموع اكتوبر	تقويم1	تقويم2	تقويم3	تقويم4	اختبار نوفمبر	مجموع نوفمبر
+أحمد محمود	أ	5	7	8	6	25	51	6	7	8	7	26	54
+فاطمة علي	ب	6	8	9	7	28	58	7	8	9	8	29	61
+محمد حسن	أ	4	6	7	5	22	44	5	6	7	6	23	47
+سارة خالد	ج	7	9	8	8	26	58	8	9	8	9	28	62
+يوسف إبراهيم	ب	8	9	9	8	29	63	9	9	9	9	30	66
+خالد أحمد	أ	غ	7	8	6	24	45	7	8	9	7	27	58`;
+                excelDataTextarea.value = sampleData;
+            }
+        });
+        
+        // نسخ رؤوس الأعمدة
+        copyHeadersButton.addEventListener('click', function() {
+            const headers = "الاسم\tالفصل\tتقويم1\tتقويم2\tتقويم3\tتقويم4\tاختبار اكتوبر\tمجموع اكتوبر\tتقويم1\tتقويم2\tتقويم3\tتقويم4\tاختبار نوفمبر\tمجموع نوفمبر";
+            navigator.clipboard.writeText(headers).then(function() {
+                showSuccess('تم نسخ رؤوس الأعمدة إلى الحافظة');
+            }, function() {
+                showError('فشل في نسخ رؤوس الأعمدة');
+            });
+        });
+        
+        // تحميل البيانات من النص
+        loadDataButton.addEventListener('click', function() {
+            const dataText = excelDataTextarea.value.trim();
+            
+            if (!dataText) {
+                showError('يرجى إدخال البيانات أولاً');
+                return;
+            }
+            
+            try {
+                const studentsData = parseExcelData(dataText);
+                localStorage.setItem('studentsData', dataText);
+                updateStatistics(studentsData);
+                hideError();
+                showSuccess(`تم تحميل بيانات ${studentsData.length} طالب بنجاح`);
+            } catch (error) {
+                showError('خطأ في تنسيق البيانات. يرجى التأكد من صحة البيانات المدخلة.');
+                console.error(error);
+            }
+        });
+        
+        // حفظ الإعدادات
+        saveSettingsButton.addEventListener('click', function() {
+            const dataText = excelDataTextarea.value.trim();
+            
+            if (!dataText) {
+                showError('يرجى إدخال البيانات أولاً');
+                return;
+            }
+            
+            try {
+                const studentsData = parseExcelData(dataText);
+                
+                // حفظ البيانات
+                localStorage.setItem('studentsData', dataText);
+                
+                // حفظ إعدادات العرض
+                const displaySettings = {
+                    showOct1: showOct1.checked,
+                    showOct2: showOct2.checked,
+                    showOct3: showOct3.checked,
+                    showOct4: showOct4.checked,
+                    showOctTest: showOctTest.checked,
+                    showOctTotal: showOctTotal.checked,
+                    showNov1: showNov1.checked,
+                    showNov2: showNov2.checked,
+                    showNov3: showNov3.checked,
+                    showNov4: showNov4.checked,
+                    showNovTest: showNovTest.checked,
+                    showNovTotal: showNovTotal.checked
+                };
+                
+                localStorage.setItem('displaySettings', JSON.stringify(displaySettings));
+                
+                hideError();
+                showSuccess('تم حفظ البيانات والإعدادات بنجاح');
+            } catch (error) {
+                showError('خطأ في تنسيق البيانات. يرجى التأكد من صحة البيانات المدخلة.');
+                console.error(error);
+            }
+        });
+        
+        // تحميل ملف البيانات
+        downloadDataButton.addEventListener('click', function() {
+            const dataText = excelDataTextarea.value.trim();
+            
+            if (!dataText) {
+                showError('يرجى إدخال البيانات أولاً');
+                return;
+            }
+            
+            try {
+                const studentsData = parseExcelData(dataText);
+                const displaySettings = {
+                    showOct1: showOct1.checked,
+                    showOct2: showOct2.checked,
+                    showOct3: showOct3.checked,
+                    showOct4: showOct4.checked,
+                    showOctTest: showOctTest.checked,
+                    showOctTotal: showOctTotal.checked,
+                    showNov1: showNov1.checked,
+                    showNov2: showNov2.checked,
+                    showNov3: showNov3.checked,
+                    showNov4: showNov4.checked,
+                    showNovTest: showNovTest.checked,
+                    showNovTotal: showNovTotal.checked
+                };
+                
+                // إنشاء كائن البيانات الكامل
+                const siteData = {
+                    students: studentsData,
+                    settings: displaySettings,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                // إنشاء ملف للتحميل
+                const dataStr = JSON.stringify(siteData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                // إنشاء رابط تحميل
+                const downloadUrl = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = 'data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(downloadUrl);
+                
+                showSuccess('تم تحميل ملف البيانات بنجاح. انسخ محتواه إلى ملف data.json في مجلد موقعك.');
+            } catch (error) {
+                showError('خطأ في إنشاء ملف البيانات: ' + error.message);
+            }
+        });
+        
+        // تحليل البيانات من النص - إصدارة محسنة
+        function parseExcelData(dataText) {
+            const rows = dataText.split('\n');
+            const students = [];
+            
+            // تخطي الصف الأول إذا كان يحتوي على العناوين
+            let startRow = 0;
+            if (rows[0].includes('اسم') || rows[0].includes('فصل') || rows[0].includes('تقويم')) {
+                startRow = 1;
+            }
+            
+            for (let i = startRow; i < rows.length; i++) {
+                const row = rows[i].trim();
+                if (!row) continue;
+                
+                // تقسيم الصف باستخدام التبويبات (الأكثر شيوعاً في Excel)
+                let cells = row.split('\t');
+                
+                // إذا لم نجد تبويبات، نجرب الفواصل
+                if (cells.length < 3) {
+                    cells = row.split(',');
+                }
+                
+                // إذا لم نجد فواصل، نجرب المسافات المتعددة
+                if (cells.length < 3) {
+                    cells = row.split(/\s{2,}/);
+                }
+                
+                // تنظيف الخلايا من المسافات الزائدة
+                cells = cells.map(cell => cell.trim());
+                
+                // إذا كان عدد الخلايا أقل من 14، قد تكون البيانات تحتوي على أسماء فقط
+                if (cells.length < 14) {
+                    // إذا كانت الخلية الأولى تحتوي على اسم فقط، نملأ باقي البيانات بقيم افتراضية
+                    if (cells.length >= 2) {
+                        const student = {
+                            name: cells[0],
+                            class: cells[1],
+                            // بيانات أكتوبر
+                            oct1: parseValue(cells[2]),
+                            oct2: parseValue(cells[3]),
+                            oct3: parseValue(cells[4]),
+                            oct4: parseValue(cells[5]),
+                            octTest: parseValue(cells[6]),
+                            octTotal: parseValue(cells[7]),
+                            // بيانات نوفمبر
+                            nov1: parseValue(cells[8]),
+                            nov2: parseValue(cells[9]),
+                            nov3: parseValue(cells[10]),
+                            nov4: parseValue(cells[11]),
+                            novTest: parseValue(cells[12]),
+                            novTotal: parseValue(cells[13])
+                        };
+                        students.push(student);
+                    }
+                } else if (cells.length >= 14) {
+                    const student = {
+                        name: cells[0],
+                        class: cells[1],
+                        // بيانات أكتوبر
+                        oct1: parseValue(cells[2]),
+                        oct2: parseValue(cells[3]),
+                        oct3: parseValue(cells[4]),
+                        oct4: parseValue(cells[5]),
+                        octTest: parseValue(cells[6]),
+                        octTotal: parseValue(cells[7]),
+                        // بيانات نوفمبر
+                        nov1: parseValue(cells[8]),
+                        nov2: parseValue(cells[9]),
+                        nov3: parseValue(cells[10]),
+                        nov4: parseValue(cells[11]),
+                        novTest: parseValue(cells[12]),
+                        novTotal: parseValue(cells[13])
+                    };
+                    
+                    // التحقق من صحة البيانات الأساسية
+                    if (student.name && student.class) {
+                        students.push(student);
+                    }
+                }
+            }
+            
+            if (students.length === 0) {
+                throw new Error('لم يتم العثور على بيانات صالحة');
+            }
+            
+            return students;
+        }
+        
+        // دالة مساعدة لتحويل النص إلى قيمة (رقم أو نص)
+        function parseValue(value) {
+            if (!value || value === '') return 0;
+            
+            // إذا كانت القيمة "غ" أو تحتوي على "غاء" أو "غائب"
+            if (value.toString().includes('غ')) {
+                return 'غ';
+            }
+            
+            // إزالة أي مسافات أو رموز غير مرغوب فيها
+            const cleaned = value.toString().replace(/\s/g, '');
+            
+            // محاولة التحويل إلى رقم
+            const number = parseFloat(cleaned);
+            
+            // إذا لم يكن رقمًا صالحًا، نعيد القيمة الأصلية (للدعم المستقبلي)
+            return isNaN(number) ? value : number;
+        }
+        
+        // تحديث الإحصائيات
+        function updateStatistics(studentsData) {
+            // يمكن إضافة إحصائيات هنا إذا لزم الأمر
+            console.log(`تم تحميل ${studentsData.length} طالب`);
+        }
+        
+        // عرض خطأ
+        function showError(message) {
+            dataErrorDiv.textContent = message;
+            dataErrorDiv.style.display = 'block';
+            dataSuccessDiv.style.display = 'none';
+        }
+        
+        // عرض نجاح
+        function showSuccess(message) {
+            dataSuccessDiv.textContent = message;
+            dataSuccessDiv.style.display = 'block';
+            dataErrorDiv.style.display = 'none';
+        }
+        
+        // إخفاء الخطأ
+        function hideError() {
+            dataErrorDiv.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
