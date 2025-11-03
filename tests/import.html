@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء الاختبارات - المدرس</title>
+    <style>
+        /* نفس التنسيقات السابقة مع تبسيط */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2d3748;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .btn {
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .question-box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-right: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">🏠 الرئيسية</a>
+        
+        <div class="header">
+            <h1>👨‍🏫 إنشاء الاختبارات - صفحة المدرس</h1>
+            <p>أنشئ اختبارات جديدة للطلاب</p>
+        </div>
+
+        <div style="background: white; padding: 30px; border-radius: 15px;">
+            <h2>إنشاء اختبار جديد</h2>
+            
+            <div class="form-group">
+                <label>عنوان الاختبار:</label>
+                <input type="text" id="testTitle" class="form-input" placeholder="مثال: اختبار الوحدة الأولى - المادة والطاقة">
+            </div>
+
+            <div class="form-group">
+                <label>وصف الاختبار:</label>
+                <textarea id="testDescription" class="form-input" rows="3" placeholder="وصف مختصر للاختبار"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>الوحدة الدراسية:</label>
+                <select id="testUnit" class="form-input">
+                    <option value="unit1">الوحدة الأولى: المادة والطاقة</option>
+                    <option value="unit2">الوحدة الثانية: التفاعلات الكيميائية</option>
+                    <option value="unit3">الوحدة الثالثة: تدفق الطاقة</option>
+                    <option value="unit4">الوحدة الرابعة: العمليات الجيولوجية</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>الوقت المحدد (دقائق):</label>
+                <input type="number" id="testTime" class="form-input" value="30" min="5" max="120">
+            </div>
+
+            <hr style="margin: 30px 0;">
+
+            <h3>إضافة الأسئلة</h3>
+            
+            <div id="questionsContainer">
+                <!-- الأسئلة تضاف هنا -->
+            </div>
+
+            <button class="btn" onclick="addQuestion()">➕ إضافة سؤال</button>
+
+            <div style="margin-top: 30px;">
+                <button class="btn" style="background: #38a169;" onclick="saveTest()">💾 حفظ الاختبار</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; background: white; padding: 20px; border-radius: 15px;">
+            <h3>📁 الاختبارات المحفوظة</h3>
+            <div id="savedTestsList">
+                <!-- قائمة الاختبارات المحفوظة -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+
+        function addQuestion() {
+            const questionId = Date.now();
+            questions.push({
+                id: questionId,
+                text: '',
+                options: ['', '', '', ''],
+                correctAnswer: 0,
+                explanation: ''
+            });
+            
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((question, index) => {
+                const questionHTML = `
+                    <div class="question-box">
+                        <h4>سؤال ${index + 1}</h4>
+                        <input type="text" class="form-input" placeholder="نص السؤال" 
+                               value="${question.text}" 
+                               onchange="updateQuestion(${question.id}, 'text', this.value)">
+                        
+                        <div style="margin: 15px 0;">
+                            <strong>الخيارات:</strong>
+                            ${['أ', 'ب', 'ج', 'د'].map((letter, optIndex) => `
+                                <div style="display: flex; align-items: center; margin: 10px 0;">
+                                    <input type="radio" name="correct_${question.id}" 
+                                           ${question.correctAnswer === optIndex ? 'checked' : ''}
+                                           onchange="updateQuestion(${question.id}, 'correctAnswer', ${optIndex})">
+                                    <span style="margin: 0 10px;">${letter}</span>
+                                    <input type="text" class="form-input" style="flex: 1;" 
+                                           value="${question.options[optIndex]}"
+                                           onchange="updateOption(${question.id}, ${optIndex}, this.value)"
+                                           placeholder="نص الخيار ${letter}">
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <input type="text" class="form-input" placeholder="شرح الإجابة (اختياري)" 
+                               value="${question.explanation}"
+                               onchange="updateQuestion(${question.id}, 'explanation', this.value)">
+
+                        <button onclick="removeQuestion(${question.id})" 
+                                style="background: #e53e3e; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-top: 10px;">
+                            🗑 حذف السؤال
+                        </button>
+                    </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+        }
+
+        function updateQuestion(questionId, field, value) {
+            const question = questions.find(q => q.id === questionId);
+            if (question) {
+                question[field] = value;
+            }
+        }
+
+        function updateOption(questionId, optionIndex, value) {
+            const question = questions.find(q => q.id === questionId);
+            if (question) {
+                question.options[optionIndex] = value;
+            }
+        }
+
+        function removeQuestion(questionId) {
+            questions = questions.filter(q => q.id !== questionId);
+            renderQuestions();
+        }
+
+        function saveTest() {
+            const testTitle = document.getElementById('testTitle').value.trim();
+            const testDescription = document.getElementById('testDescription').value.trim();
+            const testUnit = document.getElementById('testUnit').value;
+            const testTime = document.getElementById('testTime').value;
+
+            if (!testTitle) {
+                alert('⚠️ يرجى إدخال عنوان للاختبار');
+                return;
+            }
+
+            if (questions.length === 0) {
+                alert('⚠️ يرجى إضافة أسئلة للاختبار');
+                return;
+            }
+
+            // إنشاء كائن الاختبار
+            const testData = {
+                id: 'test_' + Date.now(),
+                title: testTitle,
+                description: testDescription,
+                unit: testUnit,
+                time: parseInt(testTime),
+                questions: questions,
+                createdAt: new Date().toISOString(),
+                subject: 'علوم',
+                grade: 'الصف الثاني الإعدادي'
+            };
+
+            // تحميل ملف الاختبار
+            const testDataStr = JSON.stringify(testData, null, 2);
+            const blob = new Blob([testDataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test_${testData.id}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert(`✅ تم حفظ الاختبار بنجاح!\n\nالآن قم برفع ملف "${a.download}" إلى مجلد tests/ في GitHub`);
+            
+            // إعادة التعيين
+            document.getElementById('testTitle').value = '';
+            document.getElementById('testDescription').value = '';
+            questions = [];
+            renderQuestions();
+        }
+
+        // تهيئة سؤال واحد عند التحميل
+        document.addEventListener('DOMContentLoaded', addQuestion);
+ // تحديث وظيفة startTest لاستخدام البيانات المحفوظة
+function startTest(testId) {
+    console.log('بدء الاختبار:', testId);
+    
+    const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+    const test = savedTests[testId];
+    
+    if (test && test.data) {
+        // حفظ معرف الاختبار الحالي
+        localStorage.setItem('currentTestId', testId);
+        
+        // الانتقال لصفحة الاختبار
+        window.location.href = 'test.html';
+    } else {
+        alert('❌ بيانات الاختبار غير متوفرة. يرجى تحميل ملف الاختبار أولاً.');
+    }
+}
+
+// تحديث وظيفة startTestDirectly
+function startTestDirectly() {
+    if (currentTestData) {
+        // حفظ الاختبار أولاً إذا لم يكن محفوظاً
+        const testId = saveTest();
+        if (testId) {
+            localStorage.setItem('currentTestId', testId);
+            window.location.href = 'test.html';
+        }
+    } else {
+        alert('⚠️ يرجى حفظ الاختبار أولاً');
+    }
+}
+
+
+
+
+ </script>
+    
+</body>
+</html>

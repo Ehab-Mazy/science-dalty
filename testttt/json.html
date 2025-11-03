@@ -1,0 +1,65 @@
+<!-- results.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج الاختبارات</title>
+    <style>
+        .results-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result-card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-right: 4px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="results-container">
+        <h1>📊 نتائج الاختبارات</h1>
+        <div id="resultsList"></div>
+        <a href="../import.html" class="btn btn-primary">العودة للاستيراد</a>
+    </div>
+
+    <script>
+        function displayResults() {
+            const results = JSON.parse(localStorage.getItem('testResults') || '[]');
+            const container = document.getElementById('resultsList');
+            
+            if (results.length === 0) {
+                container.innerHTML = '<p>لا توجد نتائج مسجلة بعد.</p>';
+                return;
+            }
+            
+            let html = '';
+            results.forEach((result, index) => {
+                const date = new Date(result.date).toLocaleDateString('ar-EG');
+                html += `
+                    <div class="result-card">
+                        <h3>${result.testTitle}</h3>
+                        <div class="score">${result.score}/${result.total} (${result.percentage}%)</div>
+                        <p>التاريخ: ${date}</p>
+                        ${result.lessonName ? `<p>الدرس: ${result.lessonName}</p>` : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        document.addEventListener('DOMContentLoaded', displayResults);
+    </script>
+</body>
+</html>
