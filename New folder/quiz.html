@@ -526,115 +526,6 @@
             // محاولة تحميل الاختبار من مصادر مختلفة
             loadTestFromSources(testId);
         }
-        // نظام تحميل الاختبارات المحسن
-async function loadQuiz() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const testId = urlParams.get('test') || localStorage.getItem('currentTestId');
-    
-    if (!testId) {
-        showError('لم يتم العثور على اختبار');
-        return;
-    }
-
-    console.log('جاري تحميل الاختبار:', testId);
-    
-    try {
-        // المحاولة 1: من مجلد tests على الاستضافة
-        const serverTest = await loadTestFromServer(testId);
-        if (serverTest) {
-            console.log('✅ تم تحميل الاختبار من الاستضافة');
-            initializeQuiz(serverTest);
-            return;
-        }
-
-        // المحاولة 2: من localStorage
-        const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-        if (savedTests[testId]) {
-            console.log('✅ تم تحميل الاختبار من التخزين المحلي');
-            initializeQuiz(savedTests[testId]);
-            return;
-        }
-
-        // المحاولة 3: اختبارات مسبقة التجهيز
-        const predefinedTest = loadPredefinedTest(testId);
-        if (predefinedTest) {
-            console.log('✅ تم تحميل اختبار مسبق التجهيز');
-            initializeQuiz(predefinedTest);
-            return;
-        }
-
-        // إذا فشلت جميع المحاولات
-        showError(`
-            <div style="text-align: center;">
-                <h3>الاختبار غير متوفر</h3>
-                <p>الاختبار غير موجود في أي من مصادر التخزين.</p>
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="checkTestAvailability('${testId}')">
-                        🔍 فحص توفر الاختبار
-                    </button>
-                </div>
-            </div>
-        `);
-
-    } catch (error) {
-        console.error('خطأ في تحميل الاختبار:', error);
-        showError('حدث خطأ أثناء تحميل الاختبار');
-    }
-}
-
-// تحميل الاختبار من الاستضافة
-async function loadTestFromServer(testId) {
-    try {
-        const response = await fetch(`tests/${testId}.json`);
-        if (response.ok) {
-            const testData = await response.json();
-            
-            // حفظ نسخة في localStorage للاستخدام المستقبلي
-            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-            savedTests[testId] = testData;
-            localStorage.setItem('savedTests', JSON.stringify(savedTests));
-            
-            return testData;
-        }
-        return null;
-    } catch (error) {
-        console.log('الاختبار غير موجود على الاستضافة:', error);
-        return null;
-    }
-}
-
-// فحص توفر الاختبار في مختلف المصادر
-async function checkTestAvailability(testId) {
-    const sources = [
-        { name: 'الاستضافة', check: () => loadTestFromServer(testId) },
-        { name: 'التخزين المحلي', check: () => {
-            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-            return savedTests[testId] ? true : false;
-        }},
-        { name: 'الاختبارات المسبقة', check: () => loadPredefinedTest(testId) }
-    ];
-
-    let results = '';
-
-    for (const source of sources) {
-        try {
-            const result = await source.check();
-            results += `<div>${source.name}: ${result ? '✅ متوفر' : '❌ غير متوفر'}</div>`;
-        } catch (error) {
-            results += `<div>${source.name}: ❌ خطأ في الفحص</div>`;
-        }
-    }
-
-    showError(`
-        <div style="text-align: center;">
-            <h3>نتيجة الفحص للاختبار: ${testId}</h3>
-            <div style="text-align: right; margin: 20px 0;">
-                ${results}
-            </div>
-            <p>إذا كان الاختبار غير متوفر على الاستضافة، قم برفعه يدوياً إلى مجلد tests/</p>
-        </div>
-    `);
-}
 
         // تحميل الاختبار من مصادر متعددة
         function loadTestFromSources(testId) {

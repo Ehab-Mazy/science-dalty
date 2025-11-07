@@ -1622,6 +1622,75 @@ function saveTestToServer(testData) {
     padding: 5px 10px;
     font-size: 12px;
 }
+// تصدير الاختبارات لملف JSON
+function exportTests() {
+    const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+    
+    if (Object.keys(savedTests).length === 0) {
+        alert('⚠️ لا توجد اختبارات لتصديرها');
+        return;
+    }
+
+    const dataStr = JSON.stringify(savedTests, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = `smart-science-tests-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    
+    alert('📥 تم تصدير جميع الاختبارات. احفظ الملف في مجلد آمن.');
+}
+
+// استيراد الاختبارات من ملف JSON
+function importTestsFromFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+            
+            // دمج البيانات
+            Object.assign(savedTests, importedData);
+            localStorage.setItem('savedTests', JSON.stringify(savedTests));
+            
+            displaySavedTests();
+            displayLessonTests();
+            
+            alert(`✅ تم استيراد ${Object.keys(importedData).length} اختبار بنجاح`);
+        } catch (error) {
+            alert('❌ خطأ في استيراد الملف: ' + error.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+// إضافة زر التصدير في واجهة المستخدم
+function addExportImportButtons() {
+    const testsSection = document.querySelector('#importedTestsList').parentElement;
+    
+    const exportImportHTML = `
+        <div style="text-align: center; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h4>🔄 نسخ احتياطي للاختبارات</h4>
+            <p>استخدم هذه الأدوات لنقل الاختبارات بين الأجهزة</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 15px;">
+                <button class="btn btn-success" onclick="exportTests()">
+                    📤 تصدير جميع الاختبارات
+                </button>
+                <label class="btn btn-primary" style="cursor: pointer;">
+                    📥 استيراد اختبارات
+                    <input type="file" accept=".json" onchange="importTestsFromFile(event)" 
+                           style="display: none;">
+                </label>
+            </div>
+        </div>
+    `;
+    
+    testsSection.insertAdjacentHTML('afterbegin', exportImportHTML);
+}
 
 </style>
 </body>
