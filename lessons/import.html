@@ -8,10 +8,650 @@
     <!-- التنسيقات -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/dalty-logo.jpg" type="image/jpg">
-
     <style>
-        /* جميع الأنماط السابقة تبقى كما هي */
-        /* ... */
+        /* تنسيقات خاصة بصفحة الاستيراد */
+        .import-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .import-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .import-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .import-header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2d3748;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #4a5568;
+            transform: translateX(-5px);
+        }
+
+        .import-steps-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .steps-sidebar {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .step-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .step-indicator.active .step-number {
+            background: white;
+            color: #667eea;
+        }
+
+        .step-indicator.completed .step-number {
+            background: #38a169;
+            color: white;
+        }
+
+        .step-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* تنسيقات الخطوة 1 */
+        .instructions-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .instruction-card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-right: 4px solid #667eea;
+        }
+
+        .instruction-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-table {
+            overflow-x: auto;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .example-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .example-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .example-table td {
+            padding: 10px 8px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            background: white;
+        }
+
+        .example-table tr:nth-child(even) td {
+            background: #f7fafc;
+        }
+
+        /* تنسيقات الخطوة 2 */
+        .paste-area {
+            margin-bottom: 30px;
+        }
+
+        .paste-area textarea {
+            width: 100%;
+            padding: 20px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            min-height: 200px;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+        }
+
+        .paste-area textarea:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .paste-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* تنسيقات الخطوة 3 */
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .preview-stats {
+            display: flex;
+            gap: 25px;
+        }
+
+        .stat {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .questions-preview {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f7fafc;
+        }
+
+        .question-preview {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-right: 4px solid #48bb78;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-header strong {
+            color: #2d3748;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .correct-answer {
+            background: #48bb78;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            color: #2d3748;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-right: 3px solid #667eea;
+        }
+
+        .options-preview {
+            margin: 15px 0;
+        }
+
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-right: 4px solid #a0aec0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option.correct {
+            background: #c6f6d5;
+            border-right-color: #48bb78;
+            font-weight: 600;
+            color: #22543d;
+        }
+
+        .option::before {
+            content: attr(data-letter);
+            background: #a0aec0;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .option.correct::before {
+            background: #48bb78;
+        }
+
+        .explanation {
+            background: #fff5eb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #744210;
+            border-right: 3px solid #ed8936;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        /* تنسيقات الخطوة 4 */
+        .test-settings {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .form-select optgroup {
+            font-weight: bold;
+            color: #2d3748;
+            background: #f7fafc;
+        }
+
+        .form-select option {
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .form-select option:checked {
+            background: #667eea linear-gradient(0deg, #667eea 0%, #667eea 100%);
+            color: white;
+        }
+
+        .summary {
+            background: #ebf8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-right: 4px solid #3182ce;
+        }
+
+        .summary h4 {
+            color: #2b6cb0;
+            margin-bottom: 15px;
+        }
+
+        .summary p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #2d3748;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .save-actions {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        /* أزرار التنقل */
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        /* تخصيص شريط التمرير */
+        .questions-preview::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .questions-preview::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .questions-preview::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        /* تنسيقات إضافية للاختبارات المحفوظة */
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .test-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-right: 4px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .test-header h4 {
+            margin: 0;
+            color: #2d3748;
+            flex: 1;
+        }
+        
+        .test-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .test-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .test-info span {
+            color: #4a5568;
+            font-size: 14px;
+        }
+        
+        .test-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #667eea;
+            color: #667eea;
+        }
+        
+        .btn-danger {
+            background: #e53e3e;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #38a169;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #718096;
+            color: white;
+        }
+
+        /* تنسيقات قسم ربط الدروس */
+        .linked-lessons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0fff4;
+            border-radius: 10px;
+            border-right: 4px solid #38a169;
+        }
+
+        .linked-lessons h3 {
+            color: #22543d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lesson-link {
+            display: inline-block;
+            background: #38a169;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-link:hover {
+            background: #2f855a;
+            transform: translateY(-2px);
+        }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .import-steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-sidebar {
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .step-content {
+                padding: 20px;
+            }
+
+            .preview-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .preview-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .step-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .save-actions {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -242,28 +882,26 @@
                             <select id="lessonLinkInput" class="form-select">
                                 <option value="">-- اختر الدرس المرتبط --</option>
                                 
-                                <optgroup label="⚗️ الوحدة الأولى: المادة والطاقة">
-                                    <option value="unit1">الدرس 1.0: المادة وخواصها</option>
+                                <optgroup label="🔬 الوحدة الأولى: المادة والطاقة">
+                                    <option value="unit1-lesson0">الدرس 1.0: المادة والطاقة</option>
                                     <option value="unit1-lesson1">الدرس 1.1: حالات المادة</option>
                                     <option value="unit1-lesson2">الدرس 1.2: تغير حالات المادة</option>
-                                    <option value="unit1-lesson3">الدرس 1.3: الطاقة الداخلية و درجةالحرارة</option>
-                                    <option value="unit1-lesson4">الدرس 1.4:   مراجعة الشهر الاول </option>
-                                    <option value="unit1-lesson5">الدرس 1.5: الحرارة النوعية</option>
-                                    <option value="unit1-lesson6">الدرس 1.6: الارتفاع و درحة الحرارة</option>
-                                    <option value="unit1-lesson7">الدرس 1.7: انتقال الحرارة </option>
+                                    <option value="unit1-lesson3">الدرس 1.3: الطاقة الداخلية ودرجة الحرارة</option>
+                                    <option value="unit1-lesson4">الدرس 1.4: طرق انتقال الحرارة</option>
                                 </optgroup>
-                                <optgroup label="🔬 الوحدة الثانية:  النفاعلات الكيميائية">
-                                    <option value="unit2-lesson1">الدرس 2.1:  المعادلة الكيميائية</option>
+                                
+                                <optgroup label="🔬 الوحدة الثانية: التفاعلات الكيميائية">
+                                    <option value="unit2-lesson1">الدرس 2.1: المعادلة الكيميائية</option>
                                     <option value="unit2-lesson2">الدرس 2.2: التكاثر في الكائنات الحية</option>
                                 </optgroup>
                                 
                                 <optgroup label="🌌 الوحدة الثالثة: تدفق الطاقة">
                                     <option value="unit3-lesson1">الدرس 3.1: البناء الضوئي</option>
-                                    <option value="unit3-lesson2">الدرس 3.2: التنفس الخلوي </option>
+                                    <option value="unit3-lesson2">الدرس 3.2: التنفس الخلوي</option>
                                 </optgroup>
                                 
-                                <optgroup label="🌍 الوحدة الرابعة:  العمليات الجيولوجية">
-                                    <option value="unit4-lesson1">الدرس 4.1: تغير سطج الارض</option>
+                                <optgroup label="🌍 الوحدة الرابعة: العمليات الجيولوجية">
+                                    <option value="unit4-lesson1">الدرس 4.1: تغير سطح الأرض</option>
                                     <option value="unit4-lesson2">الدرس 4.2: المعادن</option>
                                 </optgroup>
                                 
@@ -314,14 +952,6 @@
         <!-- قسم عرض الاختبارات المحفوظة -->
         <div style="margin-top: 50px; padding: 30px; background: #f7fafc; border-radius: 15px;">
             <h2 style="text-align: center; margin-bottom: 30px; color: #2d3748;">📚 الاختبارات المحفوظة</h2>
-            
-            <!-- زر تحميل ملف اختبار -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">
-                    📂 تحميل اختبار من ملف
-                </button>
-                <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="loadTestFromFile(this.files[0])">
-            </div>
             
             <!-- قسم ربط الاختبارات بالدروس -->
             <div class="linked-lessons">
@@ -514,7 +1144,7 @@
             document.getElementById('finalLessonLink').textContent = lessonName;
         }
         
-        // نظام الحفظ المحسن مع إنشاء ملفات JSON فعلية
+        // نظام الحفظ المحسن لحفظ الاختبارات في نفس المجلد
         function saveTest() {
             const testTitle = document.getElementById('testTitleInput').value.trim();
             const testTime = document.getElementById('testTimeInput').value;
@@ -536,7 +1166,7 @@
                 id: 'test_' + Date.now(),
                 title: testTitle,
                 time: parseInt(testTime),
-                questions: [...importedQuestions],
+                questions: [...importedQuestions], // نسخة من الأسئلة
                 createdAt: new Date().toISOString(),
                 subject: 'علوم',
                 grade: 'الصف الثاني الإعدادي',
@@ -545,37 +1175,12 @@
                 lessonName: lessonName
             };
         
-            // حفظ الاختبار في ملف JSON قابل للتحميل
+            // حفظ الاختبار في localStorage
             try {
-                const testDataStr = JSON.stringify(currentTestData, null, 2);
-                const blob = new Blob([testDataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                
-                // إنشاء اسم ملف مناسب
-                const fileName = `اختبار_${currentTestData.title.replace(/\s+/g, '_')}_${currentTestData.id}.json`;
-                a.download = fileName;
-                
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                // حفظ مرجع الاختبار في localStorage للعرض في الصفحة
                 const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
                 savedTests[currentTestData.id] = {
-                    id: currentTestData.id,
-                    title: currentTestData.title,
-                    time: currentTestData.time,
-                    createdAt: currentTestData.createdAt,
-                    subject: currentTestData.subject,
-                    grade: currentTestData.grade,
-                    questionCount: currentTestData.questionCount,
-                    lessonLink: currentTestData.lessonLink,
-                    lessonName: currentTestData.lessonName,
-                    fileName: fileName,
-                    data: currentTestData // حفظ البيانات الكاملة للاستخدام الفوري
+                    ...currentTestData,
+                    filename: `${currentTestData.id}.json`
                 };
                 localStorage.setItem('savedTests', JSON.stringify(savedTests));
                 
@@ -587,7 +1192,7 @@
                 displaySavedTests();
                 displayLessonTests();
                 
-                alert(`✅ تم حفظ الاختبار بنجاح!\nتم تحميل الملف: ${fileName}`);
+                alert('✅ تم حفظ الاختبار بنجاح!');
                 console.log('تم حفظ الاختبار:', currentTestData);
                 
                 return currentTestData.id;
@@ -599,23 +1204,16 @@
         
         // وظيفة لتحميل اختبار من ملف JSON
         function loadTestFromFile(file) {
-            if (!file) return;
-            
             const reader = new FileReader();
             
             reader.onload = function(e) {
                 try {
                     const testData = JSON.parse(e.target.result);
                     
-                    // التحقق من صحة بنية الملف
-                    if (!testData.questions || !Array.isArray(testData.questions)) {
-                        throw new Error('صيغة الملف غير صحيحة');
-                    }
-                    
                     // تعبئة البيانات في النموذج
                     importedQuestions = testData.questions;
-                    document.getElementById('testTitleInput').value = testData.title || '';
-                    document.getElementById('testTimeInput').value = testData.time || 15;
+                    document.getElementById('testTitleInput').value = testData.title;
+                    document.getElementById('testTimeInput').value = testData.time;
                     document.getElementById('lessonLinkInput').value = testData.lessonLink || '';
                     
                     // تحديث المعاينة
@@ -630,11 +1228,37 @@
                 }
             };
             
-            reader.onerror = function() {
-                alert('❌ خطأ في قراءة الملف');
+            reader.readAsText(file);
+        }
+        
+        // إضافة زر تحميل ملف اختبار
+        function addFileUploadButton() {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.json';
+            fileInput.style.display = 'none';
+            fileInput.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    loadTestFromFile(e.target.files[0]);
+                }
+            });
+            
+            document.body.appendChild(fileInput);
+            
+            const uploadButton = document.createElement('button');
+            uploadButton.className = 'btn btn-outline';
+            uploadButton.innerHTML = '📂 تحميل اختبار من ملف';
+            uploadButton.onclick = function() {
+                fileInput.click();
             };
             
-            reader.readAsText(file);
+            // إضافة الزر إلى قسم الاختبارات المحفوظة
+            const testsSection = document.querySelector('#importedTestsList').parentElement;
+            const existingButton = testsSection.querySelector('.upload-test-btn');
+            if (!existingButton) {
+                uploadButton.classList.add('upload-test-btn');
+                testsSection.insertBefore(uploadButton, testsSection.querySelector('#importedTestsList'));
+            }
         }
         
         function saveAndStartTest() {
@@ -665,6 +1289,7 @@
             
             try {
                 const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+                console.log('الاختبارات الموجودة:', savedTests);
                 
                 if (Object.keys(savedTests).length === 0) {
                     container.innerHTML = `
@@ -707,9 +1332,6 @@
                                 </button>
                                 <button class="btn btn-outline" onclick="editTest('${test.id}')">
                                     ✏ تعديل
-                                </button>
-                                <button class="btn btn-warning" onclick="downloadTest('${test.id}')">
-                                    ⬇ تحميل الملف
                                 </button>
                                 <button class="btn btn-danger" onclick="deleteTest('${test.id}')">
                                     🗑 حذف
@@ -801,8 +1423,11 @@
         
         function startTestDirectly() {
             if (currentTestData) {
-                localStorage.setItem('currentTestId', currentTestData.id);
-                window.location.href = 'test.html';
+                const testId = saveTest();
+                if (testId) {
+                    localStorage.setItem('currentTestId', testId);
+                    window.location.href = 'test.html';
+                }
             } else {
                 alert('⚠️ يرجى حفظ الاختبار أولاً');
             }
@@ -812,12 +1437,12 @@
             const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
             const test = savedTests[testId];
             
-            if (test && test.data) {
-                // استخدام البيانات المخزنة محلياً
-                importedQuestions = test.data.questions;
-                document.getElementById('testTitleInput').value = test.data.title;
-                document.getElementById('testTimeInput').value = test.data.time;
-                document.getElementById('lessonLinkInput').value = test.data.lessonLink || '';
+            if (test) {
+                // تعبئة البيانات في النموذج
+                importedQuestions = test.questions;
+                document.getElementById('testTitleInput').value = test.title;
+                document.getElementById('testTimeInput').value = test.time;
+                document.getElementById('lessonLinkInput').value = test.lessonLink || '';
                 
                 // تحديث المعاينة
                 updatePreview();
@@ -825,30 +1450,9 @@
                 // الانتقال للخطوة 4
                 showStep(4);
                 
-                alert('📝 يمكنك الآن تعديل الاختبار وحفظه من جديد');
+                alert('📝 تم تحميل الاختبار للتحرير!');
             } else {
-                // إذا لم تكن البيانات كاملة، اطلب تحميل الملف
-                alert('⚠️ يرجى تحميل ملف الاختبار أولاً باستخدام زر "تحميل اختبار من ملف"');
-            }
-        }
-        
-        function downloadTest(testId) {
-            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-            const test = savedTests[testId];
-            
-            if (test && test.data) {
-                const testDataStr = JSON.stringify(test.data, null, 2);
-                const blob = new Blob([testDataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = test.fileName || `اختبار_${test.title}_${test.id}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            } else {
-                alert('❌ لا توجد بيانات كاملة لهذا الاختبار');
+                alert('❌ لم يتم العثور على الاختبار');
             }
         }
         
@@ -877,11 +1481,148 @@
         document.addEventListener('DOMContentLoaded', function() {
             displaySavedTests();
             displayLessonTests();
+            addFileUploadButton();
             
             // تحديث الوقت المقترح عند التغيير
             document.getElementById('testTimeInput').addEventListener('change', updateFinalStats);
             document.getElementById('lessonLinkInput').addEventListener('change', updateFinalStats);
         });
     </script>
+    <!-- بعد قسم الاختبارات المحفوظة -->
+<div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+    <h3 style="color: #2d3748; margin-bottom: 15px;">🗂️ معلومات التخزين</h3>
+    
+    <div class="storage-info">
+        <div class="info-item">
+            <strong>التخزين المحلي (LocalStorage):</strong>
+            <span id="localStorageStatus">✅ نشط</span>
+            <button class="btn btn-outline btn-sm" onclick="showLocalStorage()">عرض المحتوى</button>
+        </div>
+        
+        <div class="info-item">
+            <strong>مجلد tests على الخادم:</strong>
+            <span id="serverStorageStatus">⚠️ يحتاج إعداد</span>
+            <button class="btn btn-outline btn-sm" onclick="checkServerStorage()">فحص المجلد</button>
+        </div>
+        
+        <div class="info-item">
+            <strong>التخزين السحابي:</strong>
+            <span id="cloudStorageStatus">🔧 غير مفعل</span>
+            <button class="btn btn-outline btn-sm" onclick="setupCloudStorage()">تفعيل</button>
+        </div>
+    </div>
+
+    <div id="storageDetails" style="margin-top: 15px; display: none;">
+        <!-- تفاصيل التخزين تظهر هنا -->
+    </div>
+</div>
+
+<script>
+// وظائف عرض معلومات التخزين
+function showLocalStorage() {
+    const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+    const testsCount = Object.keys(savedTests).length;
+    
+    let detailsHTML = `
+        <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <h4>التخزين المحلي (LocalStorage)</h4>
+            <p><strong>عدد الاختبارات:</strong> ${testsCount}</p>
+            <p><strong>الحجم التقريبي:</strong> ${JSON.stringify(savedTests).length} بايت</p>
+            
+            ${testsCount > 0 ? `
+                <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                    <h5>قائمة الاختبارات:</h5>
+                    <ul>
+                        ${Object.values(savedTests).map(test => `
+                            <li>${test.title} (${test.questionCount} سؤال)</li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : '<p>لا توجد اختبارات محفوظة محلياً</p>'}
+            
+            <button class="btn btn-danger btn-sm" onclick="clearLocalStorage()" ${testsCount === 0 ? 'disabled' : ''}>
+                🗑️ مسح التخزين المحلي
+            </button>
+        </div>
+    `;
+    
+    document.getElementById('storageDetails').innerHTML = detailsHTML;
+    document.getElementById('storageDetails').style.display = 'block';
+}
+
+function checkServerStorage() {
+    // محاولة الوصول إلى مجلد tests
+    fetch('tests/')
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('serverStorageStatus').innerHTML = '✅ مجلد tests موجود';
+                document.getElementById('serverStorageStatus').style.color = 'green';
+            } else {
+                document.getElementById('serverStorageStatus').innerHTML = '❌ مجلد tests غير موجود';
+                document.getElementById('serverStorageStatus').style.color = 'red';
+            }
+        })
+        .catch(error => {
+            document.getElementById('serverStorageStatus').innerHTML = '❌ لا يمكن الوصول للمجلد';
+            document.getElementById('serverStorageStatus').style.color = 'red';
+        });
+}
+
+function clearLocalStorage() {
+    if (confirm('⚠️ هل أنت متأكد من مسح جميع الاختبارات المحفوظة محلياً؟')) {
+        localStorage.removeItem('savedTests');
+        localStorage.removeItem('quizResults');
+        showLocalStorage();
+        displaySavedTests();
+        alert('✅ تم مسح التخزين المحلي');
+    }
+}
+
+// تحديث حالة التخزين عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    checkServerStorage();
+    
+    // تحديث حالة التخزين المحلي
+    const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+    const testsCount = Object.keys(savedTests).length;
+    document.getElementById('localStorageStatus').innerHTML = 
+        `✅ نشط (${testsCount} اختبار)`;
+});// في ملف import.html - دالة saveTestToServer()
+function saveTestToServer(testData) {
+    // هذا كود نظري - تحتاج لخادم حقيقي لتنفيذه
+    fetch('/api/save-test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(testData)
+    });
+}
+</script>
+
+<style>
+.storage-info {
+    display: grid;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.info-item strong {
+    min-width: 200px;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+</style>
 </body>
 </html>

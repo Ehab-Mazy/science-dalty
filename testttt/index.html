@@ -1,584 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>علوم الصف الثاني الإعدادي - مصر</title>
-    
-    <!-- ربط ملفات CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/import-interface.css">
-    <li><a href="tests.html">📊 الاختبارات</a></li>
-    <!-- الأيقونة -->
-    <link rel="icon" href="images/dalty-logo.jpg" type="image/jpeg">
-
-    <!-- تحسينات SEO -->
-    <meta name="description" content="موقع دالتي لتعليم مادة العلوم للصف الثاني الإعدادي - شرح مبسط بالفيديو والتجارب الافتراضية والاختبارات التفاعلية.">
-    <meta name="keywords" content="علوم الصف الثاني الإعدادي, دالتي, مدرسة الشهيد حمزة السحيتي, تجارب علوم, اختبارات علوم, المادة والطاقة, التفاعلات الكيميائية, تدفق الطاقة في العمليات الحيوية">
-    <meta name="author" content="إيهاب مازي عبده">
-</head>
-<body>
-    <!-- الصفحة الرئيسية -->
-    <div id="mainPage">
-        <!-- الهيدر -->
-        <header>
-            <div class="container">
-                <div class="logo">
-                    <img src="images/dalty-logo.jpg" alt="شعار دالتي" class="site-logo">
-                    <div class="logo-text">
-                        <h1>🌍 موقع علوم الصف الثاني الإعدادي - مدرسة الشهيد حمزة السحيتي الإعدادية</h1>
-                    </div>
-                </div>
-                
-                <nav>
-                    <ul>
-                        <li><a href="#home">🏠 الرئيسية</a></li>
-                        <li><a href="#videos">🎬 فيديوهات الشرح</a></li>
-                        <li><a href="stemulation/experiments/index.html">🔬 التجارب الافتراضية</a></li>
-                        <li><a href="test/tests.html" onclick="showTestsPage()">📝 الاختبارات</a></li>
-                        <li><a href="#contact">📞 اتصل بنا</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-
-        <div class="container">
-            <!-- شريط البحث -->
-            <div class="search-container">
-                <input type="search" id="searchInput" class="search-box" placeholder="🔍 ابحث عن درس أو وحدة..." onkeyup="searchContent()">
-                <div id="searchResults" class="search-results"></div>
-            </div>
-
-            <!-- المحتوى الرئيسي -->
-            <div class="main-content">
-                <!-- القسم الرئيسي -->
-                <div class="main-section">
-                    <!-- قسم الترحيب -->
-                    <div class="hero-section">
-                        <div class="hero-content">
-                            <h2>🎯 مرحباً بطلاب الصف الثاني الإعدادي</h2>
-                            <p class="hero-description">موقع متكامل لشرح مادة العلوم بطريقة مبسطة وممتعة. ستجد هنا كل ما تحتاجه لفهم المنهج المصري.</p>
-                            <div class="hero-buttons">
-                                <button class="btn btn-hero" onclick="showUnit(1)">🔬 ابدأ التعلم</button>
-                                <button class="btn btn-hero-secondary" onclick="showAllVideos()">🎬 شروحات الفيديو</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- وحدات التعلم -->
-                    <div class="card welcome-card">
-                        <div class="units">
-                            <div class="unit" data-search="الوحدة الأولى المادة والطاقة حالات المادة تغير حالات المادة الطاقة الداخلية درجة الحرارة طرق انتقال الحرارة">
-                                <div class="unit-header">
-                                    <img src="images/unit1.png" alt="الوحدة الأولى: المادة والطاقة" class="unit-image">
-                                    <div class="unit-info">
-                                    </div>
-                                </div>
-                                <button class="btn" onclick="showUnit(1)">🚀 ابدأ التعلم</button>
-                            </div>
-                            
-                            <div class="unit" data-search="الوحدة الثانية المادة التفاعلات الكيميائية المعادلة الكيميائية كيمياء التغذية">
-                                <div class="unit-header">
-                                    <img src="images/unit2.png" alt="الوحدة الثانية: المادة والتفاعلات الكيميائية" class="unit-image">
-                                    <div class="unit-info">
-                                    </div>
-                                </div>
-                                <button class="btn" onclick="showUnit(2)">🚀 ابدأ التعلم</button>
-                            </div>
-                            
-                            <div class="unit" data-search="الوحدة الثالثة تدفق الطاقة العمليات الحيوية البناء الضوئي التنفس الخلوي">
-                                <div class="unit-header">
-                                    <img src="images/unit3.png" alt="الوحدة الثالثة: تدفق الطاقة في العمليات الحيوية" class="unit-image">
-                                    <div class="unit-info">
-                                    </div>
-                                </div>
-                                <button class="btn" onclick="showUnit(3)">🚀 ابدأ التعلم</button>
-                            </div>
-
-                            <div class="unit" data-search="الوحدة الرابعة علوم إضافية مراجعة عامة">
-                                <div class="unit-header">
-                                    <img src="images/unit4.png" alt="الوحدة الرابعة: علوم إضافية" class="unit-image">
-                                    <div class="unit-info">
-                                    </div>
-                                </div>
-                                <button class="btn" onclick="showUnit(4)">🚀 ابدأ التعلم</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- فيديوهات الشرح -->
-                    <div class="card">
-                        <h2>📹 فيديوهات الشرح</h2>
-                        <p>شروحات مرئية مبسطة لكل الدروس مقدمة من أفضل المعلمين</p>
-                        <div class="video-placeholder">
-                            <p>🎬 مكتبة الفيديوهات التعليمية</p>
-                            <button class="btn btn-primary" onclick="showAllVideos()">📺 مشاهدة كل الفيديوهات</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- الشريط الجانبي -->
-                <div class="sidebar">
-                    <!-- المعمل الافتراضي -->
-                    <div class="card">
-                        <h2>🔬 المعمل الافتراضي</h2>
-                        <p>اختبر المعمل الافتراضي لتجارب آمنة وممتعة مع محاكاة حقيقية</p>
-                        <button class="btn btn-primary" onclick="window.location.href='stemulation/experiments/index.html'">🔬 الدخول إلى المعمل</button>
-                    </div>
-                    <div class="card">
-                        <h2>📊 التقدم في الاختبارات</h2>
-                        <p>تابع تقدمك وحل جميع الاختبارات</p>
-                        <a href="tests.html" class="btn btn-primary" style="width: 100%; text-align: center;">
-                            🎯 عرض جميع الاختبارات
-                        </a>
-
-
-                    <!-- الاختبارات التفاعلية -->
-                    <div class="card">
-                        <h2>📝 الاختبارات التفاعلية</h2>
-                        <p>اختبر معلوماتك مع اختبارات تفاعلية فورية مع تصحيح آلي</p>
-                        <div id="quickTestsContainer">
-                            <!-- الاختبارات الأساسية -->
-                            <button class="btn btn-primary" onclick="takeTest(1)" style="margin: 5px; width: 100%; text-align: right; justify-content: space-between;">
-                                <span>🔬 اختبار الوحدة الأولى</span>
-                                <small>(5 أسئلة)</small>
-                            </button>
-                            <button class="btn btn-primary" onclick="takeTest(2)" style="margin: 5px; width: 100%; text-align: right; justify-content: space-between;">
-                                <span>🧪 اختبار الوحدة الثانية</span>
-                                <small>(2 أسئلة)</small>
-                            </button>
-                            <button class="btn btn-primary" onclick="takeTest(3)" style="margin: 5px; width: 100%; text-align: right; justify-content: space-between;">
-                                <span>🌿 اختبار الوحدة الثالثة</span>
-                                <small>(2 أسئلة)</small>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- 
-                    <!-- المسابقات -->
-                    <div class="card">
-                        <h2>🏆 المسابقات التعليمية</h2>
-                        <p>شارك في مسابقاتنا الأسبوعية واربح شهادات تقدير</p>
-                        <button class="btn btn-warning" onclick="showCompetition()">🎯 المسابقة الحالية</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- الوسائل التعليمية -->
-            <div class="card">
-                <h2>🎨 الوسائل التعليمية</h2>
-                <p>موارد تعليمية متنوعة لتعزيز فهمك للمادة العلمية</p>
-                <div class="resources-grid">
-                    <div class="resource-item">
-                        <h3>📊 عروض تقديمية</h3>
-                        <p>عروض تفاعلية ملونة لشرح الدروس</p>
-                        <button class="btn" onclick="downloadResource('presentation')">📥 تحميل</button>
-                    </div>
-                    <div class="resource-item">
-                        <h3>📋 أوراق عمل</h3>
-                        <p>تمارين وأنشطة تطبيقية متنوعة</p>
-                        <button class="btn" onclick="downloadResource('worksheet')">📥 تحميل</button>
-                    </div>
-                    <div class="resource-item">
-                        <h3>🎯 ملخصات دروس</h3>
-                        <p>ملخصات شاملة لكل الوحدات والدروس</p>
-                        <button class="btn" onclick="downloadResource('summary')">📥 تحميل</button>
-                    </div>
-                    <div class="resource-item">
-                        <h3>🖼️ صور ورسوم</h3>
-                        <p>مكتبة صور ورسوم توضيحية علمية</p>
-                        <button class="btn" onclick="downloadResource('images')">📥 تحميل</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- الفوتر -->
-        <footer>
-            <div class="container">
-                <h3>🎓 علوم الصف الثاني الإعدادي - منهج مصر</h3>
-                <p>مدرسة الشهيد حمزة السحيتي الإعدادية</p>
-                <div class="footer-buttons">
-                    <button class="btn" onclick="showAbout()">ℹ️ عن الموقع</button>
-                    <button class="btn" onclick="showContact()">📞 اتصل بنا</button>
-                </div>
-                <p class="copyright">© 2024 جميع الحقوق محفوظة - موقع تعليمي مجاني</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- صفحات الوحدات -->
-    <!-- الوحدة الأولى -->
-    <section id="unit1" class="unit-page">
-        <div class="container">
-            <div class="card">
-                <button class="btn back-btn" onclick="showMainPage()">🏠 العودة للرئيسية</button>
-
-                <div class="unit-header-page">
-                    <img src="images/unit1.png" alt="الوحدة الأولى: المادة والطاقة" class="unit-main-image">
-                    <div class="unit-title">
-                        <h1>🔬 الوحدة الأولى: المادة والطاقة</h1>
-                        <p class="unit-description">استكشف عالم المادة والطاقة وتفاعلاتهما المذهلة</p>
-                    </div>
-                </div>
-                
-                <!-- الدرس الأول -->
-                <div class="lesson-card">
-                    <div class="lesson-header">
-                        <img src="images/lesson1.png" alt="حالات المادة وتحولاتها" class="lesson-image">
-                        <div class="lesson-info">
-                            <h2>حالات المادة وتحولاتها</h2>
-                            <p class="lesson-description">افهم الخصائص المختلفة للمواد في حالاتها المتعددة</p>
-                        </div>
-                    </div>
-                    
-                    <div class="video-container">
-                        <h3>🎬 فيديو الشرح</h3>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/E6c_yUApPcQ" allowfullscreen></iframe>
-                        </div>
-                    </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(1)">🎯 اختبار قصير</button>
-                    </div>
-                </div>
-
-                <!-- الدرس الثاني -->
-                <div class="lesson-card">
-                    <div class="lesson-header">
-                        <img src="images/lesson2.png" alt="تغير حالات المادة" class="lesson-image">
-                        <div class="lesson-info">
-                            <h2>تغير حالات المادة</h2>
-                            <p class="lesson-description">كيف تتحول المادة من صورة إلى أخرى</p>
-                        </div>
-                    </div>
-                    
-                    <div class="video-container">
-                        <h3>🎬 فيديو الشرح</h3>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/fjXhBGowBpk" allowfullscreen></iframe>
-                        </div>
-                    </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(2)">🎯 اختبار قصير</button>
-                    </div>
-                </div>
-
-                <!-- الدرس الثالث -->
-                <div class="lesson-card">
-                    <div class="lesson-header">
-                        <img src="images/lesson3.png" alt="الطاقة الداخلية ودرجة الحرارة" class="lesson-image">
-                        <div class="lesson-info">
-                            <h2>الطاقة الداخلية ودرجة الحرارة</h2>
-                            <p class="lesson-description">اكتشف العلاقة بين الطاقة الداخلية وتغيرات درجة الحرارة</p>
-                        </div>
-                    </div>
-                    
-                    <div class="video-container">
-                        <h3>🎬 فيديو الشرح</h3>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/jilQ6mhf5sY" allowfullscreen></iframe>
-                        </div>
-                    </div>
-
-                    <div class="lesson-content">
-                        <h4>📝 شرح الدرس</h4>
-                        <p>الطاقة الداخلية هي مجموع الطاقات التي تمتلكها جزيئات المادة، وتتأثر بدرجة الحرارة.</p>
-                    </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(3)">🎯 اختبار قصير</button>
-                    </div>
-                </div>
-
-                <!-- الدرس الرابع -->
-                <div class="lesson-card">
-                    <div class="lesson-header">
-                        <img src="images/lesson4.png" alt="طرق انتقال الحرارة" class="lesson-image">
-                        <div class="lesson-info">
-                            <h2>طرق انتقال الحرارة</h2>
-                            <p class="lesson-description">تعرف على الآليات المختلفة لانتقال الطاقة الحرارية</p>
-                        </div>
-                    </div>
-                    
-                    <div class="lesson-content">
-                        <h4>📝 شرح الدرس</h4>
-                        <p>تنتقل الحرارة بثلاث طرق رئيسية: التوصيل، والحمل، والإشعاع.</p>
-                    </div>
-
-                    <div class="lesson-actions">
-                        <button class="btn" onclick="downloadResource('presentation')">📊 تحميل العرض</button>
-                        <button class="btn" onclick="downloadResource('worksheet')">📋 ورقة العمل</button>
-                        <button class="btn btn-success" onclick="takeQuiz(4)">🎯 اختبار قصير</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- الوحدة الثانية -->
-    <section id="unit2" class="unit-page">
-        <div class="container">
-            <div class="card">
-                <button class="btn back-btn" onclick="showMainPage()">🏠 العودة للرئيسية</button>
-
-                <div class="unit-header-page">
-                    <img src="images/unit2.png" alt="الوحدة الثانية: التفاعلات الكيميائية" class="unit-main-image">
-                    <div class="unit-title">
-                        <h1>🧪 الوحدة الثانية: التفاعلات الكيميائية</h1>
-                        <p class="unit-description">اكتشف عالم التفاعلات الكيميائية وتطبيقاتها في الحياة</p>
-                    </div>
-                </div>
-                
-                <div class="lesson-card">
-                    <div class="lesson-header">
-                        <img src="images/lesson5.png" alt="التفاعلات الكيميائية" class="lesson-image">
-                        <div class="lesson-info">
-                            <h2>مقدمة في التفاعلات الكيميائية</h2>
-                            <p class="lesson-description">افهم أساسيات التفاعلات الكيميائية وأنواعها</p>
-                        </div>
-                    </div>
-                    
-                    <div class="lesson-content">
-                        <p>📝 المحتوى قيد التطوير وسيتم إضافته قريباً...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- الوحدة الثالثة -->
-    <section id="unit3" class="unit-page">
-        <div class="container">
-            <div class="card">
-                <button class="btn back-btn" onclick="showMainPage()">🏠 العودة للرئيسية</button>
-
-                <div class="unit-header-page">
-                    <img src="images/unit3.png" alt="الوحدة الثالثة: تدفق الطاقة" class="unit-main-image">
-                    <div class="unit-title">
-                        <h1>🌿 الوحدة الثالثة: تدفق الطاقة في العمليات الحيوية</h1>
-                        <p class="unit-description">افهم العمليات الحيوية وتحولات الطاقة في الكائنات الحية</p>
-                    </div>
-                </div>
-                
-                <div class="lesson-card">
-                    <div class="lesson-header">
-                        <img src="images/lesson6.png" alt="البناء الضوئي" class="lesson-image">
-                        <div class="lesson-info">
-                            <h2>البناء الضوئي</h2>
-                            <p class="lesson-description">عملية تحويل الطاقة الضوئية إلى طاقة كيميائية</p>
-                        </div>
-                    </div>
-                    
-                    <div class="lesson-content">
-                        <p>📝 المحتوى قيد التطوير وسيتم إضافته قريباً...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- صفحة الاختبارات -->
- <section id="testsPage" class="unit-page">
-    <div class="container">
-        <div class="card">
-            <button class="btn back-btn" onclick="showMainPage()">🏠 العودة للرئيسية</button>
-            
-            <h1>📝 الاختبارات التفاعلية</h1>
-            <p>اختبر معلوماتك مع اختبارات تفاعلية فورية مع تصحيح آلي</p>
-                
-                <div class="tests-grid">
-                    <div class="test-card">
-                        <h3>🔬 اختبار الوحدة الأولى</h3>
-                        <p>المادة والطاقة</p>
-                        <p>⏱️ الوقت: 15 دقيقة</p>
-                        <p>🎯 أفضل نتيجة: <span id="bestScore1">--</span></p>
-                        <button class="btn btn-primary" onclick="startTest(1)">بدء الاختبار</button>
-                    </div>
-                    
-                    <div class="test-card">
-                        <h3>🧪 اختبار الوحدة الثانية</h3>
-                        <p>التفاعلات الكيميائية</p>
-                        <p>⏱️ الوقت: 12 دقيقة</p>
-                        <p>🎯 أفضل نتيجة: <span id="bestScore2">--</span></p>
-                        <button class="btn btn-primary" onclick="startTest(2)">بدء الاختبار</button>
-                    </div>
-                    
-                    <div class="test-card">
-                        <h3>🌿 اختبار الوحدة الثالثة</h3>
-                        <p>تدفق الطاقة</p>
-                        <p>⏱️ الوقت: 18 دقيقة</p>
-                        <p>🎯 أفضل نتيجة: <span id="bestScore3">--</span></p>
-                        <button class="btn btn-primary" onclick="startTest(3)">بدء الاختبار</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- صفحة الاختبار النشط -->
-    <section id="testContainer" class="unit-page">
-        <div class="container">
-            <div class="card">
-                <div class="test-header">
-                    <h2 id="testTitle">اختبار الوحدة</h2>
-                    <div class="test-info">
-                        <span id="timer">⏰ 00:00</span>
-                        <span id="progressText">السؤال 1 من 5</span>
-                    </div>
-                </div>
-                
-                <div class="progress-bar">
-                    <div id="progressFill" class="progress-fill"></div>
-                </div>
-                
-                <div class="question-card">
-                    <h3 id="questionText">السؤال يظهر هنا...</h3>
-                    
-                    <div id="optionsContainer" class="options-container">
-                        <!-- الخيارات تظهر هنا dynamically -->
-                    </div>
-                    
-                    <div class="test-navigation">
-                        <button id="prevBtn" class="btn" onclick="previousQuestion()">السابق</button>
-                        <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()">التالي</button>
-                        <button id="submitBtn" class="btn btn-success" onclick="submitTest()" style="display:none;">إنهاء الاختبار</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- صفحة النتائج -->
-    <section id="resultsPage" class="unit-page">
-        <div class="container">
-            <div class="card">
-                <button class="btn back-btn" onclick="showMainPage()">🏠 العودة للرئيسية</button>
-                
-                <div class="results-header">
-                    <h1>🎉 نتائج الاختبار</h1>
-                    <div class="score-circle">
-                        <span id="finalScore">0</span>
-                        <small>النسبة المئوية</small>
-                    </div>
-                </div>
-                
-                <div class="results-details">
-                    <h3 id="resultTestName">اسم الاختبار</h3>
-                    
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <span>الإجابات الصحيحة</span>
-                            <strong id="correctAnswers">0/0</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>النسبة المئوية</span>
-                            <strong id="percentage">0%</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>الوقت المستغرق</span>
-                            <strong id="timeTaken">0 دقيقة</strong>
-                        </div>
-                    </div>
-                    
-                    <div class="results-actions">
-                        <button class="btn btn-success" onclick="retakeTest()">إعادة الاختبار</button>
-                        <button class="btn" onclick="showTestsPage()">الاختبارات الأخرى</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ربط ملفات JavaScript -->
-    <script src="js/main.js"></script>
-    // في نهاية ملف index.html قبل </body>
-<script>
-    <div class="tests-section">
-    <h2>📚 الاختبارات المحفوظة</h2>
-    <div id="savedTestsContainer">
-        <!-- سيتم عرض الاختبارات هنا dynamically -->
-    </div>
-</div>
-    // دالة لعرض الاختبارات المحفوظة
-    function displaySavedTests() {
-        const testsContainer = document.getElementById('savedTestsContainer');
-        const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-        
-        if (Object.keys(savedTests).length === 0) {
-            testsContainer.innerHTML = `
-                <div class="empty-state">
-                    <div style="font-size: 4rem; margin-bottom: 20px;">📚</div>
-                    <h3>لا توجد اختبارات محفوظة بعد</h3>
-                    <p>أنشئ اختبارك الأول باستخدام أداة الاستيراد</p>
-                    <a href="import-tests.html" class="btn btn-primary">استيراد اختبار جديد</a>
-                </div>
-            `;
-            return;
-        }
-
-        let testsHTML = '<div class="tests-grid">';
-        
-        Object.values(savedTests).forEach(test => {
-            const createdDate = new Date(test.createdAt).toLocaleDateString('ar-EG');
-            
-            testsHTML += `
-                <div class="test-card" onclick="startTest('${test.id}')">
-                    <div class="test-card-header">
-                        <h3>${test.title}</h3>
-                        <span class="test-badge">${test.subject}</span>
-                    </div>
-                    <div class="test-card-body">
-                        <div class="test-info">
-                            <span>📝 ${test.questionCount || test.questions.length} أسئلة</span>
-                            <span>⏱️ ${test.time} دقيقة</span>
-                            <span>📅 ${createdDate}</span>
-                        </div>
-                        <div class="test-grade">${test.grade}</div>
-                    </div>
-                    <div class="test-card-actions">
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); startTest('${test.id}')">
-                            بدء الاختبار
-                        </button>
-                        <button class="btn btn-outline" onclick="event.stopPropagation(); deleteTest('${test.id}')">
-                            حذف
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
-        
-        testsHTML += '</div>';
-        testsContainer.innerHTML = testsHTML;
-    }
-
-    // دالة بدء الاختبار
-    function startTest(testId) {
-        window.location.href = `test.html?testId=${testId}`;
-    }
-
-    // دالة حذف الاختبار
-    function deleteTest(testId) {
-        if (confirm('⚠️ هل أنت متأكد من حذف هذا الاختبار؟')) {
-            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-            delete savedTests[testId];
-            localStorage.setItem('savedTests', JSON.stringify(savedTests));
-            displaySavedTests();
-        }
-    }
-
-    // تهيئة الصفحة
-    document.addEventListener('DOMContentLoaded', function() {
-        displaySavedTests();
-    });
-</script>
-</body>
-</html>
