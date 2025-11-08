@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة العلوم التعليمية</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a7e3a 0%, #2ecc71 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a7e3a 0%, #2ecc71 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eaeaea;
+        }
+        
+        h2 {
+            color: #1a7e3a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #27ae60;
+            margin: 15px 0 10px 0;
+        }
+        
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .unit-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+        
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
+            background: #e9ecef;
+        }
+        
+        .unit-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1a7e3a;
+            font-size: 18px;
+        }
+        
+        .unit-desc {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .lessons-list {
+            margin-right: 10px;
+        }
+        
+        .lesson-item {
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 5px;
+            border-right: 3px solid #2ecc71;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .lesson-item:hover {
+            background: #e8f5e9;
+            transform: translateX(-5px);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a7e3a 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            margin: 10px 5px;
+            box-shadow: 0 4px 10px rgba(26, 126, 58, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(26, 126, 58, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+        }
+        
+        .solution-section {
+            background: #e8f5e9;
+            border-right: 5px solid #2ecc71;
+        }
+        
+        .steps {
+            margin: 20px 0;
+            padding-right: 20px;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #c8e6c9;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-left: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .test-section {
+            display: none;
+            background: #e3f2fd;
+            border-right: 5px solid #2196f3;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .options {
+            margin-right: 20px;
+        }
+        
+        .option {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background: #e0e0e0;
+        }
+        
+        .option.selected {
+            background: #bbdefb;
+            border-right: 3px solid #2196f3;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .units-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>منصة العلوم التعليمية</h1>
+            <p class="subtitle">تعلم العلوم بطريقة تفاعلية - مصمم للعمل على جميع الأجهزة</p>
+        </header>
+        
+        <div class="content">
+            <div class="card">
+                <h2>الوحدات الدراسية</h2>
+                <p>اختر وحدة من الوحدات التالية للاطلاع على الدروس والاختبارات:</p>
+                
+                <div class="units-grid">
+                    <div class="unit-card" onclick="showLessons('unit1')">
+                        <div class="unit-title">الوحدة الأولى: المادة والطاقة</div>
+                        <div class="unit-desc">تتناول هذه الوحدة خصائص المادة وتحولات الطاقة</div>
+                        <div class="lessons-list">
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson1_1')">خصائص المادة</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson1_2')">حالات المادة</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson1_3')">تحولات الطاقة</div>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-card" onclick="showLessons('unit2')">
+                        <div class="unit-title">الوحدة الثانية: الكائنات الحية</div>
+                        <div class="unit-desc">تتعرف هذه الوحدة على خصائص الكائنات الحية وتصنيفها</div>
+                        <div class="lessons-list">
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson2_1')">خصائص الكائنات الحية</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson2_2')">التصنيف العلمي</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson2_3')">البيئات والموائل</div>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-card" onclick="showLessons('unit3')">
+                        <div class="unit-title">الوحدة الثالثة: النظام الشمسي</div>
+                        <div class="unit-desc">تستكشف هذه الوحدة مكونات النظام الشمسي والظواهر الفلكية</div>
+                        <div class="lessons-list">
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson3_1')">مكونات النظام الشمسي</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson3_2')">الكواكب والأقمار</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson3_3')">الظواهر الفلكية</div>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-card" onclick="showLessons('unit4')">
+                        <div class="unit-title">الوحدة الرابعة: القوى والحركة</div>
+                        <div class="unit-desc">تشرح هذه الوحدة أنواع القوى وتأثيرها على الحركة</div>
+                        <div class="lessons-list">
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson4_1')">أنواع القوى</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson4_2')">قوانين الحركة</div>
+                            <div class="lesson-item" onclick="event.stopPropagation(); startLesson('lesson4_3')">الطاقة الحركية والكامنة</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card solution-section">
+                <h2>كيفية استخدام المنصة</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        اختر الوحدة التعليمية التي تريد دراستها
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        اختر الدرس من قائمة الدروس داخل الوحدة
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        ادرس محتوى الدرس ثم اختبر فهمك
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        احصل على تقرير مفصل عن أدائك في الاختبار
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card test-section" id="testSection">
+                <h2 id="testTitle">اختبار الدرس</h2>
+                <div id="testContent">
+                    <!-- سيتم تعبئة الأسئلة هنا بالجافاسكريبت -->
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="hideTest()">العودة للوحدات</button>
+                    <button class="btn" onclick="submitTest()">تسليم الإجابات</button>
+                </div>
+            </div>
+            
+            <div class="card" id="resultsSection" style="display: none;">
+                <h2>نتيجة الاختبار</h2>
+                <div id="resultsContent">
+                    <!-- سيتم تعبئة النتائج هنا -->
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="resetTest()">اختبار آخر</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>منصة العلوم التعليمية - مصممة للعمل على جميع الأجهزة including الهواتف الذكية</p>
+        </footer>
+    </div>
+
+    <script>
+        // بيانات الدروس والاختبارات (في التطبيق الحقيقي، ستأتي من السيرفر)
+        const lessonsData = {
+            'lesson1_1': {
+                title: 'خصائص المادة',
+                test: [
+                    {
+                        question: 'ما هي الخاصية التي تميز المواد الصلبة؟',
+                        options: [
+                            'شكلها غير ثابت',
+                            'حجمها غير ثابت',
+                            'شكلها ثابت',
+                            'تأخذ شكل الإناء'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: 'أي من الخصائص التالية تنطبق على السوائل؟',
+                        options: [
+                            'شكلها ثابت',
+                            'حجمها ثابت',
+                            'تأخذ شكل الإناء',
+                            'جزيئاتها متراصة'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: 'ما الذي يحدث للمادة عند تسخينها؟',
+                        options: [
+                            'تتقلص',
+                            'تتمدد',
+                            'تبقى كما هي',
+                            'تتحول إلى طاقة'
+                        ],
+                        correct: 1
+                    }
+                ]
+            },
+            'lesson1_2': {
+                title: 'حالات المادة',
+                test: [
+                    {
+                        question: 'كم عدد حالات المادة الأساسية؟',
+                        options: [
+                            '2',
+                            '3',
+                            '4',
+                            '5'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: 'أي من الحالات التالية ليس حالة أساسية للمادة؟',
+                        options: [
+                            'الصلبة',
+                            'السائلة',
+                            'الغازية',
+                            'البلازما'
+                        ],
+                        correct: 3
+                    }
+                ]
+            },
+            'lesson2_1': {
+                title: 'خصائص الكائنات الحية',
+                test: [
+                    {
+                        question: 'أي من الخصائص التالية لا تنطبق على الكائنات الحية؟',
+                        options: [
+                            'النمو',
+                            'التكاثر',
+                            'الحركة',
+                            'الثبات'
+                        ],
+                        correct: 3
+                    }
+                ]
+            }
+        };
+        
+        let currentTest = [];
+        let userAnswers = [];
+        let currentLessonId = '';
+        
+        function showLessons(unitId) {
+            alert(`سيتم عرض تفاصيل الوحدة: ${unitId}\n\nفي التطبيق الفعلي، سيتم جلب بيانات الدروس من السيرفر`);
+        }
+        
+        function startLesson(lessonId) {
+            currentLessonId = lessonId;
+            if (lessonsData[lessonId]) {
+                currentTest = lessonsData[lessonId].test;
+                userAnswers = new Array(currentTest.length).fill(-1);
+                displayTest(lessonsData[lessonId].title);
+            } else {
+                alert('الاختبار غير متوفر لهذا الدرس بعد');
+            }
+        }
+        
+        function displayTest(lessonTitle) {
+            document.getElementById('testTitle').textContent = `اختبار: ${lessonTitle}`;
+            const testContent = document.getElementById('testContent');
+            testContent.innerHTML = '';
+            
+            currentTest.forEach((question, index) => {
+                const questionElem = document.createElement('div');
+                questionElem.className = 'question';
+                questionElem.innerHTML = `
+                    <h3>سؤال ${index + 1}: ${question.question}</h3>
+                    <div class="options">
+                        ${question.options.map((option, optIndex) => `
+                            <div class="option" onclick="selectAnswer(${index}, ${optIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                testContent.appendChild(questionElem);
+            });
+            
+            document.getElementById('testSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            // التمرير لأعلى الصفحة لعرض الاختبار
+            window.scrollTo(0, 0);
+        }
+        
+        function selectAnswer(questionIndex, optionIndex) {
+            // إزالة التحديد من جميع الخيارات في هذا السؤال
+            const options = document.querySelectorAll(`#testContent .question:nth-child(${questionIndex + 1}) .option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // تحديد الخيار المختار
+            options[optionIndex].classList.add('selected');
+            
+            // حفظ الإجابة
+            userAnswers[questionIndex] = optionIndex;
+        }
+        
+        function submitTest() {
+            // حساب النتيجة
+            let score = 0;
+            currentTest.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    score++;
+                }
+            });
+            
+            // عرض النتيجة
+            const percentage = (score / currentTest.length) * 100;
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = `
+                <p>الدرجة: ${score} من ${currentTest.length}</p>
+                <p>النسبة: ${percentage.toFixed(1)}%</p>
+                <div style="margin-top: 15px;">
+                    ${percentage >= 70 ? 
+                        '<p style="color: #2ecc71; font-weight: bold;">ممتاز! لقد اجتزت الاختبار بنجاح</p>' : 
+                        '<p style="color: #e74c3c;">يجب عليك مراجعة الدرس وحاول مرة أخرى</p>'
+                    }
+                </div>
+            `;
+            
+            document.getElementById('testSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // التمرير لأعلى الصفحة لعرض النتائج
+            window.scrollTo(0, 0);
+        }
+        
+        function hideTest() {
+            document.getElementById('testSection').style.display = 'none';
+        }
+        
+        function resetTest() {
+            document.getElementById('resultsSection').style.display = 'none';
+            userAnswers = new Array(currentTest.length).fill(-1);
+            startLesson(currentLessonId);
+        }
+        
+        // محاكاة لجلب بيانات الدروس من السيرفر
+        async function fetchLessonData(lessonId) {
+            // في التطبيق الفعلي، سيكون هذا استدعاء لملف JSON على السيرفر
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(lessonsData[lessonId] || null);
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>

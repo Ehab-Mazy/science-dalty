@@ -3,30 +3,30 @@
   "totalTests": 5,
   "tests": [
     {
-      "id": "sample_1762504312360",
+      "id": "unit1-lesson3",
       "title": "اختبار تجريبي - تغير حالات المادة",
       "lesson": "تغير حالات المادة",
       "questions": 2,
       "time": 10
     },
     {
-      "id": "test_1762504447849",
+      "id": "unit1-lesson2",
       "title": "tery",
       "lesson": "الدرس 1.2: تغير حالات المادة",
       "questions": 5,
       "time": 15
     },
     {
-      "id": "default-unit1-lesson3",
+      "id": "unit1-lesson3",
       "title": "اختبار الطاقة الداخلية ودرجة الحرارة"
     },
     {
-      "id": "default-unit1-lesson2",
+      "id": "unit1-lesson2",
       "title": "اختبار تغير حالات المادة"
     },
     {
-      "id": "test_1762500615090",
-      "title": "pgmlrrrrrrrrrrrrrrrrrr",
+      "id": "unit1-lesson1",
+      "title": "pgmlrrr",
       "lesson": "الدرس 1.1: حالات المادة",
       "questions": 5,
       "time": 15

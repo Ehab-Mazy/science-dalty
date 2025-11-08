@@ -1869,6 +1869,91 @@
             </div>
         `;
     }
+    // دالة لجلب الفهرس من السيرفر
+async function loadIndex() {
+    try {
+        const response = await fetch('data/index.json');
+        const indexData = await response.json();
+        return indexData;
+    } catch (error) {
+        console.error('خطأ في تحميل الفهرس:', error);
+        return null;
+    }
+}
+
+// دالة لجلب اختبار درس معين
+async function loadTest(lessonId) {
+    try {
+        // أولاً نجد معلومات الدرس من الفهرس
+        const indexData = await loadIndex();
+        const lesson = findLessonById(indexData, lessonId);
+        
+        if (lesson && lesson.testFile) {
+            const response = await fetch(lesson.testFile);
+            const testData = await response.json();
+            return testData;
+        }
+        return null;
+    } catch (error) {
+        console.error('خطأ في تحميل الاختبار:', error);
+        return null;
+    }
+}
+
+// دالة مساعدة للعثور على درس بالمعرف
+function findLessonById(indexData, lessonId) {
+    for (const unit of indexData.units) {
+        for (const lesson of unit.lessons) {
+            if (lesson.id === lessonId) {
+                return lesson;
+            }
+        }
+    }
+    return null;
+}
+
+// دالة لعرض كل الوحدات والدروس
+function displayAllUnits(indexData) {
+    const container = document.getElementById('unitsContainer');
+    
+    indexData.units.forEach(unit => {
+        const unitHTML = `
+            <div class="unit-card" data-unit="${unit.id}">
+                <h3>${unit.title}</h3>
+                <p>${unit.description}</p>
+                <div class="lessons-list">
+                    ${unit.lessons.map(lesson => `
+                        <div class="lesson-item" data-lesson="${lesson.id}">
+                            <span class="lesson-title">${lesson.title}</span>
+                            <span class="lesson-duration">${lesson.duration}</span>
+                            <button onclick="startLesson('${lesson.id}')">ابدأ الاختبار</button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        container.innerHTML += unitHTML;
+    });
+}
+
+// دالة لبدء درس معين
+async function startLesson(lessonId) {
+    const testData = await loadTest(lessonId);
+    if (testData) {
+        displayTest(testData);
+    } else {
+        alert('تعذر تحميل الاختبار');
+    }
+}
+
+// استخدام الفهرس عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', async function() {
+    const indexData = await loadIndex();
+    if (indexData) {
+        displayAllUnits(indexData);
+    }
+});
 </script>
+
 </body>
 </html>

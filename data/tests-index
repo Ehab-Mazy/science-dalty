@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "id": "science-basic",
+      "title": "العلوم - المستوى الأساسي",
+      "description": "اختبار في أساسيات العلوم",
+      "file": "data/science-basic.json",
+      "duration": 30,
+      "questionsCount": 10,
+      "subject": "science",
+      "grade": "1"
+    },
+    {
+      "id": "math-basic",
+      "title": "الرياضيات - المستوى الأساسي", 
+      "description": "اختبار في أساسيات الرياضيات",
+      "file": "data/math-basic.json",
+      "duration": 25,
+      "questionsCount": 8,
+      "subject": "math",
+      "grade": "1"
+    }
+  ]
+}
