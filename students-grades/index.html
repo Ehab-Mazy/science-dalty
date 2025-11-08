@@ -381,7 +381,7 @@
             
             // تخطي الصف الأول إذا كان يحتوي على العناوين
             let startRow = 0;
-            if (rows[0].includes('اسم') || rows[0].includes('فصل') || rows[0].includes('تقويم')) {
+            if (rows[0].includes('اسم') || rows[0].includes('فصل') || rows[0].includes('تقييم')) {
                 startRow = 1;
             }
             
@@ -484,19 +484,19 @@
             
             // أكتوبر
             let octCols = 0;
-            if (displaySettings.showOct1) { headerHTML += '<th>تقويم أول</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
-            if (displaySettings.showOct2) { headerHTML += '<th>تقويم ثاني</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
-            if (displaySettings.showOct3) { headerHTML += '<th>تقويم ثالث</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
-            if (displaySettings.showOct4) { headerHTML += '<th>تقويم رابع</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
+            if (displaySettings.showOct1) { headerHTML += '<th>تقييم أول</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
+            if (displaySettings.showOct2) { headerHTML += '<th>تقييم ثاني</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
+            if (displaySettings.showOct3) { headerHTML += '<th>تقييم ثالث</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
+            if (displaySettings.showOct4) { headerHTML += '<th>تقييم رابع</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
             if (displaySettings.showOctTest) { headerHTML += '<th>اختبار</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
             if (displaySettings.showOctTotal) { headerHTML += '<th>المجموع</th>'; subHeaderHTML += '<th>أكتوبر</th>'; octCols++; }
             
             // نوفمبر
             let novCols = 0;
-            if (displaySettings.showNov1) { headerHTML += '<th>تقويم أول</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
-            if (displaySettings.showNov2) { headerHTML += '<th>تقويم ثاني</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
-            if (displaySettings.showNov3) { headerHTML += '<th>تقويم ثالث</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
-            if (displaySettings.showNov4) { headerHTML += '<th>تقويم رابع</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
+            if (displaySettings.showNov1) { headerHTML += '<th>تقييم أول</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
+            if (displaySettings.showNov2) { headerHTML += '<th>تقييم ثاني</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
+            if (displaySettings.showNov3) { headerHTML += '<th>تقييم ثالث</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
+            if (displaySettings.showNov4) { headerHTML += '<th>تقييم رابع</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
             if (displaySettings.showNovTest) { headerHTML += '<th>اختبار</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
             if (displaySettings.showNovTotal) { headerHTML += '<th>المجموع</th>'; subHeaderHTML += '<th>نوفمبر</th>'; novCols++; }
             
