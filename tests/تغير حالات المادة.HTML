@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>درس تغير حالات المادة</title>
+<style>
+  body{
+    font-family:"Arial","Noto Naskh Arabic",sans-serif;
+    background:#f7f9fc;
+    margin:0;
+    padding:20px;
+  }
+  h1{text-align:center;color:#0b2f66}
+  #startBtn{
+    display:block;
+    margin:40px auto;
+    padding:14px 26px;
+    background:#0b2f66;
+    color:#fff;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  #startBtn:hover{background:#103b80}
+  .card{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    padding:20px;
+    margin:auto;
+    max-width:900px;
+    display:none;
+  }
+  .q-text{font-size:19px;font-weight:600;color:#0b2f66;margin-bottom:12px}
+  .options{list-style:none;padding:0;margin:0}
+  .options li{margin:8px 0}
+  label{
+    display:block;
+    padding:10px 12px;
+    border:1px solid #dfe3eb;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  input[type="radio"]{margin-left:8px}
+  .controls{display:flex;justify-content:space-between;margin-top:20px}
+  button{
+    padding:10px 14px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-next{background:#0b2f66;color:white}
+  .btn-prev{background:#e2e8f6;color:#0b2f66}
+  .btn-show{background:#f1f1f1;color:#333;border:1px solid #ccc}
+  .feedback{
+    margin-top:12px;
+    padding:10px;
+    border-radius:8px;
+    display:none;
+  }
+  .correct{background:#e6ffed;border:1px solid #89d7a0;color:#116d2b;display:block}
+  .wrong{background:#ffe8e8;border:1px solid #f3aaaa;color:#a72727;display:block}
+  .explain{margin-top:6px;color:#333;font-size:15px}
+  .score{text-align:center;font-size:19px;margin-top:18px;font-weight:700;color:#0b2f66}
+</style>
+</head>
+<body>
+
+<h1>تغير حالات المادة</h1>
+
+<button id="startBtn" onclick="startQuiz()">ابدأ الاختبار</button>
+
+<div class="card" id="quizBox">
+  <div id="qArea"></div>
+  <div class="controls">
+    <button id="prevBtn" class="btn-prev" onclick="prevQ()">السابق</button>
+    <button id="showBtn" class="btn-show" onclick="showAnswer()">إظهار الإجابة</button>
+    <button id="nextBtn" class="btn-next" onclick="nextQ()">التالي</button>
+  </div>
+  <div id="feedback" class="feedback"></div>
+  <div id="result" class="score"></div>
+</div>
+
+<script>
+const quiz=[
+{q:"1) ما المقصود بانصهار المادة؟",
+options:["تحول المادة من الحالة الغازية إلى السائلة",
+"تحول المادة من الحالة الصلبة إلى السائلة عند اكتسابها حرارة",
+"تحول المادة من الحالة السائلة إلى الغازية",
+"تحول المادة من الحالة الصلبة إلى الغازية مباشرة"],
+answer:1,
+expl:"الانصهار هو تحول المادة من الحالة الصلبة إلى السائلة عند اكتسابها حرارة."},
+{q:"2) ماذا تسمى العملية التي يتحول فيها السائل إلى غاز عند سطح السائل؟",
+options:["تكثف","تبخر","تجمد","تسامي"],
+answer:1,
+expl:"التبخر هو تحول السائل إلى غاز عند سطح السائل باكتساب طاقة حرارية."},
+{q:"3) عندما يتحول بخار الماء إلى قطرات ماء على سطح بارد، تسمى العملية:",
+options:["تكثف","تبخر","تجمد","انصهار"],
+answer:0,
+expl:"التكثف هو تحول بخار الماء (غاز) إلى سائل عند فقدان الحرارة."},
+{q:"4) ما العملية التي يتحول فيها الجليد إلى بخار ماء دون أن يمر بالحالة السائلة؟",
+options:["انصهار","تسامي","تكثف","تبخر"],
+answer:1,
+expl:"التسامي هو تحول المادة من الحالة الصلبة إلى الغازية مباشرة دون المرور بالحالة السائلة."},
+{q:"5) ماذا يحدث عند تحول الماء إلى جليد؟",
+options:["يمتص حرارة","يطلق حرارة","لا يتغير","تزداد الطاقة الحركية"],
+answer:1,
+expl:"عند تجمد الماء تطلق المادة حرارة إلى الوسط المحيط."},
+{q:"6) عند تسخين مادة صلبة ترتفع درجة حرارتها حتى تصل إلى درجة:",
+options:["الانصهار","الغليان","التكثف","التسامي"],
+answer:0,
+expl:"درجة الانصهار هي الدرجة التي تبدأ عندها المادة الصلبة بالتحول إلى سائلة."},
+{q:"7) أثناء عملية الانصهار تبقى درجة حرارة المادة:",
+options:["تزداد بسرعة","تنخفض","ثابتة حتى يكتمل الانصهار","تتغير كل لحظة"],
+answer:2,
+expl:"درجة الحرارة تبقى ثابتة أثناء الانصهار حتى تتحول المادة كلها إلى سائل."},
+{q:"8) ما المقصود بدرجة الغليان؟",
+options:["درجة تبدأ عندها المادة الصلبة بالذوبان","درجة يتحول عندها السائل إلى غاز","درجة يتحول عندها الغاز إلى سائل","درجة تبخر الماء عند أي ضغط"],
+answer:1,
+expl:"درجة الغليان هي الدرجة التي يتحول عندها السائل إلى غاز في جميع أجزائه."},
+{q:"9) عند تسخين الماء يتحول إلى بخار، هذا تحول:",
+options:["فيزيائي","كيميائي","نووي","كهربي"],
+answer:0,
+expl:"تحول فيزيائي لأن تركيب المادة لا يتغير."},
+{q:"10) عند انخفاض درجة الحرارة يتحول بخار الماء إلى سائل، نسمي ذلك:",
+options:["تبخر","انصهار","تكثف","تسامي"],
+answer:2,
+expl:"التكثف هو تحول بخار الماء إلى قطرات سائلة بفقدان الطاقة الحرارية."},
+{q:"11) ما اسم العملية العكسية للتسامي؟",
+options:["الانصهار","التجمد","الترسيب","التبخر"],
+answer:2,
+expl:"الترسيب هو تحول الغاز مباشرة إلى صلب دون المرور بالحالة السائلة."},
+{q:"12) ما العامل الذي يؤثر في درجة غليان السوائل؟",
+options:["اللون","الضغط الجوي","الكتلة","الضوء"],
+answer:1,
+expl:"كلما انخفض الضغط الجوي انخفضت درجة غليان السائل."},
+{q:"13) في حالة التبخر، ما الذي تفعله الجزيئات السطحية؟",
+options:["تفقد الطاقة","تكتسب الطاقة وتتحرر من السائل","تبقى ساكنة","تتحول إلى صلبة"],
+answer:1,
+expl:"الجزيئات السطحية تكتسب طاقة كافية للهروب إلى الحالة الغازية."},
+{q:"14) ما الذي يحدث لطاقة المادة عند الانصهار؟",
+options:["تُفقد إلى الوسط","تُخزن على شكل طاقة كامنة","تبقى ثابتة","تتحول إلى طاقة صوتية"],
+answer:1,
+expl:"الطاقة المكتسبة تتحول إلى طاقة كامنة لتفكيك الروابط بين الجزيئات."},
+{q:"15) عندما يتحول السائل إلى صلب نسمي ذلك:",
+options:["تبخر","تجمد","تكثف","تسامي"],
+answer:1,
+expl:"التجمد هو تحول السائل إلى صلب عند فقدان الحرارة."}
+];
+
+let i=0;const ans=Array(quiz.length).fill(null);
+function startQuiz(){
+  document.getElementById("startBtn").style.display="none";
+  document.getElementById("quizBox").style.display="block";
+  renderQ();
+}
+function renderQ(){
+  const q=quiz[i];
+  const opts=q.options.map((op,idx)=>`
+  <li><label><input type="radio" name="opt" value="${idx}" ${ans[i]===idx?"checked":""}>${op}</label></li>`).join('');
+  document.getElementById("qArea").innerHTML=`
+  <div class="q-text">${q.q}</div>
+  <ul class="options">${opts}</ul>`;
+  document.getElementById("feedback").style.display="none";
+  document.getElementById("result").style.display="none";
+}
+function showAnswer(){
+  const sel=document.querySelector('input[name="opt"]:checked');
+  const fb=document.getElementById("feedback");
+  if(!sel){fb.className="feedback wrong";fb.textContent="اختر إجابة أولاً";fb.style.display="block";return;}
+  ans[i]=Number(sel.value);
+  const a=quiz[i].answer;
+  if(ans[i]===a){
+    fb.className="feedback correct";
+    fb.textContent="إجابة صحيحة ✅";
+  }else{
+    fb.className="feedback wrong";
+    fb.innerHTML=`إجابة خاطئة ❌ — الإجابة الصحيحة: <b>${quiz[i].options[a]}</b>`;
+  }
+  const ex=document.createElement("div");
+  ex.className="explain";
+  ex.textContent=quiz[i].expl;
+  fb.appendChild(ex);
+  fb.style.display="block";
+}
+function nextQ(){
+  if(i<quiz.length-1){i++;renderQ();}
+  else showResult();
+}
+function prevQ(){if(i>0){i--;renderQ();}}
+function showResult(){
+  let correct=0;for(let k=0;k<quiz.length;k++){if(ans[k]===quiz[k].answer)correct++;}
+  const percent=Math.round(correct/quiz.length*100);
+  document.getElementById("qArea").innerHTML="";
+  document.querySelector(".controls").style.display="none";
+  const res=document.getElementById("result");
+  res.style.display="block";
+  res.innerHTML=`نتيجتك: ${correct} من ${quiz.length} (${percent}%)`;
+}
+</script>
+</body>
+</html>
