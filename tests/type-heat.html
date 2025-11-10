@@ -1,0 +1,439 @@
+<!doctype html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الحرارة النوعية</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-right: 4px solid #3498db;
+        }
+        
+        .question {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .options {
+            margin-top: 15px;
+        }
+        
+        .option {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #f0f8ff;
+            border-color: #3498db;
+        }
+        
+        .option.selected {
+            background-color: #d4edff;
+            border-color: #3498db;
+        }
+        
+        .correct {
+            background-color: #d4f8d4;
+            border-color: #28a745;
+        }
+        
+        .incorrect {
+            background-color: #f8d4d4;
+            border-color: #dc3545;
+        }
+        
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            display: none;
+        }
+        
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            text-align: right;
+        }
+        
+        .feedback-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .question {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>اختبار الحرارة النوعية</h1>
+        
+        <div class="instructions">
+            <h3>تعليمات الاختبار:</h3>
+            <p>يتكون هذا الاختبار من 15 سؤالاً حول الحرارة النوعية.</p>
+            <p>اختر الإجابة الصحيحة لكل سؤال ثم اضغط على زر "تصحيح الإجابات" في نهاية الاختبار.</p>
+            <p>سيتم عرض النتيجة النهائية مع التغذية الراجعة لكل سؤال.</p>
+        </div>
+        
+        <div id="quiz">
+            <!-- سيتم إضافة الأسئلة هنا عبر JavaScript -->
+        </div>
+        
+        <div class="buttons">
+            <button id="submit-btn">تصحيح الإجابات</button>
+            <button id="reset-btn">إعادة البدء</button>
+        </div>
+        
+        <div id="result">
+            <!-- سيتم عرض النتيجة هنا -->
+        </div>
+    </div>
+
+    <script>
+        // أسئلة الاختبار
+        const questions = [
+            {
+                question: "ما هي الحرارة النوعية؟",
+                options: [
+                    "كمية الحرارة اللازمة لرفع درجة حرارة 1 جرام من المادة درجة مئوية واحدة",
+                    "كمية الحرارة اللازمة لتحويل المادة من الحالة الصلبة إلى السائلة",
+                    "كمية الحرارة اللازمة لرفع درجة حرارة 1 كجم من المادة درجة مئوية واحدة",
+                    "كمية الحرارة المنطلقة عند احتراق المادة"
+                ],
+                correct: 0
+            },
+            {
+                question: "ما وحدة قياس الحرارة النوعية في النظام الدولي للوحدات؟",
+                options: [
+                    "جول/كجم.كلفن",
+                    "جول/جرام.كلفن",
+                    "سعرة/جرام.كلفن",
+                    "واط/م².كلفن"
+                ],
+                correct: 0
+            },
+            {
+                question: "أي من المواد التالية لها أعلى حرارة نوعية؟",
+                options: [
+                    "الحديد",
+                    "النحاس",
+                    "الماء",
+                    "الزئبق"
+                ],
+                correct: 2
+            },
+            {
+                question: "إذا كانت الحرارة النوعية للماء 4184 جول/كجم.كلفن، فكم كمية الحرارة اللازمة لرفع درجة حرارة 2 كجم من الماء من 20°C إلى 30°C؟",
+                options: [
+                    "83680 جول",
+                    "8368 جول",
+                    "41840 جول",
+                    "836800 جول"
+                ],
+                correct: 0
+            },
+            {
+                question: "ما العلاقة الرياضية المستخدمة لحساب كمية الحرارة؟",
+                options: [
+                    "Q = m × c × ΔT",
+                    "Q = m × c / ΔT",
+                    "Q = m / c × ΔT",
+                    "Q = c / m × ΔT"
+                ],
+                correct: 0
+            },
+            {
+                question: "لماذا يستغرق الماء وقتاً أطول للتسخين مقارنة بالمعادن؟",
+                options: [
+                    "لأن له كثافة عالية",
+                    "لأن له حرارة نوعية عالية",
+                    "لأنه موصل رديء للحرارة",
+                    "لأن له نقطة غليان منخفضة"
+                ],
+                correct: 1
+            },
+            {
+                question: "إذا كانت الحرارة النوعية للألمنيوم 900 جول/كجم.كلفن، فما مقدار الطاقة اللازمة لرفع درجة حرارة 0.5 كجم من الألمنيوم بمقدار 10°C؟",
+                options: [
+                    "4500 جول",
+                    "9000 جول",
+                    "450 جول",
+                    "1800 جول"
+                ],
+                correct: 0
+            },
+            {
+                question: "أي من العوامل التالية لا يؤثر على الحرارة النوعية للمادة؟",
+                options: [
+                    "نوع المادة",
+                    "درجة الحرارة",
+                    "الضغط",
+                    "حجم العينة"
+                ],
+                correct: 3
+            },
+            {
+                question: "ما تأثير الحرارة النوعية العالية للماء على المناخ الساحلي؟",
+                options: [
+                    "يؤدي إلى تقلبات حرارية كبيرة بين الليل والنهار",
+                    "يؤدي إلى اعتدال درجات الحرارة على السواحل",
+                    "يؤدي إلى انخفاض درجات الحرارة صيفاً وارتفاعها شتاءً",
+                    "لا يؤثر على المناخ الساحلي"
+                ],
+                correct: 1
+            },
+            {
+                question: "إذا تم تسخين عينتين من الماء والحديد بنفس كمية الحرارة، فأي منهما ستكون درجة حرارته أعلى؟",
+                options: [
+                    "الماء",
+                    "الحديد",
+                    "ستكون درجة حرارتهما متساوية",
+                    "يعتمد على كتلة كل منهما"
+                ],
+                correct: 1
+            },
+            {
+                question: "ما الحرارة النوعية لمادة إذا كانت كمية الحرارة اللازمة لرفع درجة حرارة 200 جرام منها بمقدار 50°C هي 4000 جول؟",
+                options: [
+                    "0.4 جول/جرام.كلفن",
+                    "4 جول/جرام.كلفن",
+                    "40 جول/جرام.كلفن",
+                    "400 جول/جرام.كلفن"
+                ],
+                correct: 0
+            },
+            {
+                question: "أي من التطبيقات التالية يعتمد على مبدأ الحرارة النوعية؟",
+                options: [
+                    "المكواة الكهربائية",
+                    "المدفأة",
+                    "أنظمة التبريد في السيارات",
+                    "كل ما سبق"
+                ],
+                correct: 3
+            },
+            {
+                question: "ما الفرق بين السعة الحرارية والحرارة النوعية؟",
+                options: [
+                    "لا يوجد فرق بينهما",
+                    "السعة الحرارية خاصة بالجسم بينما الحرارة النوعية خاصة بالمادة",
+                    "السعة الحرارية خاصة بالمادة بينما الحرارة النوعية خاصة بالجسم",
+                    "السعة الحرارية تقاس بالكيلوجرام بينما الحرارة النوعية تقاس بالجرام"
+                ],
+                correct: 1
+            },
+            {
+                question: "إذا كانت الحرارة النوعية للذهب 129 جول/كجم.كلفن، فكم تبلغ كمية الحرارة اللازمة لرفع درجة حرارة 100 جرام من الذهب من 25°C إلى 125°C؟",
+                options: [
+                    "1290 جول",
+                    "12900 جول",
+                    "129 جول",
+                    "12.9 جول"
+                ],
+                correct: 0
+            },
+            {
+                question: "لماذا تستخدم أواني الطهي المصنوعة من الألمنيوم أو النحاس؟",
+                options: [
+                    "لأنها رخيصة الثمن",
+                    "لأنها خفيفة الوزن",
+                    "لأن لها حرارة نوعية منخفضة فتسخن بسرعة",
+                    "لأنها لا تصدأ"
+                ],
+                correct: 2
+            }
+        ];
+
+        // متغيرات التطبيق
+        let userAnswers = new Array(questions.length).fill(null);
+        let quizSubmitted = false;
+
+        // إنشاء واجهة الاختبار
+        function initializeQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = `سؤال ${index + 1}: ${q.question}`;
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options';
+                
+                q.options.forEach((option, optionIndex) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    optionElement.textContent = option;
+                    optionElement.dataset.index = optionIndex;
+                    
+                    optionElement.addEventListener('click', () => {
+                        if (!quizSubmitted) {
+                            // إلغاء تحديد الخيارات الأخرى لهذا السؤال
+                            const options = optionsContainer.querySelectorAll('.option');
+                            options.forEach(opt => opt.classList.remove('selected'));
+                            
+                            // تحديد الخيار المختار
+                            optionElement.classList.add('selected');
+                            userAnswers[index] = optionIndex;
+                        }
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                questionElement.appendChild(questionNumber);
+                questionElement.appendChild(optionsContainer);
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        // تصحيح الإجابات وعرض النتيجة
+        function submitQuiz() {
+            quizSubmitted = true;
+            
+            // حساب النتيجة
+            let score = 0;
+            const feedbackItems = [];
+            
+            questions.forEach((q, index) => {
+                const questionElement = document.querySelectorAll('.question')[index];
+                const options = questionElement.querySelectorAll('.option');
+                
+                if (userAnswers[index] === q.correct) {
+                    score++;
+                    options[q.correct].classList.add('correct');
+                    feedbackItems.push(`<div class="feedback-item correct">سؤال ${index + 1}: إجابة صحيحة ✓</div>`);
+                } else {
+                    options[q.correct].classList.add('correct');
+                    if (userAnswers[index] !== null) {
+                        options[userAnswers[index]].classList.add('incorrect');
+                    }
+                    feedbackItems.push(`<div class="feedback-item incorrect">سؤال ${index + 1}: الإجابة الصحيحة هي "${q.options[q.correct]}"</div>`);
+                }
+            });
+            
+            // عرض النتيجة
+            const resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = `
+                <h2>نتيجة الاختبار</h2>
+                <div class="score">${score} / ${questions.length}</div>
+                <p>${score >= 10 ? 'أحسنت! أداء ممتاز.' : score >= 7 ? 'جيد، يمكنك تحسين أدائك.' : 'يجب مراجعة المادة مرة أخرى.'}</p>
+                <div class="feedback">
+                    <h3>التغذية الراجعة:</h3>
+                    ${feedbackItems.join('')}
+                </div>
+            `;
+            resultContainer.style.display = 'block';
+            
+            // تمرير إلى نتيجة الاختبار
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // إعادة تعيين الاختبار
+        function resetQuiz() {
+            userAnswers = new Array(questions.length).fill(null);
+            quizSubmitted = false;
+            document.getElementById('result').style.display = 'none';
+            initializeQuiz();
+        }
+
+        // إضافة المستمعين للأزرار
+        document.getElementById('submit-btn').addEventListener('click', submitQuiz);
+        document.getElementById('reset-btn').addEventListener('click', resetQuiz);
+
+        // تهيئة الاختبار عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', initializeQuiz);
+    </script>
+</body>
+</html>

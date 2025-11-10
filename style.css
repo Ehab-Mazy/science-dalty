@@ -110,7 +110,7 @@ body {
     transform: scale(1.05);
 }
 
-/* القائمة */
+/* القائمة المحسنة */
 .navbar {
     background-color: var(--white);
     padding: 1rem 0;
@@ -140,6 +140,17 @@ body {
 .navbar a:hover {
     background-color: var(--secondary-color);
     color: var(--white);
+}
+
+/* زر القائمة للجوال */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    padding: 0.5rem;
 }
 
 /* الأقسام */
@@ -387,16 +398,49 @@ body {
     margin-top: 2rem;
 }
 
-/* التجاوب للجوال */
+/* التجاوب للجوال - محسن */
 @media (max-width: 768px) {
+    .navbar {
+        position: relative;
+        padding: 0.5rem 0;
+    }
+    
     .navbar .container {
         flex-direction: column;
-        gap: 0.5rem;
+        align-items: stretch;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .navbar.active .container {
+        max-height: 500px;
+    }
+    
+    .navbar a {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    
+    .navbar a:last-child {
+        border-bottom: none;
+    }
+    
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
     }
     
     .header-content {
         flex-direction: column;
         text-align: center;
+        gap: 1rem;
     }
     
     .cards, .experiments-grid {
@@ -414,6 +458,14 @@ body {
     
     .logo {
         font-size: 2rem;
+    }
+    
+    .lesson-image {
+        height: 300px;
+    }
+    
+    body {
+        padding-top: 0;
     }
 }
 
@@ -433,5 +485,17 @@ body {
     .school-logo, .teacher-photo {
         width: 60px;
         height: 60px;
+    }
+    
+    .cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .lesson-image {
+        height: 200px;
     }
 }

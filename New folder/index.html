@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الاختبارات التعليمي</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>نظام الاختبارات التعليمي</h1>
+            <p>اختر الاختبار الذي ترغب في إجرائه</p>
+        </header>
+
+        <div class="tests-list">
+            <div class="test-card" data-test="heat">
+                <h3>اختبار الحرارة النوعية</h3>
+                <p>15 سؤالاً - مستوى: متوسط</p>
+                <button class="start-btn" data-test="heat">بدء الاختبار</button>
+            </div>
+            
+            <div class="test-card" data-test="physics">
+                <h3>اختبار القوانين الفيزيائية</h3>
+                <p>12 سؤالاً - مستوى: صعب</p>
+                <button class="start-btn" data-test="physics">بدء الاختبار</button>
+            </div>
+            
+            <div class="test-card" data-test="chemistry">
+                <h3>اختبار التفاعلات الكيميائية</h3>
+                <p>10 أسئلة - مستوى: سهل</p>
+                <button class="start-btn" data-test="chemistry">بدء الاختبار</button>
+            </div>
+        </div>
+
+        <div id="quiz-container" class="hidden">
+            <div class="quiz-header">
+                <h2 id="quiz-title">اختبار الحرارة النوعية</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span id="progress-text">السؤال 1 من 15</span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-number" id="question-number">السؤال 1</div>
+                <div class="question-text" id="question-text"></div>
+                <div class="options-container" id="options-container"></div>
+            </div>
+
+            <div class="quiz-controls">
+                <button id="prev-btn" class="control-btn">السابق</button>
+                <button id="next-btn" class="control-btn">التالي</button>
+                <button id="submit-btn" class="control-btn submit-btn">إنهاء الاختبار</button>
+            </div>
+        </div>
+
+        <div id="results-container" class="hidden">
+            <div class="results-header">
+                <h2>نتيجة الاختبار</h2>
+                <div class="score-circle">
+                    <div class="score-text">
+                        <span id="score-value">0</span>
+                        <span>/</span>
+                        <span id="total-questions">15</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <div class="result-item">
+                    <span class="result-label">الإجابات الصحيحة:</span>
+                    <span id="correct-answers" class="result-value">0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">الإجابات الخاطئة:</span>
+                    <span id="wrong-answers" class="result-value">0</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">النسبة المئوية:</span>
+                    <span id="percentage" class="result-value">0%</span>
+                </div>
+            </div>
+            
+            <div class="feedback" id="feedback">
+                <!-- سيتم تعبئة التغذية الراجعة هنا -->
+            </div>
+            
+            <div class="results-controls">
+                <button id="review-btn" class="control-btn">مراجعة الإجابات</button>
+                <button id="restart-btn" class="control-btn">إعادة الاختبار</button>
+                <button id="back-to-tests" class="control-btn">العودة للقائمة</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
