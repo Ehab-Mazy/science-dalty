@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اختبار المفاهيم الأساسية في علم الحرارة</title>
+<style>
+  body{
+    font-family:"Arial","Noto Naskh Arabic",sans-serif;
+    background:#f7f9fc;
+    margin:0;
+    padding:20px;
+  }
+  h1{text-align:center;color:#0b2f66}
+  #startBtn{
+    display:block;
+    margin:40px auto;
+    padding:14px 26px;
+    background:#0b2f66;
+    color:#fff;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  #startBtn:hover{background:#103b80}
+  .card{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    padding:20px;
+    margin:auto;
+    max-width:900px;
+    display:none;
+  }
+  .q-text{font-size:19px;font-weight:600;color:#0b2f66;margin-bottom:12px}
+  .options{list-style:none;padding:0;margin:0}
+  .options li{margin:8px 0}
+  label{
+    display:block;
+    padding:10px 12px;
+    border:1px solid #dfe3eb;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  input[type="radio"]{margin-left:8px}
+  .controls{display:flex;justify-content:space-between;margin-top:20px}
+  button{
+    padding:10px 14px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-next{background:#0b2f66;color:white}
+  .btn-prev{background:#e2e8f6;color:#0b2f66}
+  .btn-show{background:#f1f1f1;color:#333;border:1px solid #ccc}
+  .feedback{
+    margin-top:12px;
+    padding:10px;
+    border-radius:8px;
+    display:none;
+  }
+  .correct{background:#e6ffed;border:1px solid #89d7a0;color:#116d2b;display:block}
+  .wrong{background:#ffe8e8;border:1px solid #f3aaaa;color:#a72727;display:block}
+  .explain{margin-top:6px;color:#333;font-size:15px}
+  .score{text-align:center;font-size:19px;margin-top:18px;font-weight:700;color:#0b2f66}
+</style>
+</head>
+<body>
+
+<h1>اختبار على المفاهيم الأساسية في علم الحرارة</h1>
+
+<button id="startBtn" onclick="startQuiz()">ابدأ الاختبار</button>
+
+<div class="card" id="quizBox">
+  <div id="qArea"></div>
+  <div class="controls">
+    <button id="prevBtn" class="btn-prev" onclick="prevQ()">السابق</button>
+    <button id="showBtn" class="btn-show" onclick="showAnswer()">إظهار الإجابة</button>
+    <button id="nextBtn" class="btn-next" onclick="nextQ()">التالي</button>
+  </div>
+  <div id="feedback" class="feedback"></div>
+  <div id="result" class="score"></div>
+</div>
+
+<script>
+const quiz=[
+{q:"1) ما المقصود بدرجة الحرارة؟",
+options:[
+"كمية الحرارة التي تحتويها المادة",
+"مقياس لمتوسط طاقة حركة جزيئات المادة",
+"الطاقة الناتجة عن حركة الأجسام الكبيرة",
+"طاقة وضع الجزيئات في المادة"
+],
+answer:1,
+expl:"درجة الحرارة مقياس لمتوسط طاقة حركة الجزيئات في المادة."
+},
+{q:"2) عندما تزداد درجة حرارة المادة فإن:",
+options:[
+"تزداد طاقة حركة الجسيمات وسرعتها",
+"تقل طاقة حركة الجسيمات",
+"تبقى طاقة الحركة ثابتة",
+"تتوقف الجسيمات عن الحركة"
+],
+answer:0,
+expl:"بزيادة درجة الحرارة تزداد طاقة حركة الجسيمات وسرعتها."
+},
+{q:"3) كمية الحرارة هي:",
+options:[
+"الطاقة التي تُخزن داخل المادة",
+"الطاقة التي تنتقل من جسم لآخر بسبب فرق في درجة الحرارة",
+"الطاقة الناتجة عن الضوء",
+"الطاقة الكامنة فقط"
+],
+answer:1,
+expl:"كمية الحرارة هي مقدار الطاقة الحرارية المنتقلة من جسم ساخن إلى آخر بارد."
+},
+{q:"4) الطاقة الداخلية للمادة هي:",
+options:[
+"طاقة حركة الجسيمات فقط",
+"مجموع طاقة حركة وطاقة وضع الجسيمات",
+"طاقة الجاذبية بين الكواكب",
+"الطاقة الكيميائية فقط"
+],
+answer:1,
+expl:"الطاقة الداخلية مجموع طاقة الحركة وطاقة الوضع لجميع الجسيمات داخل المادة."
+},
+{q:"5) عند زيادة سرعة الجسيمات في مادة معينة:",
+options:[
+"تزداد درجة حرارتها",
+"تقل درجة حرارتها",
+"تتوقف الجسيمات عن الحركة",
+"تظل كما هي"
+],
+answer:0,
+expl:"زيادة سرعة الجسيمات تعني زيادة طاقتها الحركية وبالتالي ارتفاع درجة الحرارة."
+},
+{q:"6) أي من العبارات التالية صحيحة؟",
+options:[
+"درجة الحرارة وكمية الحرارة شيء واحد",
+"درجة الحرارة تختلف عن كمية الحرارة",
+"كمية الحرارة لا تعتمد على الكتلة",
+"درجة الحرارة تزداد بزيادة الكتلة فقط"
+],
+answer:1,
+expl:"درجة الحرارة مقياس لمتوسط طاقة الحركة، بينما كمية الحرارة تعتمد على الكتلة ونوع المادة."
+},
+{q:"7) إذا كانت طاقة حركة الجسيمات كبيرة، فإن:",
+options:[
+"درجة الحرارة منخفضة",
+"درجة الحرارة مرتفعة",
+"الطاقة الداخلية قليلة",
+"المادة تتجمد"
+],
+answer:1,
+expl:"كلما زادت طاقة حركة الجسيمات ارتفعت درجة حرارة المادة."
+},
+{q:"8) عند تسخين مادة صلبة:",
+options:[
+"تزداد طاقة حركة جزيئاتها",
+"تقل طاقة حركة جزيئاتها",
+"تتوقف الجزيئات عن الاهتزاز",
+"تتباعد الجزيئات ثم تتجمد"
+],
+answer:0,
+expl:"التسخين يزيد من طاقة الحركة لجزيئات المادة الصلبة فتزداد اهتزازًا."
+},
+{q:"9) وحدة قياس كمية الحرارة في النظام الدولي هي:",
+options:[
+"الجول","الكلفن","السلسيوس","الواط"
+],
+answer:0,
+expl:"الحرارة تُقاس بالجول لأنها طاقة تنتقل بين الأجسام."
+},
+{q:"10) عند تساوي درجتي حرارة جسمين متلامسين:",
+options:[
+"تتوقف عملية انتقال الحرارة","تزداد طاقة حركة الجزيئات","تنتقل الحرارة باستمرار","تتحول الحرارة إلى كهرباء"
+],
+answer:0,
+expl:"عند التساوي في درجة الحرارة يحدث الاتزان الحراري وتتوقف حركة انتقال الحرارة."
+},
+{q:"11) الفرق بين الطاقة الحرارية والطاقة الداخلية هو أن:",
+options:[
+"الطاقة الحرارية جزء من الطاقة الداخلية ينتقل بين الأجسام",
+"الطاقة الداخلية هي طاقة تنتقل فقط",
+"الطاقة الحرارية هي طاقة وضع فقط",
+"لا فرق بينهما"
+],
+answer:0,
+expl:"الطاقة الحرارية جزء من الطاقة الداخلية ينتقل من جسم لآخر نتيجة فرق في درجة الحرارة."
+},
+{q:"12) عند تبريد مادة ما:",
+options:[
+"تزداد طاقة حركة الجسيمات","تقل طاقة حركة الجسيمات","تظل طاقة الحركة ثابتة","تتحول إلى طاقة كهربائية"
+],
+answer:1,
+expl:"عند التبريد تقل طاقة حركة الجسيمات ودرجة الحرارة تنخفض."
+},
+{q:"13) كلما زادت كتلة الجسم الساخن:",
+options:[
+"قلت كمية الحرارة التي يحتويها","زادت كمية الحرارة التي يحتويها","لم تتأثر كمية الحرارة","تغيرت درجة حرارته فورًا"
+],
+answer:1,
+expl:"كمية الحرارة تعتمد على كتلة الجسم، فكلما زادت الكتلة زادت كمية الحرارة المخزنة."
+},
+{q:"14) أي مما يلي يمثل طاقة حركة الجسيمات؟",
+options:[
+"الطاقة الداخلية","درجة الحرارة","الطاقة الكيميائية","الطاقة الكامنة"
+],
+answer:1,
+expl:"درجة الحرارة تعبر عن طاقة حركة الجسيمات في المادة."
+},
+{q:"15) كلما زادت الطاقة الداخلية لجسم ما فإنه:",
+options:[
+"يبرد","يبقى كما هو","تزداد درجة حرارته","تتجمد جزيئاته"
+],
+answer:2,
+expl:"بزيادة الطاقة الداخلية تزداد درجة حرارة الجسم لأن طاقة الحركة تزداد."
+}
+];
+
+let i=0;const ans=Array(quiz.length).fill(null);
+function startQuiz(){
+  document.getElementById("startBtn").style.display="none";
+  document.getElementById("quizBox").style.display="block";
+  renderQ();
+}
+function renderQ(){
+  const q=quiz[i];
+  const opts=q.options.map((op,idx)=>`
+  <li><label><input type="radio" name="opt" value="${idx}" ${ans[i]===idx?"checked":""}>${op}</label></li>`).join('');
+  document.getElementById("qArea").innerHTML=`
+  <div class="q-text">${q.q}</div>
+  <ul class="options">${opts}</ul>`;
+  document.getElementById("feedback").style.display="none";
+  document.getElementById("result").style.display="none";
+}
+function showAnswer(){
+  const sel=document.querySelector('input[name="opt"]:checked');
+  const fb=document.getElementById("feedback");
+  if(!sel){fb.className="feedback wrong";fb.textContent="اختر إجابة أولاً";fb.style.display="block";return;}
+  ans[i]=Number(sel.value);
+  const a=quiz[i].answer;
+  if(ans[i]===a){
+    fb.className="feedback correct";
+    fb.textContent="إجابة صحيحة ✅";
+  }else{
+    fb.className="feedback wrong";
+    fb.innerHTML=`إجابة خاطئة ❌ — الإجابة الصحيحة: <b>${quiz[i].options[a]}</b>`;
+  }
+  const ex=document.createElement("div");
+  ex.className="explain";
+  ex.textContent=quiz[i].expl;
+  fb.appendChild(ex);
+  fb.style.display="block";
+}
+function nextQ(){
+  if(i<quiz.length-1){i++;renderQ();}
+  else showResult();
+}
+function prevQ(){if(i>0){i--;renderQ();}}
+function showResult(){
+  let correct=0;for(let k=0;k<quiz.length;k++){if(ans[k]===quiz[k].answer)correct++;}
+  const percent=Math.round(correct/quiz.length*100);
+  document.getElementById("qArea").innerHTML="";
+  document.querySelector(".controls").style.display="none";
+  const res=document.getElementById("result");
+  res.style.display="block";
+  res.innerHTML=`نتيجتك: ${correct} من ${quiz.length} (${percent}%)`;
+}
+</script>
+</body>
+</html>

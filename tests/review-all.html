@@ -1,0 +1,219 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مراجعة الشهر المحاولات - الصف الثاني الإعدادي</title>
+<style>
+  body{
+    font-family:"Arial","Noto Naskh Arabic",sans-serif;
+    background:#f7f9fc;
+    margin:0;
+    padding:20px;
+  }
+  h1{text-align:center;color:#0b2f66}
+  #startBtn{
+    display:block;
+    margin:40px auto;
+    padding:14px 26px;
+    background:#0b2f66;
+    color:#fff;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  #startBtn:hover{background:#103b80}
+  .card{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    padding:20px;
+    margin:auto;
+    max-width:900px;
+    display:none;
+  }
+  .q-text{font-size:19px;font-weight:600;color:#0b2f66;margin-bottom:12px}
+  .options{list-style:none;padding:0;margin:0}
+  .options li{margin:8px 0}
+  label{
+    display:block;
+    padding:10px 12px;
+    border:1px solid #dfe3eb;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  input[type="radio"]{margin-left:8px}
+  .controls{display:flex;justify-content:space-between;margin-top:20px}
+  button{
+    padding:10px 14px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-next{background:#0b2f66;color:white}
+  .btn-prev{background:#e2e8f6;color:#0b2f66}
+  .btn-show{background:#f1f1f1;color:#333;border:1px solid #ccc}
+  .feedback{
+    margin-top:12px;
+    padding:10px;
+    border-radius:8px;
+    display:none;
+  }
+  .correct{background:#e6ffed;border:1px solid #89d7a0;color:#116d2b;display:block}
+  .wrong{background:#ffe8e8;border:1px solid #f3aaaa;color:#a72727;display:block}
+  .explain{margin-top:6px;color:#333;font-size:15px}
+  .score{text-align:center;font-size:19px;margin-top:18px;font-weight:700;color:#0b2f66}
+</style>
+</head>
+<body>
+
+<h1>اختبار مراجعة عامة حتى صفحة 31</h1>
+
+<button id="startBtn" onclick="startQuiz()">ابدأ الاختبار</button>
+
+<div class="card" id="quizBox">
+  <div id="qArea"></div>
+  <div class="controls">
+    <button id="prevBtn" class="btn-prev" onclick="prevQ()">السابق</button>
+    <button id="showBtn" class="btn-show" onclick="showAnswer()">إظهار الإجابة</button>
+    <button id="nextBtn" class="btn-next" onclick="nextQ()">التالي</button>
+  </div>
+  <div id="feedback" class="feedback"></div>
+  <div id="result" class="score"></div>
+</div>
+
+<script>
+const quiz=[
+{q:"1) ما المقصود بالمادة؟",
+options:["كل ما له كتلة فقط","كل ما له حجم فقط","كل ما له كتلة وحجم ويشغل حيزًا من الفراغ","كل ما لا يُرى بالعين المجردة"],
+answer:2,
+expl:"المادة هي كل ما له كتلة وحجم ويشغل حيزًا من الفراغ."
+},
+{q:"2) من خصائص المادة الصلبة:",
+options:["شكلها وحجمها ثابتان","تملأ الإناء الذي توضع فيه","ليس لها شكل ثابت","لها شكل فقط دون حجم ثابت"],
+answer:0,
+expl:"المادة الصلبة لها شكل وحجم ثابتان بسبب قوة الترابط بين جزيئاتها."
+},
+{q:"3) العملية التي يتحول فيها الجليد إلى ماء هي:",
+options:["تجمد","تبخر","انصهار","تسامي"],
+answer:2,
+expl:"الانصهار هو تحول المادة من الحالة الصلبة إلى السائلة عند اكتسابها حرارة."
+},
+{q:"4) عند تسخين الماء يتحول إلى بخار ماء، هذه العملية تسمى:",
+options:["تكثف","تبخر","تجمد","انصهار"],
+answer:1,
+expl:"التبخر هو تحول السائل إلى غاز عند اكتساب الجزيئات طاقة كافية."
+},
+{q:"5) عند انخفاض درجة الحرارة يتحول بخار الماء إلى قطرات ماء، وتسمى هذه العملية:",
+options:["انصهار","تكثف","تسامي","تبخر"],
+answer:1,
+expl:"التكثف هو تحول بخار الماء إلى سائل عند فقدان الطاقة الحرارية."
+},
+{q:"6) عندما تتحول المادة من الحالة السائلة إلى الحالة الصلبة فإنها:",
+options:["تكتسب طاقة","تطلق طاقة","لا يحدث تغير","تتبخر"],
+answer:1,
+expl:"التجمد هو فقد المادة للطاقة الحرارية وتحولها من سائل إلى صلب."
+},
+{q:"7) الطاقة الداخلية للمادة هي:",
+options:["طاقة الوضع فقط","طاقة الحركة فقط","مجموع طاقة الحركة والوضع لجزيئات المادة","الطاقة الكيميائية"],
+answer:2,
+expl:"الطاقة الداخلية هي مجموع طاقة الحركة والوضع لجميع الجزيئات."
+},
+{q:"8) درجة الحرارة هي:",
+options:["كمية الحرارة المخزنة في الجسم","مقياس لمتوسط طاقة حركة الجزيئات","الطاقة الكامنة للمادة","طاقة الوضع فقط"],
+answer:1,
+expl:"درجة الحرارة مقياس لمتوسط طاقة حركة الجزيئات داخل المادة."
+},
+{q:"9) عند تلامس جسم ساخن مع آخر بارد:",
+options:["تنتقل الحرارة من البارد إلى الساخن","تنتقل الحرارة من الساخن إلى البارد","لا تنتقل الحرارة","تتحول الحرارة إلى ضوء"],
+answer:1,
+expl:"الحرارة تنتقل دائمًا من الجسم الأعلى في درجة الحرارة إلى الأدنى حتى يحدث الاتزان."
+},
+{q:"10) كمية الحرارة تعتمد على:",
+options:["درجة الحرارة فقط","كتلة الجسم ونوع مادته ودرجة حرارته","كتلة الجسم فقط","درجة الحرارة فقط دون نوع المادة"],
+answer:1,
+expl:"كمية الحرارة تعتمد على الكتلة ونوع المادة ودرجة حرارتها."
+},
+{q:"11) عند زيادة سرعة حركة الجزيئات في مادة ما:",
+options:["تنخفض درجة حرارتها","ترتفع درجة حرارتها","تتوقف عن الحركة","تبرد المادة"],
+answer:1,
+expl:"زيادة سرعة الجزيئات تعني زيادة طاقتها الحركية وبالتالي ارتفاع درجة الحرارة."
+},
+{q:"12) عند الاتزان الحراري بين جسمين:",
+options:["تتوقف عملية انتقال الحرارة بينهما","يستمر انتقال الحرارة","تنتقل الحرارة من البارد إلى الساخن","ينخفض الضغط"],
+answer:0,
+expl:"عند الاتزان الحراري تتوقف عملية انتقال الحرارة لأن درجتي الحرارة تساوتا."
+},
+{q:"13) العلاقة بين درجة الحرارة والطاقة الداخلية:",
+options:["عكسية","طردية","ثابتة","غير موجودة"],
+answer:1,
+expl:"كلما ارتفعت درجة الحرارة زادت الطاقة الحركية وبالتالي زادت الطاقة الداخلية."
+},
+{q:"14) عندما تزداد طاقة حركة الجسيمات في المادة فإن:",
+options:["المسافات تقل","درجة الحرارة ترتفع","الكتلة تزداد","الحرارة تتوقف"],
+answer:1,
+expl:"كلما ازدادت طاقة الحركة زادت درجة حرارة المادة."
+},
+{q:"15) جميع التحولات التالية تتضمن اكتساب طاقة حرارية ما عدا:",
+options:["انصهار الجليد","تبخر الماء","تسامي الجليد","تجمد الماء"],
+answer:3,
+expl:"التجمد عملية تطلق طاقة حرارية إلى الوسط المحيط، بينما الباقي يكتسب طاقة."
+}
+];
+
+let i=0;const ans=Array(quiz.length).fill(null);
+function startQuiz(){
+  document.getElementById("startBtn").style.display="none";
+  document.getElementById("quizBox").style.display="block";
+  renderQ();
+}
+function renderQ(){
+  const q=quiz[i];
+  const opts=q.options.map((op,idx)=>`
+  <li><label><input type="radio" name="opt" value="${idx}" ${ans[i]===idx?"checked":""}>${op}</label></li>`).join('');
+  document.getElementById("qArea").innerHTML=`
+  <div class="q-text">${q.q}</div>
+  <ul class="options">${opts}</ul>`;
+  document.getElementById("feedback").style.display="none";
+  document.getElementById("result").style.display="none";
+}
+function showAnswer(){
+  const sel=document.querySelector('input[name="opt"]:checked');
+  const fb=document.getElementById("feedback");
+  if(!sel){fb.className="feedback wrong";fb.textContent="اختر إجابة أولاً";fb.style.display="block";return;}
+  ans[i]=Number(sel.value);
+  const a=quiz[i].answer;
+  if(ans[i]===a){
+    fb.className="feedback correct";
+    fb.textContent="إجابة صحيحة ✅";
+  }else{
+    fb.className="feedback wrong";
+    fb.innerHTML=`إجابة خاطئة ❌ — الإجابة الصحيحة: <b>${quiz[i].options[a]}</b>`;
+  }
+  const ex=document.createElement("div");
+  ex.className="explain";
+  ex.textContent=quiz[i].expl;
+  fb.appendChild(ex);
+  fb.style.display="block";
+}
+function nextQ(){
+  if(i<quiz.length-1){i++;renderQ();}
+  else showResult();
+}
+function prevQ(){if(i>0){i--;renderQ();}}
+function showResult(){
+  let correct=0;for(let k=0;k<quiz.length;k++){if(ans[k]===quiz[k].answer)correct++;}
+  const percent=Math.round(correct/quiz.length*100);
+  document.getElementById("qArea").innerHTML="";
+  document.querySelector(".controls").style.display="none";
+  const res=document.getElementById("result");
+  res.style.display="block";
+  res.innerHTML=`نتيجتك: ${correct} من ${quiz.length} (${percent}%)`;
+}
+</script>
+</body>
+</html>
