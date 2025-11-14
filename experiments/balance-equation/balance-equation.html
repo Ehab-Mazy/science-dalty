@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تدريب على وزن المعادلات الكيميائية</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --hydrogen: #FF6961;
+            --oxygen: #77B5FE;
+            --nitrogen: #AEC6CF;
+            --carbon: #555555;
+            --chlorine: #90EE90;
+            --sulfur: #FFD700;
+            --iron: #CFCFC4;
+            --aluminum: #C0C0C0;
+            --sodium: #FFB347;
+            --zinc: #7F7F7F;
+            --phosphorus: #FFAEC9;
+            --calcium: #FFCBC4;
+            --magnesium: #E6E6FA;
+            --potassium: #8A2BE2;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            direction: ltr;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-button {
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .equation-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: var(--light-color);
+            border-left: 5px solid var(--primary-color);
+            display: none;
+        }
+        
+        .equation-section.active {
+            display: block;
+        }
+        
+        .equation-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .equation-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .reactants, .products {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .coefficient-input {
+            width: 50px;
+            padding: 8px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1.1rem;
+        }
+        
+        .coefficient-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .molecule {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .element {
+            margin: 0 5px;
+            font-weight: bold;
+        }
+        
+        .subscript {
+            font-size: 0.8rem;
+            position: relative;
+            bottom: -5px;
+        }
+        
+        .plus {
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .arrow {
+            margin: 0 20px;
+            font-size: 1.5rem;
+        }
+        
+        .atoms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .atoms-table th, .atoms-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .atoms-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .atoms-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .balanced {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .unbalanced {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+        
+        .check-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .check-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .visual-atoms {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .atom-group {
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .atom-group h4 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .element-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+        }
+        
+        .element-label {
+            width: 100px;
+            text-align: left;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .atom-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            flex: 1;
+            justify-content: flex-start;
+        }
+        
+        .atom {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .count-display {
+            width: 30px;
+            text-align: center;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .hydrogen { background-color: var(--hydrogen); }
+        .oxygen { background-color: var(--oxygen); }
+        .nitrogen { background-color: var(--nitrogen); }
+        .carbon { background-color: var(--carbon); }
+        .chlorine { background-color: var(--chlorine); }
+        .sulfur { background-color: var(--sulfur); }
+        .iron { background-color: var(--iron); }
+        .aluminum { background-color: var(--aluminum); }
+        .sodium { background-color: var(--sodium); }
+        .zinc { background-color: var(--zinc); }
+        .phosphorus { background-color: var(--phosphorus); }
+        .calcium { background-color: var(--calcium); }
+        .magnesium { background-color: var(--magnesium); }
+        .potassium { background-color: var(--potassium); }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .home-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .equation-container {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                margin: 10px 0;
+                transform: rotate(90deg);
+            }
+            
+            .visual-atoms {
+                flex-direction: column;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+            
+            .element-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .element-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>تدريب على وزن المعادلات الكيميائية</h1>
+            <p class="description">تدرب على موازنة المعادلات الكيميائية عن طريق ضبط المعاملات، ثم تحقق من صحة عملك</p>
+        </header>
+        
+        <div class="instructions">
+            <h3>كيفية الاستخدام:</h3>
+            <p>1. قم بتغيير الأرقام في المربعات أمام المركبات الكيميائية</p>
+            <p>2. اضغط على زر "تحقق من الوزن" لمعرفة ما إذا كانت المعادلة موزونة</p>
+            <p>3. يظهر الجدول عدد ذرات كل عنصر قبل وبعد التفاعل</p>
+            <p>4. التمثيل البصري للذرات ككرات ملونة يساعد في فهم عملية الموازنة</p>
+            <p>5. استخدم أزرار التنقل للتبديل بين المعادلات المختلفة</p>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color hydrogen"></div>
+                <span>هيدروجين (H)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color oxygen"></div>
+                <span>أكسجين (O)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color nitrogen"></div>
+                <span>نيتروجين (N)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color carbon"></div>
+                <span>كربون (C)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color chlorine"></div>
+                <span>كلور (Cl)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color sulfur"></div>
+                <span>كبريت (S)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color iron"></div>
+                <span>حديد (Fe)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color magnesium"></div>
+                <span>مغنيسيوم (Mg)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color potassium"></div>
+                <span>بوتاسيوم (K)</span>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="showEquation(1)">1. تكوين الأمونيا</button>
+            <button class="nav-button" onclick="showEquation(2)">2. تكوين الماء</button>
+            <button class="nav-button" onclick="showEquation(3)">3. احتراق الميثان</button>
+            <button class="nav-button" onclick="showEquation(4)">4. كلوريد الهيدروجين</button>
+            <button class="nav-button" onclick="showEquation(5)">5. أكسيد المغنيسيوم</button>
+            <button class="nav-button" onclick="showEquation(6)">6. كبريتيد الحديد</button>
+            <button class="nav-button" onclick="showEquation(7)">7. كلوريد البوتاسيوم</button>
+            <button class="nav-button" onclick="showEquation(8)">8. أكسيد الحديد</button>
+        </div>
+        
+        <!-- معادلة تكوين الأمونيا -->
+        <div class="equation-section active" id="equation-1">
+            <h2 class="equation-title">1. تكوين الأمونيا</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="n2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">N<span class="subscript">2</span></span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="h2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">H<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="nh3-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">NH<span class="subscript">3</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="nh3-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="nh3-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="nh3-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>نيتروجين (N)</td>
+                        <td id="nh3-n-reactants">2</td>
+                        <td id="nh3-n-products">1</td>
+                        <td id="nh3-n-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                    <tr>
+                        <td>هيدروجين (H)</td>
+                        <td id="nh3-h-reactants">2</td>
+                        <td id="nh3-h-products">3</td>
+                        <td id="nh3-h-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkNH3Balance()">تحقق من الوزن</button>
+            <div class="result" id="nh3-result"></div>
+        </div>
+        
+        <!-- معادلة تكوين الماء -->
+        <div class="equation-section" id="equation-2">
+            <h2 class="equation-title">2. تكوين الماء</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="h2o-h2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">H<span class="subscript">2</span></span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="o2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">O<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="h2o-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">H<span class="subscript">2</span>O</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="h2o-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="h2o-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="h2o-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>هيدروجين (H)</td>
+                        <td id="h2o-h-reactants">2</td>
+                        <td id="h2o-h-products">2</td>
+                        <td id="h2o-h-status" class="balanced">موزون</td>
+                    </tr>
+                    <tr>
+                        <td>أكسجين (O)</td>
+                        <td id="h2o-o-reactants">2</td>
+                        <td id="h2o-o-products">1</td>
+                        <td id="h2o-o-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkH2OBalance()">تحقق من الوزن</button>
+            <div class="result" id="h2o-result"></div>
+        </div>
+        
+        <!-- معادلة احتراق الميثان -->
+        <div class="equation-section" id="equation-3">
+            <h2 class="equation-title">3. احتراق الميثان</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="ch4-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">CH<span class="subscript">4</span></span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="ch4-o2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">O<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="co2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">CO<span class="subscript">2</span></span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="ch4-h2o-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">H<span class="subscript">2</span>O</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="ch4-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="ch4-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="ch4-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>كربون (C)</td>
+                        <td id="ch4-c-reactants">1</td>
+                        <td id="ch4-c-products">1</td>
+                        <td id="ch4-c-status" class="balanced">موزون</td>
+                    </tr>
+                    <tr>
+                        <td>هيدروجين (H)</td>
+                        <td id="ch4-h-reactants">4</td>
+                        <td id="ch4-h-products">2</td>
+                        <td id="ch4-h-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                    <tr>
+                        <td>أكسجين (O)</td>
+                        <td id="ch4-o-reactants">2</td>
+                        <td id="ch4-o-products">3</td>
+                        <td id="ch4-o-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkCH4Balance()">تحقق من الوزن</button>
+            <div class="result" id="ch4-result"></div>
+        </div>
+        
+        <!-- معادلة كلوريد الهيدروجين -->
+        <div class="equation-section" id="equation-4">
+            <h2 class="equation-title">4. تكوين كلوريد الهيدروجين</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="hcl-h2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">H<span class="subscript">2</span></span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="cl2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">Cl<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="hcl-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">HCl</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="hcl-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="hcl-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="hcl-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>هيدروجين (H)</td>
+                        <td id="hcl-h-reactants">2</td>
+                        <td id="hcl-h-products">1</td>
+                        <td id="hcl-h-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                    <tr>
+                        <td>كلور (Cl)</td>
+                        <td id="hcl-cl-reactants">2</td>
+                        <td id="hcl-cl-products">1</td>
+                        <td id="hcl-cl-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkHClBalance()">تحقق من الوزن</button>
+            <div class="result" id="hcl-result"></div>
+        </div>
+        
+        <!-- معادلة أكسيد المغنيسيوم -->
+        <div class="equation-section" id="equation-5">
+            <h2 class="equation-title">5. تكوين أكسيد المغنيسيوم</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="mg-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">Mg</span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="mgo-o2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">O<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="mgo-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">MgO</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="mgo-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="mgo-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="mgo-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>مغنيسيوم (Mg)</td>
+                        <td id="mgo-mg-reactants">1</td>
+                        <td id="mgo-mg-products">1</td>
+                        <td id="mgo-mg-status" class="balanced">موزون</td>
+                    </tr>
+                    <tr>
+                        <td>أكسجين (O)</td>
+                        <td id="mgo-o-reactants">2</td>
+                        <td id="mgo-o-products">1</td>
+                        <td id="mgo-o-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkMgOBalance()">تحقق من الوزن</button>
+            <div class="result" id="mgo-result"></div>
+        </div>
+        
+        <!-- معادلة كبريتيد الحديد -->
+        <div class="equation-section" id="equation-6">
+            <h2 class="equation-title">6. تكوين كبريتيد الحديد</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="fe-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">Fe</span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="s-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">S</span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="fes-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">FeS</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="fes-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="fes-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="fes-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>حديد (Fe)</td>
+                        <td id="fes-fe-reactants">1</td>
+                        <td id="fes-fe-products">1</td>
+                        <td id="fes-fe-status" class="balanced">موزون</td>
+                    </tr>
+                    <tr>
+                        <td>كبريت (S)</td>
+                        <td id="fes-s-reactants">1</td>
+                        <td id="fes-s-products">1</td>
+                        <td id="fes-s-status" class="balanced">موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkFeSBalance()">تحقق من الوزن</button>
+            <div class="result" id="fes-result"></div>
+        </div>
+        
+        <!-- معادلة كلوريد البوتاسيوم -->
+        <div class="equation-section" id="equation-7">
+            <h2 class="equation-title">7. تكوين كلوريد البوتاسيوم</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="k-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">K</span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="kcl-cl2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">Cl<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="kcl-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">KCl</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="kcl-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="kcl-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="kcl-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>بوتاسيوم (K)</td>
+                        <td id="kcl-k-reactants">1</td>
+                        <td id="kcl-k-products">1</td>
+                        <td id="kcl-k-status" class="balanced">موزون</td>
+                    </tr>
+                    <tr>
+                        <td>كلور (Cl)</td>
+                        <td id="kcl-cl-reactants">2</td>
+                        <td id="kcl-cl-products">1</td>
+                        <td id="kcl-cl-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkKClBalance()">تحقق من الوزن</button>
+            <div class="result" id="kcl-result"></div>
+        </div>
+        
+        <!-- معادلة أكسيد الحديد -->
+        <div class="equation-section" id="equation-8">
+            <h2 class="equation-title">8. تكوين أكسيد الحديد</h2>
+            <div class="equation-container">
+                <div class="reactants">
+                    <input type="number" class="coefficient-input" id="fe2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">Fe</span>
+                    </div>
+                    <span class="plus">+</span>
+                    <input type="number" class="coefficient-input" id="fe2o3-o2-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">O<span class="subscript">2</span></span>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="products">
+                    <input type="number" class="coefficient-input" id="fe2o3-coeff" value="1" min="1">
+                    <div class="molecule">
+                        <span class="element">Fe<span class="subscript">2</span>O<span class="subscript">3</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-atoms">
+                <div class="atom-group">
+                    <h4>المتفاعلات</h4>
+                    <div id="fe2o3-reactants-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+                <div class="atom-group">
+                    <h4>النواتج</h4>
+                    <div id="fe2o3-products-visual">
+                        <!-- سيتم إضافة العناصر هنا عبر JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <table class="atoms-table" id="fe2o3-table">
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>عدد الذرات قبل التفاعل</th>
+                        <th>عدد الذرات بعد التفاعل</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>حديد (Fe)</td>
+                        <td id="fe2o3-fe-reactants">1</td>
+                        <td id="fe2o3-fe-products">2</td>
+                        <td id="fe2o3-fe-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                    <tr>
+                        <td>أكسجين (O)</td>
+                        <td id="fe2o3-o-reactants">2</td>
+                        <td id="fe2o3-o-products">3</td>
+                        <td id="fe2o3-o-status" class="unbalanced">غير موزون</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="check-button" onclick="checkFe2O3Balance()">تحقق من الوزن</button>
+            <div class="result" id="fe2o3-result"></div>
+        </div>
+        
+    </div>
+
+    <button class="home-button" onclick="showHome()">الرئيسية</button>
+
+    <script>
+        // خريطة ألوان العناصر
+        const elementColors = {
+            'H': 'hydrogen',
+            'O': 'oxygen',
+            'N': 'nitrogen',
+            'C': 'carbon',
+            'Cl': 'chlorine',
+            'S': 'sulfur',
+            'Fe': 'iron',
+            'Mg': 'magnesium',
+            'K': 'potassium'
+        };
+        
+        // دالة لعرض معادلة محددة
+        function showEquation(num) {
+            // إخفاء جميع المعادلات
+            document.querySelectorAll('.equation-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // عرض المعادلة المحددة
+            document.getElementById(`equation-${num}`).classList.add('active');
+            
+            // تحديث التمثيل البصري للمعادلة المحددة
+            updateAllTables();
+        }
+        
+        // دالة لعرض الصفحة الرئيسية (المعادلة الأولى)
+        function showHome() {
+            showEquation(1);
+        }
+        
+        // دالة لإنشاء صف عنصر في التمثيل البصري
+        function createElementRow(containerId, element, count) {
+            const container = document.getElementById(containerId);
+            
+            // إنشاء صف العنصر
+            const row = document.createElement('div');
+            row.className = 'element-row';
+            
+            // إنشاء تسمية العنصر
+            const label = document.createElement('div');
+            label.className = 'element-label';
+            label.textContent = element;
+            row.appendChild(label);
+            
+            // إنشاء حاوية الذرات
+            const atomContainer = document.createElement('div');
+            atomContainer.className = 'atom-container';
+            
+            // إضافة الذرات
+            for (let i = 0; i < count; i++) {
+                const atom = document.createElement('div');
+                atom.className = `atom ${elementColors[element]}`;
+                atom.textContent = element;
+                atomContainer.appendChild(atom);
+            }
+            
+            row.appendChild(atomContainer);
+            
+            // إضافة عداد الذرات
+            const countDisplay = document.createElement('div');
+            countDisplay.className = 'count-display';
+            countDisplay.textContent = count;
+            row.appendChild(countDisplay);
+            
+            container.appendChild(row);
+        }
+        
+        // دالة لمسح التمثيل البصري
+        function clearVisual(containerId) {
+            document.getElementById(containerId).innerHTML = '';
+        }
+        
+        // تحديث الجداول عند تغيير المعاملات
+        document.querySelectorAll('.coefficient-input').forEach(input => {
+            input.addEventListener('input', function() {
+                updateAllTables();
+            });
+        });
+        
+        // دالة لتحديث جميع الجداول
+        function updateAllTables() {
+            updateNH3Table();
+            updateH2OTable();
+            updateCH4Table();
+            updateHClTable();
+            updateMgOTable();
+            updateFeSTable();
+            updateKClTable();
+            updateFe2O3Table();
+        }
+        
+        // تحديث جدول الأمونيا
+        function updateNH3Table() {
+            const n2Coeff = parseInt(document.getElementById('n2-coeff').value) || 0;
+            const h2Coeff = parseInt(document.getElementById('h2-coeff').value) || 0;
+            const nh3Coeff = parseInt(document.getElementById('nh3-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const nReactants = n2Coeff * 2;
+            const hReactants = h2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const nProducts = nh3Coeff * 1;
+            const hProducts = nh3Coeff * 3;
+            
+            // تحديث الجدول
+            document.getElementById('nh3-n-reactants').textContent = nReactants;
+            document.getElementById('nh3-h-reactants').textContent = hReactants;
+            document.getElementById('nh3-n-products').textContent = nProducts;
+            document.getElementById('nh3-h-products').textContent = hProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('nh3-n-status', nReactants, nProducts);
+            updateBalanceStatus('nh3-h-status', hReactants, hProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('nh3-reactants-visual');
+            clearVisual('nh3-products-visual');
+            
+            createElementRow('nh3-reactants-visual', 'N', nReactants);
+            createElementRow('nh3-reactants-visual', 'H', hReactants);
+            
+            createElementRow('nh3-products-visual', 'N', nProducts);
+            createElementRow('nh3-products-visual', 'H', hProducts);
+        }
+        
+        // تحديث جدول الماء
+        function updateH2OTable() {
+            const h2Coeff = parseInt(document.getElementById('h2o-h2-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('o2-coeff').value) || 0;
+            const h2oCoeff = parseInt(document.getElementById('h2o-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const hReactants = h2Coeff * 2;
+            const oReactants = o2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const hProducts = h2oCoeff * 2;
+            const oProducts = h2oCoeff * 1;
+            
+            // تحديث الجدول
+            document.getElementById('h2o-h-reactants').textContent = hReactants;
+            document.getElementById('h2o-o-reactants').textContent = oReactants;
+            document.getElementById('h2o-h-products').textContent = hProducts;
+            document.getElementById('h2o-o-products').textContent = oProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('h2o-h-status', hReactants, hProducts);
+            updateBalanceStatus('h2o-o-status', oReactants, oProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('h2o-reactants-visual');
+            clearVisual('h2o-products-visual');
+            
+            createElementRow('h2o-reactants-visual', 'H', hReactants);
+            createElementRow('h2o-reactants-visual', 'O', oReactants);
+            
+            createElementRow('h2o-products-visual', 'H', hProducts);
+            createElementRow('h2o-products-visual', 'O', oProducts);
+        }
+        
+        // تحديث جدول الميثان
+        function updateCH4Table() {
+            const ch4Coeff = parseInt(document.getElementById('ch4-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('ch4-o2-coeff').value) || 0;
+            const co2Coeff = parseInt(document.getElementById('co2-coeff').value) || 0;
+            const h2oCoeff = parseInt(document.getElementById('ch4-h2o-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const cReactants = ch4Coeff * 1;
+            const hReactants = ch4Coeff * 4;
+            const oReactants = o2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const cProducts = co2Coeff * 1;
+            const hProducts = h2oCoeff * 2;
+            const oProducts = co2Coeff * 2 + h2oCoeff * 1;
+            
+            // تحديث الجدول
+            document.getElementById('ch4-c-reactants').textContent = cReactants;
+            document.getElementById('ch4-h-reactants').textContent = hReactants;
+            document.getElementById('ch4-o-reactants').textContent = oReactants;
+            document.getElementById('ch4-c-products').textContent = cProducts;
+            document.getElementById('ch4-h-products').textContent = hProducts;
+            document.getElementById('ch4-o-products').textContent = oProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('ch4-c-status', cReactants, cProducts);
+            updateBalanceStatus('ch4-h-status', hReactants, hProducts);
+            updateBalanceStatus('ch4-o-status', oReactants, oProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('ch4-reactants-visual');
+            clearVisual('ch4-products-visual');
+            
+            createElementRow('ch4-reactants-visual', 'C', cReactants);
+            createElementRow('ch4-reactants-visual', 'H', hReactants);
+            createElementRow('ch4-reactants-visual', 'O', oReactants);
+            
+            createElementRow('ch4-products-visual', 'C', cProducts);
+            createElementRow('ch4-products-visual', 'H', hProducts);
+            createElementRow('ch4-products-visual', 'O', oProducts);
+        }
+        
+        // تحديث جدول كلوريد الهيدروجين
+        function updateHClTable() {
+            const h2Coeff = parseInt(document.getElementById('hcl-h2-coeff').value) || 0;
+            const cl2Coeff = parseInt(document.getElementById('cl2-coeff').value) || 0;
+            const hclCoeff = parseInt(document.getElementById('hcl-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const hReactants = h2Coeff * 2;
+            const clReactants = cl2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const hProducts = hclCoeff * 1;
+            const clProducts = hclCoeff * 1;
+            
+            // تحديث الجدول
+            document.getElementById('hcl-h-reactants').textContent = hReactants;
+            document.getElementById('hcl-cl-reactants').textContent = clReactants;
+            document.getElementById('hcl-h-products').textContent = hProducts;
+            document.getElementById('hcl-cl-products').textContent = clProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('hcl-h-status', hReactants, hProducts);
+            updateBalanceStatus('hcl-cl-status', clReactants, clProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('hcl-reactants-visual');
+            clearVisual('hcl-products-visual');
+            
+            createElementRow('hcl-reactants-visual', 'H', hReactants);
+            createElementRow('hcl-reactants-visual', 'Cl', clReactants);
+            
+            createElementRow('hcl-products-visual', 'H', hProducts);
+            createElementRow('hcl-products-visual', 'Cl', clProducts);
+        }
+        
+        // تحديث جدول أكسيد المغنيسيوم
+        function updateMgOTable() {
+            const mgCoeff = parseInt(document.getElementById('mg-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('mgo-o2-coeff').value) || 0;
+            const mgoCoeff = parseInt(document.getElementById('mgo-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const mgReactants = mgCoeff * 1;
+            const oReactants = o2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const mgProducts = mgoCoeff * 1;
+            const oProducts = mgoCoeff * 1;
+            
+            // تحديث الجدول
+            document.getElementById('mgo-mg-reactants').textContent = mgReactants;
+            document.getElementById('mgo-o-reactants').textContent = oReactants;
+            document.getElementById('mgo-mg-products').textContent = mgProducts;
+            document.getElementById('mgo-o-products').textContent = oProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('mgo-mg-status', mgReactants, mgProducts);
+            updateBalanceStatus('mgo-o-status', oReactants, oProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('mgo-reactants-visual');
+            clearVisual('mgo-products-visual');
+            
+            createElementRow('mgo-reactants-visual', 'Mg', mgReactants);
+            createElementRow('mgo-reactants-visual', 'O', oReactants);
+            
+            createElementRow('mgo-products-visual', 'Mg', mgProducts);
+            createElementRow('mgo-products-visual', 'O', oProducts);
+        }
+        
+        // تحديث جدول كبريتيد الحديد
+        function updateFeSTable() {
+            const feCoeff = parseInt(document.getElementById('fe-coeff').value) || 0;
+            const sCoeff = parseInt(document.getElementById('s-coeff').value) || 0;
+            const fesCoeff = parseInt(document.getElementById('fes-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const feReactants = feCoeff * 1;
+            const sReactants = sCoeff * 1;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const feProducts = fesCoeff * 1;
+            const sProducts = fesCoeff * 1;
+            
+            // تحديث الجدول
+            document.getElementById('fes-fe-reactants').textContent = feReactants;
+            document.getElementById('fes-s-reactants').textContent = sReactants;
+            document.getElementById('fes-fe-products').textContent = feProducts;
+            document.getElementById('fes-s-products').textContent = sProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('fes-fe-status', feReactants, feProducts);
+            updateBalanceStatus('fes-s-status', sReactants, sProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('fes-reactants-visual');
+            clearVisual('fes-products-visual');
+            
+            createElementRow('fes-reactants-visual', 'Fe', feReactants);
+            createElementRow('fes-reactants-visual', 'S', sReactants);
+            
+            createElementRow('fes-products-visual', 'Fe', feProducts);
+            createElementRow('fes-products-visual', 'S', sProducts);
+        }
+        
+        // تحديث جدول كلوريد البوتاسيوم
+        function updateKClTable() {
+            const kCoeff = parseInt(document.getElementById('k-coeff').value) || 0;
+            const cl2Coeff = parseInt(document.getElementById('kcl-cl2-coeff').value) || 0;
+            const kclCoeff = parseInt(document.getElementById('kcl-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const kReactants = kCoeff * 1;
+            const clReactants = cl2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const kProducts = kclCoeff * 1;
+            const clProducts = kclCoeff * 1;
+            
+            // تحديث الجدول
+            document.getElementById('kcl-k-reactants').textContent = kReactants;
+            document.getElementById('kcl-cl-reactants').textContent = clReactants;
+            document.getElementById('kcl-k-products').textContent = kProducts;
+            document.getElementById('kcl-cl-products').textContent = clProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('kcl-k-status', kReactants, kProducts);
+            updateBalanceStatus('kcl-cl-status', clReactants, clProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('kcl-reactants-visual');
+            clearVisual('kcl-products-visual');
+            
+            createElementRow('kcl-reactants-visual', 'K', kReactants);
+            createElementRow('kcl-reactants-visual', 'Cl', clReactants);
+            
+            createElementRow('kcl-products-visual', 'K', kProducts);
+            createElementRow('kcl-products-visual', 'Cl', clProducts);
+        }
+        
+        // تحديث جدول أكسيد الحديد
+        function updateFe2O3Table() {
+            const feCoeff = parseInt(document.getElementById('fe2-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('fe2o3-o2-coeff').value) || 0;
+            const fe2o3Coeff = parseInt(document.getElementById('fe2o3-coeff').value) || 0;
+            
+            // حساب عدد الذرات قبل التفاعل
+            const feReactants = feCoeff * 1;
+            const oReactants = o2Coeff * 2;
+            
+            // حساب عدد الذرات بعد التفاعل
+            const feProducts = fe2o3Coeff * 2;
+            const oProducts = fe2o3Coeff * 3;
+            
+            // تحديث الجدول
+            document.getElementById('fe2o3-fe-reactants').textContent = feReactants;
+            document.getElementById('fe2o3-o-reactants').textContent = oReactants;
+            document.getElementById('fe2o3-fe-products').textContent = feProducts;
+            document.getElementById('fe2o3-o-products').textContent = oProducts;
+            
+            // تحديث حالة التوازن
+            updateBalanceStatus('fe2o3-fe-status', feReactants, feProducts);
+            updateBalanceStatus('fe2o3-o-status', oReactants, oProducts);
+            
+            // تحديث التمثيل البصري
+            clearVisual('fe2o3-reactants-visual');
+            clearVisual('fe2o3-products-visual');
+            
+            createElementRow('fe2o3-reactants-visual', 'Fe', feReactants);
+            createElementRow('fe2o3-reactants-visual', 'O', oReactants);
+            
+            createElementRow('fe2o3-products-visual', 'Fe', feProducts);
+            createElementRow('fe2o3-products-visual', 'O', oProducts);
+        }
+        
+        // تحديث حالة التوازن في الخلية
+        function updateBalanceStatus(elementId, reactants, products) {
+            const element = document.getElementById(elementId);
+            if (reactants === products) {
+                element.textContent = "موزون";
+                element.className = "balanced";
+            } else {
+                element.textContent = "غير موزون";
+                element.className = "unbalanced";
+            }
+        }
+        
+        // التحقق من وزن معادلة الأمونيا
+        function checkNH3Balance() {
+            updateNH3Table();
+            
+            const n2Coeff = parseInt(document.getElementById('n2-coeff').value) || 0;
+            const h2Coeff = parseInt(document.getElementById('h2-coeff').value) || 0;
+            const nh3Coeff = parseInt(document.getElementById('nh3-coeff').value) || 0;
+            
+            const nReactants = n2Coeff * 2;
+            const hReactants = h2Coeff * 2;
+            const nProducts = nh3Coeff * 1;
+            const hProducts = nh3Coeff * 3;
+            
+            const resultElement = document.getElementById('nh3-result');
+            
+            if (nReactants === nProducts && hReactants === hProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة الماء
+        function checkH2OBalance() {
+            updateH2OTable();
+            
+            const h2Coeff = parseInt(document.getElementById('h2o-h2-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('o2-coeff').value) || 0;
+            const h2oCoeff = parseInt(document.getElementById('h2o-coeff').value) || 0;
+            
+            const hReactants = h2Coeff * 2;
+            const oReactants = o2Coeff * 2;
+            const hProducts = h2oCoeff * 2;
+            const oProducts = h2oCoeff * 1;
+            
+            const resultElement = document.getElementById('h2o-result');
+            
+            if (hReactants === hProducts && oReactants === oProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة الميثان
+        function checkCH4Balance() {
+            updateCH4Table();
+            
+            const ch4Coeff = parseInt(document.getElementById('ch4-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('ch4-o2-coeff').value) || 0;
+            const co2Coeff = parseInt(document.getElementById('co2-coeff').value) || 0;
+            const h2oCoeff = parseInt(document.getElementById('ch4-h2o-coeff').value) || 0;
+            
+            const cReactants = ch4Coeff * 1;
+            const hReactants = ch4Coeff * 4;
+            const oReactants = o2Coeff * 2;
+            const cProducts = co2Coeff * 1;
+            const hProducts = h2oCoeff * 2;
+            const oProducts = co2Coeff * 2 + h2oCoeff * 1;
+            
+            const resultElement = document.getElementById('ch4-result');
+            
+            if (cReactants === cProducts && hReactants === hProducts && oReactants === oProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة كلوريد الهيدروجين
+        function checkHClBalance() {
+            updateHClTable();
+            
+            const h2Coeff = parseInt(document.getElementById('hcl-h2-coeff').value) || 0;
+            const cl2Coeff = parseInt(document.getElementById('cl2-coeff').value) || 0;
+            const hclCoeff = parseInt(document.getElementById('hcl-coeff').value) || 0;
+            
+            const hReactants = h2Coeff * 2;
+            const clReactants = cl2Coeff * 2;
+            const hProducts = hclCoeff * 1;
+            const clProducts = hclCoeff * 1;
+            
+            const resultElement = document.getElementById('hcl-result');
+            
+            if (hReactants === hProducts && clReactants === clProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة أكسيد المغنيسيوم
+        function checkMgOBalance() {
+            updateMgOTable();
+            
+            const mgCoeff = parseInt(document.getElementById('mg-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('mgo-o2-coeff').value) || 0;
+            const mgoCoeff = parseInt(document.getElementById('mgo-coeff').value) || 0;
+            
+            const mgReactants = mgCoeff * 1;
+            const oReactants = o2Coeff * 2;
+            const mgProducts = mgoCoeff * 1;
+            const oProducts = mgoCoeff * 1;
+            
+            const resultElement = document.getElementById('mgo-result');
+            
+            if (mgReactants === mgProducts && oReactants === oProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة كبريتيد الحديد
+        function checkFeSBalance() {
+            updateFeSTable();
+            
+            const feCoeff = parseInt(document.getElementById('fe-coeff').value) || 0;
+            const sCoeff = parseInt(document.getElementById('s-coeff').value) || 0;
+            const fesCoeff = parseInt(document.getElementById('fes-coeff').value) || 0;
+            
+            const feReactants = feCoeff * 1;
+            const sReactants = sCoeff * 1;
+            const feProducts = fesCoeff * 1;
+            const sProducts = fesCoeff * 1;
+            
+            const resultElement = document.getElementById('fes-result');
+            
+            if (feReactants === feProducts && sReactants === sProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة كلوريد البوتاسيوم
+        function checkKClBalance() {
+            updateKClTable();
+            
+            const kCoeff = parseInt(document.getElementById('k-coeff').value) || 0;
+            const cl2Coeff = parseInt(document.getElementById('kcl-cl2-coeff').value) || 0;
+            const kclCoeff = parseInt(document.getElementById('kcl-coeff').value) || 0;
+            
+            const kReactants = kCoeff * 1;
+            const clReactants = cl2Coeff * 2;
+            const kProducts = kclCoeff * 1;
+            const clProducts = kclCoeff * 1;
+            
+            const resultElement = document.getElementById('kcl-result');
+            
+            if (kReactants === kProducts && clReactants === clProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // التحقق من وزن معادلة أكسيد الحديد
+        function checkFe2O3Balance() {
+            updateFe2O3Table();
+            
+            const feCoeff = parseInt(document.getElementById('fe2-coeff').value) || 0;
+            const o2Coeff = parseInt(document.getElementById('fe2o3-o2-coeff').value) || 0;
+            const fe2o3Coeff = parseInt(document.getElementById('fe2o3-coeff').value) || 0;
+            
+            const feReactants = feCoeff * 1;
+            const oReactants = o2Coeff * 2;
+            const feProducts = fe2o3Coeff * 2;
+            const oProducts = fe2o3Coeff * 3;
+            
+            const resultElement = document.getElementById('fe2o3-result');
+            
+            if (feReactants === feProducts && oReactants === oProducts) {
+                resultElement.textContent = "✓ المعادلة موزونة بشكل صحيح!";
+                resultElement.style.color = "var(--success-color)";
+            } else {
+                resultElement.textContent = "✘ المعادلة غير موزونة. حاول مرة أخرى!";
+                resultElement.style.color = "var(--danger-color)";
+            }
+        }
+        
+        // تهيئة الجداول عند تحميل الصفحة
+        window.onload = function() {
+            updateAllTables();
+        };
+    </script>
+</body>
+</html>
