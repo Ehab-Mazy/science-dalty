@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ehab-mazy.github.io/science-dalty/sitemap.xml
