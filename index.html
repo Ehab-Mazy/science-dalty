@@ -7,6 +7,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M-Ehab Mazy - Discover with Dalty</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* إضافة أنماط القائمة الجانبية للهواتف */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2c3e50;
+            padding: 10px;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: #2c3e50;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-logo {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-links {
+            list-style: none;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-links a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* تحسينات للاستجابة */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .navbar {
+                display: none;
+            }
+
+            .navbar.active {
+                display: block;
+                position: static;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .sidebar-menu {
+                display: none;
+            }
+            
+            .overlay {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- شريط التقدم -->
@@ -31,11 +147,37 @@
                         </a>
                     </div>
                 </div>
+                
+                <!-- زر القائمة للهواتف -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    ☰
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- القائمة -->
+    <!-- القائمة الجانبية للهواتف -->
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">القائمة</div>
+            <button class="close-sidebar" id="closeSidebar">✕</button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="lessons.html">الدروس</a></li>
+            <li><a href="experiments/index.html">التجارب الافتراضية</a></li>
+            <li><a href="curriculum/index.html">المنهج الدراسي</a></li>
+            <li><a href="import1.html">الاختبارات</a></li>
+            <li><a href="students-grades/index.html">الدرجات</a></li>
+            <li><a href="#news">أخبار العلوم</a></li>
+            <li><a href="#contact">التواصل</a></li>
+            <li><a href="#youtube">قناة اليوتيوب</a></li>
+        </ul>
+    </div>
+
+    <!-- طبقة التعتيم -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- القائمة الرئيسية -->
     <nav class="navbar">
         <div class="container">
             <a href="lessons.html">الدروس</a>
@@ -45,9 +187,6 @@
             <a href="students-grades/index.html">الدرجات</a>
             <a href="#news">أخبار العلوم</a>
             <a href="#contact">التواصل</a>
-        <!-- ... باقي الروابط -- >
-    </div>
-</nav>
         </div>
     </nav>
 
@@ -73,62 +212,61 @@
                     <img src="images/unit4.png" alt="الوحدة الرابعة" class="lesson-image">
                     <a href="lessons.html" class="btn">عرض الدروس</a>
                 </div>
-            
             </div>
+            
             <!-- في قسم الدروس في index.html -->
-<div class="lessons-container">
-    <div class="lesson-card">
-        <h3>الوحدة الأولى - الدرس الأول: المادة وخواصها</h3>
-        <p>شرح مبسط عن خواص المادة وتغيراتها.</p>
-        <div class="lesson-actions">
-            <a href="lesson1.html" class="btn btn-primary">📖 دراسة الدرس</a>
-            <!-- سيتم إضافة زر الاختبار هنا ديناميكياً -->
-            <div id="unit1-lesson1-test"></div>
-        </div>
-    </div>
+            <div class="lessons-container">
+                <div class="lesson-card">
+                    <h3>الوحدة الأولى - الدرس الأول: المادة وخواصها</h3>
+                    <p>شرح مبسط عن خواص المادة وتغيراتها.</p>
+                    <div class="lesson-actions">
+                        <a href="lesson1.html" class="btn btn-primary">📖 دراسة الدرس</a>
+                        <!-- سيتم إضافة زر الاختبار هنا ديناميكياً -->
+                        <div id="unit1-lesson1-test"></div>
+                    </div>
+                </div>
 
-    <div class="lesson-card">
-        <h3>الوحدة الأولى - الدرس الثاني: حالات المادة</h3>
-        <p>تعرف على حالات المادة المختلفة والتحولات بينها.</p>
-        <div class="lesson-actions">
-            <a href="lesson2.html" class="btn btn-primary">📖 دراسة الدرس</a>
-            <div id="unit1-lesson2-test"></div>
-        </div>
-    </div>
-
-    <!-- ... بقية الدروس -->
-</div>
+                <div class="lesson-card">
+                    <h3>الوحدة الأولى - الدرس الثاني: حالات المادة</h3>
+                    <p>تعرف على حالات المادة المختلفة والتحولات بينها.</p>
+                    <div class="lesson-actions">
+                        <a href="lesson2.html" class="btn btn-primary">📖 دراسة الدرس</a>
+                        <div id="unit1-lesson2-test"></div>
+                    </div>
+                </div>
+                <!-- ... بقية الدروس -->
+            </div>
         </section>
 
         <!-- قسم التجارب الافتراضية -->
         <section id="virtual-experiments" class="section">
             <h2>🔬 التجارب الافتراضية</h2>
-            <img src="images/experiment-icon1.jpg" alt="التحارب الافتراضبة " class="lesson-image">
+            <img src="images/experiment-icon1.jpg" alt="التجارب الافتراضية" class="lesson-image">
             <div class="experiments-grid">
                 <div class="experiment-card">
                     <div class="experiment-icon">⚗️</div>
-                    <img src="images/experiment-icon12.jpg" alt="التحارب الافتراضبة " class="lesson-image">
+                    <img src="images/experiment-icon12.jpg" alt="التجارب الافتراضية" class="lesson-image">
                     <h3> تجارب المادة و الطاقة الافتراضية</h3>
                     <p>قم بتجارب و محاكاه آمنة افتراضياً</p>
                     <a href="#" class="btn">بدء التجربة</a>
                 </div>
                 <div class="experiment-card">
                     <div class="experiment-icon">🔭</div>
-                    <img src="images/experiment-icon3.jpg" alt="التحارب الافتراضبة " class="lesson-image">
-                    <h3>تجارب التفاعلات الكيميائيةء</h3>
+                    <img src="images/experiment-icon3.jpg" alt="التجارب الافتراضية" class="lesson-image">
+                    <h3>تجارب التفاعلات الكيميائية</h3>
                     <p>استكشف  عالم الكيمياء الافتراضية</p>
                     <a href="#" class="btn">بدء الرحلة</a>
                 </div>
                 <div class="experiment-card">
                     <div class="experiment-icon">🔬</div>
-                    <img src="images/experiment-icon4.jpg" alt="التحارب الافتراضبة " class="lesson-image">
+                    <img src="images/experiment-icon4.jpg" alt="التجارب الافتراضية" class="lesson-image">
                     <h3>معمل الأحياء الافتراضي</h3>
                     <p>شاهد تدفق الطاقة في العمليات الحيوية </p>
                     <a href="#" class="btn">بدء المشاهدة</a>
                 </div>
                 <div class="experiment-card">
                     <div class="experiment-icon">⚡</div>
-                    <img src="images/experiment-icon5.jpg" alt="التحارب الافتراضبة " class="lesson-image">
+                    <img src="images/experiment-icon5.jpg" alt="التجارب الافتراضية" class="lesson-image">
                     <h3>اكتشف اسرار المعادن</h3>
                     <p>سطح الارض في تغير مستمر</p>
                     <a href="#" class="btn">بدء التجربة</a>
@@ -224,31 +362,31 @@
                 </div>
             </div>
         </section>
-        <!-- قسم الاختبارات -->
-<section class="lessons-section">
-    <div class="container">
-        <h2>📝 اختبارات العلوم</h2>
-        <p>اختبر معلوماتك من خلال هذه الاختبارات التفاعلية</p>
         
-        <div class="lessons-grid">
-            <div class="lesson-card">
-                <div class="lesson-icon">🧪</div>
-                <h3>جميع الاختبارات</h3>
-                <p>استعرض جميع الاختبارات المحفوظة</p>
-                <a href="tests.html" class="btn btn-primary">عرض الاختبارات</a>
+        <!-- قسم الاختبارات -->
+        <section class="lessons-section">
+            <div class="container">
+                <h2>📝 اختبارات العلوم</h2>
+                <p>اختبر معلوماتك من خلال هذه الاختبارات التفاعلية</p>
+                
+                <div class="lessons-grid">
+                    <div class="lesson-card">
+                        <div class="lesson-icon">🧪</div>
+                        <h3>جميع الاختبارات</h3>
+                        <p>استعرض جميع الاختبارات المحفوظة</p>
+                        <a href="tests.html" class="btn btn-primary">عرض الاختبارات</a>
+                    </div>
+                    
+                    <div class="lesson-card">
+                        <div class="lesson-icon">📥</div>
+                        <h3>استيراد اختبار</h3>
+                        <p>استورد اختبارًا جديدًا من Excel</p>
+                        <a href="import-tests1.html" class="btn btn-success">استيراد اختبار</a>
+                    </div>
+                    <!-- يمكن إضافة المزيد من البطاقات لاختبارات محددة -->
+                </div>
             </div>
-            
-            <div class="lesson-card">
-                <div class="lesson-icon">📥</div>
-                <h3>استيراد اختبار</h3>
-                <p>استورد اختبارًا جديدًا من Excel</p>
-                <a href="import-tests1.html" class="btn btn-success">استيراد اختبار</a>
-            </div>
-            
-            <!-- يمكن إضافة المزيد من البطاقات لاختبارات محددة -->
-        </div>
-    </div>
-</section>
+        </section>
     </main>
 
     <!-- الفوتر -->
@@ -259,6 +397,52 @@
     </footer>
 
     <script>
+        // التحكم في القائمة الجانبية للهواتف
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const overlay = document.getElementById('overlay');
+        const sidebarLinks = document.querySelectorAll('.sidebar-links a');
+
+        // فتح القائمة الجانبية
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebarMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // منع التمرير عند فتح القائمة
+        });
+
+        // إغلاق القائمة الجانبية
+        closeSidebar.addEventListener('click', () => {
+            sidebarMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // إعادة التمرير
+        });
+
+        // إغلاق القائمة عند النقر على طبقة التعتيم
+        overlay.addEventListener('click', () => {
+            sidebarMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // إعادة التمرير
+        });
+
+        // إغلاق القائمة عند النقر على رابط
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebarMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = ''; // إعادة التمرير
+            });
+        });
+
+        // إغلاق القائمة عند تغيير حجم النافذة إلى شاشة كبيرة
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebarMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = ''; // إعادة التمرير
+            }
+        });
+
         function loadTestsForLessons() {
             // الحصول على الاختبارات المحفوظة
             const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
@@ -304,57 +488,56 @@
             localStorage.setItem('currentTestId', testId);
             window.location.href = 'test.html';
         }
+
         // fix-paths.js - إصلاح المسارات التالفة
-document.addEventListener('DOMContentLoaded', function() {
-    fixAllImagePaths();
-    fixAllLinks();
-    initFallbackSystem();
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            fixAllImagePaths();
+            fixAllLinks();
+            initFallbackSystem();
+            loadTestsForLessons(); // تحميل الاختبارات عند فتح الصفحة
+        });
 
-function fixAllImagePaths() {
-    // إصلاح مسارات الصور
-    const images = document.querySelectorAll('img[src*="../images/"]');
-    images.forEach(img => {
-        const oldSrc = img.src;
-        const newSrc = oldSrc.replace('../images/', 'images/');
-        img.src = newSrc;
-        
-        // إضافة fallback للصور التالفة
-        img.onerror = function() {
-            console.log('🖼️ الصورة غير موجودة:', oldSrc);
-            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y0ZjRmNCIgcng9IjEwIj48L3JlY3Q+CiAgPHRleHQgeD0iMTAwIiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PGt0PiU8L2t0PjwvdGV4dD4KPC9zdmc+';
-            this.alt = 'صورة غير متوفرة';
-        };
-    });
-}
-
-function fixAllLinks() {
-    // إصلاح الروابط المعطلة
-    const links = document.querySelectorAll('a[href*="../"]');
-    links.forEach(link => {
-        const oldHref = link.getAttribute('href');
-        if (oldHref) {
-            const newHref = oldHref.replace('../', '');
-            link.setAttribute('href', newHref);
+        function fixAllImagePaths() {
+            // إصلاح مسارات الصور
+            const images = document.querySelectorAll('img[src*="../images/"]');
+            images.forEach(img => {
+                const oldSrc = img.src;
+                const newSrc = oldSrc.replace('../images/', 'images/');
+                img.src = newSrc;
+                
+                // إضافة fallback للصور التالفة
+                img.onerror = function() {
+                    console.log('🖼️ الصورة غير موجودة:', oldSrc);
+                    this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y0ZjRmNCIgcng9IjEwIj48L3JlY3Q+CiAgPHRleHQgeD0iMTAwIiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PGt0PiU8L2t0PjwvdGV4dD4KPC9zdmc+';
+                    this.alt = 'صورة غير متوفرة';
+                };
+            });
         }
-    });
-}
 
-function initFallbackSystem() {
-    // نظام fallback للاختبارات
-    if (typeof showLessonTests === 'undefined') {
-        console.log('⚠️ نظام الاختبارات غير محمل، جاري تحميل البديل...');
-        loadFallbackQuizSystem();
-    }
-}
-    
-        // تحميل الاختبارات عند فتح الصفحة
-        document.addEventListener('DOMContentLoaded', loadTestsForLessons);
+        function fixAllLinks() {
+            // إصلاح الروابط المعطلة
+            const links = document.querySelectorAll('a[href*="../"]');
+            links.forEach(link => {
+                const oldHref = link.getAttribute('href');
+                if (oldHref) {
+                    const newHref = oldHref.replace('../', '');
+                    link.setAttribute('href', newHref);
+                }
+            });
+        }
+
+        function initFallbackSystem() {
+            // نظام fallback للاختبارات
+            if (typeof showLessonTests === 'undefined') {
+                console.log('⚠️ نظام الاختبارات غير محمل، جاري تحميل البديل...');
+                loadFallbackQuizSystem();
+            }
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
     <!-- قبل </body> -->
-<script src="fix-paths.js"></script>
-<script src="fallback-quiz-system.js"></script>
+    <script src="fix-paths.js"></script>
+    <script src="fallback-quiz-system.js"></script>
 </body>
 </html>
