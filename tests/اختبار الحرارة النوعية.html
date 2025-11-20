@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الحرارة النوعية</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #b21f1f, #fd7e14);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .start-screen, .quiz-screen, .result-screen {
+            text-align: center;
+        }
+        
+        .quiz-screen, .result-screen {
+            display: none;
+        }
+        
+        .question-number {
+            font-size: 18px;
+            color: #b21f1f;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .question-text {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #0b2f66;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            background-color: #f5f7ff;
+            border: 2px solid #e2e8f6;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: right;
+            font-size: 18px;
+        }
+        
+        .option:hover {
+            background-color: #e2e8f6;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background-color: #b21f1f;
+            color: white;
+            border-color: #b21f1f;
+        }
+        
+        .option.correct {
+            background-color: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .option.wrong {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #b21f1f;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #8a1919;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: #e2e8f6;
+            color: #0b2f66;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d1d9eb;
+        }
+        
+        .progress-container {
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e2e8f6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #b21f1f;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #e6ffed;
+            border: 1px solid #89d7a0;
+            color: #116d2b;
+        }
+        
+        .feedback.wrong {
+            background-color: #ffe8e8;
+            border: 1px solid #f3aaaa;
+            color: #a72727;
+        }
+        
+        .explanation {
+            margin-top: 10px;
+            font-size: 16px;
+            text-align: right;
+        }
+        
+        .result-screen h2 {
+            color: #b21f1f;
+            margin-bottom: 20px;
+        }
+        
+        .score {
+            font-size: 72px;
+            font-weight: bold;
+            color: #b21f1f;
+            margin: 20px 0;
+        }
+        
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .restart-btn {
+            background-color: #b21f1f;
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        
+        .restart-btn:hover {
+            background-color: #8a1919;
+            transform: translateY(-2px);
+        }
+        
+        .timer {
+            font-size: 18px;
+            color: #b21f1f;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .option {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>اختبار الحرارة النوعية</h1>
+            <p>اختبر معرفتك حول مفهوم الحرارة النوعية وخصائصها</p>
+        </div>
+        
+        <div class="content">
+            <!-- شاشة البداية -->
+            <div class="start-screen" id="startScreen">
+                <h2 style="color: #b21f1f; margin-bottom: 20px;">مرحبًا بك في اختبار الحرارة النوعية</h2>
+                <p style="margin-bottom: 30px; font-size: 18px; line-height: 1.6;">
+                    سيختبر هذا الاختبار معرفتك بمفهوم الحرارة النوعية وخصائصها وتطبيقاتها.<br>
+                    يتكون الاختبار من 10 أسئلة متعددة الخيارات.<br>
+                    حاول الإجابة على جميع الأسئلة في أقصر وقت ممكن!
+                </p>
+                <button class="btn-primary" id="startBtn" style="font-size: 18px; padding: 15px 30px;">ابدأ الاختبار</button>
+            </div>
+            
+            <!-- شاشة الأسئلة -->
+            <div class="quiz-screen" id="quizScreen">
+                <div class="progress-container">
+                    <div class="timer" id="timer">الوقت: 0:00</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+                
+                <div class="question-number" id="questionNumber">السؤال 1 من 10</div>
+                <div class="question-text" id="questionText"></div>
+                
+                <div class="options" id="optionsContainer"></div>
+                
+                <div class="feedback" id="feedback"></div>
+                
+                <div class="controls">
+                    <button class="btn-secondary" id="prevBtn">السابق</button>
+                    <button class="btn-primary" id="nextBtn">التالي</button>
+                </div>
+            </div>
+            
+            <!-- شاشة النتائج -->
+            <div class="result-screen" id="resultScreen">
+                <h2>أحسنت! لقد أكملت الاختبار</h2>
+                <div class="score" id="finalScore">0%</div>
+                <div class="result-message" id="resultMessage"></div>
+                <button class="restart-btn" id="restartBtn">إعادة الاختبار</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // أسئلة الاختبار حول الحرارة النوعية
+        const quiz = [
+            {
+                q: "ما هي الحرارة النوعية؟",
+                options: [
+                    "كمية الحرارة اللازمة لرفع درجة حرارة 1 جرام من المادة درجة مئوية واحدة",
+                    "كمية الحرارة اللازمة لرفع درجة حرارة 1 كجم من المادة درجة مئوية واحدة",
+                    "كمية الحرارة اللازمة لتحويل المادة من الحالة الصلبة إلى السائلة",
+                    "كمية الحرارة المنطلقة عند احتراق المادة"
+                ],
+                answer: 0,
+                expl: "الحرارة النوعية هي كمية الحرارة اللازمة لرفع درجة حرارة 1 جرام من المادة درجة مئوية واحدة."
+            },
+            {
+                q: "ما وحدة قياس الحرارة النوعية في النظام الدولي؟",
+                options: [
+                    "جول/جرام.°م",
+                    "جول/كجم.°م",
+                    "كالوري/جرام.°م",
+                    "كالوري/كجم.°م"
+                ],
+                answer: 1,
+                expl: "وحدة قياس الحرارة النوعية في النظام الدولي هي جول/كجم.°م."
+            },
+            {
+                q: "أي من المواد التالية لها أعلى حرارة نوعية؟",
+                options: [
+                    "الحديد",
+                    "النحاس",
+                    "الماء",
+                    "الزئبق"
+                ],
+                answer: 2,
+                expl: "الماء له أعلى حرارة نوعية بين المواد الشائعة (4.18 جول/جرام.°م)."
+            },
+            {
+                q: "لماذا تستخدم المياه في أنظمة التبريد؟",
+                options: [
+                    "لأنها رخيصة الثمن",
+                    "لأنها متوفرة بكثرة",
+                    "لحرارتها النوعية العالية",
+                    "لأنها موصل جيد للحرارة"
+                ],
+                answer: 2,
+                expl: "تستخدم المياه في أنظمة التبريد بسبب حرارتها النوعية العالية، مما يمكنها من امتصاص كمية كبيرة من الحرارة مع تغير طفيف في درجة حرارتها."
+            },
+            {
+                q: "ما العلاقة بين الحرارة النوعية وسرعة تسخين المادة؟",
+                options: [
+                    "كلما زادت الحرارة النوعية، زادت سرعة التسخين",
+                    "كلما زادت الحرارة النوعية، قلت سرعة التسخين",
+                    "لا توجد علاقة بينهما",
+                    "الحرارة النوعية تؤثر فقط على التبريد وليس التسخين"
+                ],
+                answer: 1,
+                expl: "كلما زادت الحرارة النوعية للمادة، احتاجت إلى وقت أطول للتسخين لأنها تحتاج إلى كمية حرارة أكبر لرفع درجة حرارتها."
+            },
+            {
+                q: "أي من العوامل التالية لا يؤثر على الحرارة النوعية للمادة؟",
+                options: [
+                    "نوع المادة",
+                    "درجة الحرارة",
+                    "الضغط",
+                    "الشكل الهندسي للمادة"
+                ],
+                answer: 3,
+                expl: "الشكل الهندسي للمادة لا يؤثر على الحرارة النوعية، بينما نوع المادة ودرجة الحرارة والضغط قد تؤثر عليها."
+            },
+            {
+                q: "ما هي الحرارة النوعية للحديد تقريبًا؟",
+                options: [
+                    "0.45 جول/جرام.°م",
+                    "1.0 جول/جرام.°م",
+                    "2.5 جول/جرام.°م",
+                    "4.18 جول/جرام.°م"
+                ],
+                answer: 0,
+                expl: "الحرارة النوعية للحديد هي 0.45 جول/جرام.°م تقريبًا."
+            },
+            {
+                q: "إذا كانت الحرارة النوعية للمادة A أكبر من المادة B، فأي منهما تحتاج إلى وقت أطول للوصول إلى نفس درجة الحرارة عند تسخينها بنفس المعدل؟",
+                options: [
+                    "المادة A",
+                    "المادة B",
+                    "كلاهما يحتاج نفس الوقت",
+                    "لا يمكن المقارنة"
+                ],
+                answer: 0,
+                expl: "المادة ذات الحرارة النوعية الأعلى تحتاج إلى وقت أطول للوصول إلى نفس درجة الحرارة لأنها تحتاج إلى كمية حرارة أكبر."
+            },
+            {
+                q: "ما الفرق بين الحرارة النوعية والسعة الحرارية؟",
+                options: [
+                    "الحرارة النوعية خاصة بالمادة، بينما السعة الحرارية خاصة بالجسم",
+                    "الحرارة النوعية خاصة بالجسم، بينما السعة الحرارية خاصة بالمادة",
+                    "هما نفس المفهوم",
+                    "لا يوجد فرق بينهما"
+                ],
+                answer: 0,
+                expl: "الحرارة النوعية هي خاصية للمادة (كمية الحرارة اللازمة لرفع درجة حرارة جرام واحد درجة مئوية واحدة)، بينما السعة الحرارية هي خاصية للجسم (كمية الحرارة اللازمة لرفع درجة حرارة الجسم كله درجة مئوية واحدة)."
+            },
+            {
+                q: "لماذا تشعر بالبرودة عند لمس قطعة من المعدن مقارنة بقطعة من الخشب في نفس الغرفة؟",
+                options: [
+                    "لأن المعدن أكثر برودة من الخشب",
+                    "لأن المعدن موصل جيد للحرارة فيسحب الحرارة من يدك بسرعة",
+                    "لأن الخشب موصل جيد للحرارة",
+                    "لأن حرارة الخشب النوعية أقل من المعدن"
+                ],
+                answer: 1,
+                expl: "تشعر بالبرودة عند لمس المعدن لأنه موصل جيد للحرارة، فيسحب الحرارة من يدك بسرعة أكبر من الخشب، رغم أن كلاهما في نفس درجة الحرارة."
+            }
+        ];
+
+        // المتغيرات العامة
+        let currentQuestion = 0;
+        let userAnswers = Array(quiz.length).fill(null);
+        let score = 0;
+        let timerInterval;
+        let seconds = 0;
+        let quizCompleted = false;
+
+        // عناصر DOM
+        const startScreen = document.getElementById('startScreen');
+        const quizScreen = document.getElementById('quizScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const startBtn = document.getElementById('startBtn');
+        const questionNumber = document.getElementById('questionNumber');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedback = document.getElementById('feedback');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progress = document.getElementById('progress');
+        const timer = document.getElementById('timer');
+        const finalScore = document.getElementById('finalScore');
+        const resultMessage = document.getElementById('resultMessage');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // بدء الاختبار
+        startBtn.addEventListener('click', startQuiz);
+        
+        function startQuiz() {
+            startScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
+            currentQuestion = 0;
+            userAnswers = Array(quiz.length).fill(null);
+            score = 0;
+            seconds = 0;
+            quizCompleted = false;
+            
+            // بدء المؤقت
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            loadQuestion();
+        }
+
+        // تحديث المؤقت
+        function updateTimer() {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timer.textContent = `الوقت: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+
+        // تحميل السؤال الحالي
+        function loadQuestion() {
+            const question = quiz[currentQuestion];
+            
+            // تحديث رقم السؤال وشريط التقدم
+            questionNumber.textContent = `السؤال ${currentQuestion + 1} من ${quiz.length}`;
+            progress.style.width = `${((currentQuestion + 1) / quiz.length) * 100}%`;
+            
+            // عرض نص السؤال
+            questionText.textContent = question.q;
+            
+            // عرض الخيارات
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                if (userAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // تحديث حالة الأزرار
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.textContent = currentQuestion === quiz.length - 1 ? 'إنهاء الاختبار' : 'التالي';
+            
+            // إخفاء التغذية الراجعة
+            feedback.style.display = 'none';
+        }
+
+        // اختيار إجابة
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // تحديث المظهر
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.classList.remove('selected');
+                if (index === optionIndex) {
+                    option.classList.add('selected');
+                }
+            });
+        }
+
+        // الانتقال إلى السؤال التالي
+        nextBtn.addEventListener('click', nextQuestion);
+        
+        function nextQuestion() {
+            if (userAnswers[currentQuestion] === null) {
+                feedback.textContent = 'يرجى اختيار إجابة قبل المتابعة';
+                feedback.className = 'feedback wrong';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // التحقق من الإجابة وعرض التغذية الراجعة
+            checkAnswer();
+            
+            // الانتقال إلى السؤال التالي أو إنهاء الاختبار
+            if (currentQuestion < quiz.length - 1) {
+                currentQuestion++;
+                setTimeout(loadQuestion, 1500);
+            } else {
+                setTimeout(finishQuiz, 1500);
+            }
+        }
+
+        // الانتقال إلى السؤال السابق
+        prevBtn.addEventListener('click', prevQuestion);
+        
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        // التحقق من الإجابة
+        function checkAnswer() {
+            const question = quiz[currentQuestion];
+            const userAnswer = userAnswers[currentQuestion];
+            const isCorrect = userAnswer === question.answer;
+            
+            // تحديث النتيجة
+            if (isCorrect) {
+                score++;
+            }
+            
+            // عرض التغذية الراجعة
+            feedback.innerHTML = isCorrect 
+                ? '<strong>إجابة صحيحة! ✓</strong>' 
+                : `<strong>إجابة خاطئة! ✗</strong><br>الإجابة الصحيحة: ${question.options[question.answer]}`;
+            
+            feedback.innerHTML += `<div class="explanation">${question.expl}</div>`;
+            feedback.className = isCorrect ? 'feedback correct' : 'feedback wrong';
+            feedback.style.display = 'block';
+            
+            // إظهار الإجابات الصحيحة والخاطئة
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                if (index === question.answer) {
+                    option.classList.add('correct');
+                } else if (index === userAnswer && !isCorrect) {
+                    option.classList.add('wrong');
+                }
+                option.style.pointerEvents = 'none'; // منع التحديد بعد الإجابة
+            });
+        }
+
+        // إنهاء الاختبار وعرض النتائج
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            quizCompleted = true;
+            
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            
+            const percentage = Math.round((score / quiz.length) * 100);
+            finalScore.textContent = `${percentage}%`;
+            
+            // تحديد الرسالة بناءً على النتيجة
+            if (percentage >= 90) {
+                resultMessage.textContent = 'ممتاز! لديك فهم رائع لمفهوم الحرارة النوعية.';
+            } else if (percentage >= 70) {
+                resultMessage.textContent = 'جيد جدًا! لديك فهم جيد للحرارة النوعية.';
+            } else if (percentage >= 50) {
+                resultMessage.textContent = 'ليس سيئًا! يمكنك تحسين معرفتك بالحرارة النوعية.';
+            } else {
+                resultMessage.textContent = 'يحتاج إلى تحسين! ننصحك بمراجعة مفهوم الحرارة النوعية.';
+            }
+            
+            resultMessage.innerHTML += `<br>لقد أجبت بشكل صحيح على ${score} من أصل ${quiz.length} سؤال.<br>الوقت المستغرق: ${timer.textContent}`;
+        }
+
+        // إعادة الاختبار
+        restartBtn.addEventListener('click', startQuiz);
+    </script>
+</body>
+</html>
