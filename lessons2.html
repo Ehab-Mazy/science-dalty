@@ -208,105 +208,6 @@
         .quiz-status.not-completed {
             color: #f44336;
         }
-
-        /* إصلاح نافذة الفيديو */
-        .video-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #333;
-            background: rgba(255,255,255,0.9);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10001;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            background: white;
-            transform: scale(1.1);
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* نسبة 16:9 */
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .video-info {
-            padding: 20px;
-            background: white;
-        }
-
-        .video-info h3 {
-            margin: 0 0 10px 0;
-            color: #2c3e50;
-        }
-
-        .video-info p {
-            margin: 0;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* أنماط إضافية للرسائل */
-        #videoMessage {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            z-index: 10000;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -332,7 +233,7 @@
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <!-- نافذة الفيديو - تم إصلاحها -->
+    <!-- نافذة الفيديو -->
     <div id="videoModal" class="video-modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -350,9 +251,6 @@
             </div>
         </div>
     </div>
-
-    <!-- عنصر الرسائل -->
-    <div id="videoMessage"></div>
 
     <!-- الهيدر -->
     <header class="header">
@@ -375,7 +273,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="#unit1">الوحدة الأولى</a>
-            <a href="unit2.html">الوحدة الثانية</a>
+            <a href="#unit2">الوحدة الثانية</a>
             <a href="#unit3">الوحدة الثالثة</a>
             <a href="#unit4">الوحدة الرابعة</a>
         </div>
@@ -424,7 +322,7 @@
                             <span class="views">👁️ 1,234 مشاهدة</span>
                         </div>
                         <div class="lesson-actions">
-                            <button onclick="window.location.href='tests/حالات المادة.html'">
+                            <button onclick="window.location.href='tests/حالات المادة.html '">
                                 <span>📝</span> اختبار الدرس
                             </button>
                             <button class="btn btn-download">
@@ -463,7 +361,7 @@
                         </div>
                         <div class="lesson-actions">
                             <button onclick="window.location.href='tests/state.html'">
-                                <span>📝</span> اختبار الدرس
+                            <span>📝</span> اختبار الدرس
                             </button>
                             <button class="btn btn-download">
                                 <span>📥</span> تحميل الملخص
@@ -644,6 +542,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="lesson-content">
                         <h3>طرق انتقال الحرارة</h3>
                         <p>التوصيل والحمل والإشعاع - الطرق الثلاث لانتقال الطاقة الحرارية</p>
@@ -663,6 +562,100 @@
                     </div>
                 </div>
             </div>
+            <div class="lesson-content">
+                <h3>طرق انتقال الحرارة</h3>
+                <p>التوصيل والحمل والإشعاع - الطرق الثلاث لانتقال الطاقة الحرارية</p>
+                <div class="lesson-meta">
+                    <span class="duration">⏱️ 30 دقيقة</span>
+                    <span class="difficulty">🔴 متقدم</span>
+                    <span class="views">👁️ قريباً</span>
+                </div>
+                <div class="lesson-actions">
+                    <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson7', 'انتقال الحرارة')">
+                        <span>📝</span> اختبار الدرس
+                    </button>
+                    <button class="btn btn-download">
+                        <span>📥</span> تحميل الملخص
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+         <!-- درس 8 -  التفاعل الكيميائي  -->
+         <div class="lesson-card">
+            <div class="lesson-image-container">
+                <div class="lesson-badge">درس 8</div>
+                <div class="video-thumbnail" 
+                     data-video="ocb00vM38aM"
+                     data-title="  التفاعل الكيميائي
+                     data-description="التفاعل الكيميائي و الفرق بين التغير الكيميائي و التغير الفيزيائي">
+                    <div class="play-button"></div>
+                    <img src="https://i.ytimg.com/vi/ocb00vM38aM/maxresdefault.jpg" 
+                         alt="فيديو التفاعل الكيميائي 
+                         class="thumbnail-image"
+                         onerror="handleImageError(this)">
+                    <div class="video-overlay">
+                        <span class="video-duration">30:00</span>
+                        <span class="watch-now">شاهد الآن</span>
+                    </div>
+                </div>          
+            </div>
+            <div class="lesson-content">
+                <h3> التفاعل  الكيميائي</h3>
+                <p>مقارنة بين التغير الكيميائي والفيزيائي</p>
+                <div class="lesson-meta">
+                    <span class="duration">⏱️ 6 دقيقة</span>
+                    <span class="difficulty">🔴 متقدم</span>
+                    <span class="views">👁️ 612 مشاهدة</span>
+                </div>
+                <div class="lesson-actions">
+                    <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson6', 'الارتفاع ودرجة الحرارة')">
+                        <span>📝</span> اختبار الدرس
+                    </button>
+                    <button class="btn btn-download">
+                        <span>📥</span> تحميل الملخص
+                    </button>
+                </div>
+            </div>
+               <!-- درس 4 - الحرارة النوعية -->
+               <div class="lesson-card">
+                <div class="lesson-image-container">
+                    <div class="lesson-badge">درس 4</div>
+                    <div class="video-thumbnail" 
+                         data-video="BHw4_0gPSog"
+                         data-title="  وزن المعادلة الكيميائية"
+                         data-description="وزن المعادلة و تطبيق قانون بقاء الكتلة">
+                        <div class="play-button"></div>
+                        <img src="https://i.ytimg.com/vi/BHw4_0gPSog/maxresdefault.jpg" 
+                             alt="فيديو الحرارة النوعية" 
+                             class="thumbnail-image"
+                             onerror="handleImageError(this)">
+                        <div class="video-overlay">
+                            <span class="video-duration">25:00</span>
+                            <span class="watch-now">شاهد الآن</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lesson-content">
+                    <h3>وزن المعادلة الكيميائي</h3>
+                    <p>وزن المعادلة و تطبيق قانون بقاء الكتلة</p>
+                    <div class="lesson-meta">
+                        <span class="duration">⏱️ 25 دقيقة</span>
+                        <span class="difficulty">🟡 متوسط</span>
+                        <span class="views">👁️ 723 مشاهدة</span>
+                    </div>
+                    <div class="lesson-actions">
+                        <button class="btn btn-quiz" onclick="showLessonTests('unit1-lesson4', 'الحرارة النوعية')">
+                            <span>📝</span> اختبار الدرس
+                        </button>
+                        <button class="btn btn-download">
+                            <span>📥</span> تحميل الملخص
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            
         </section>
 
         <!-- باقي الوحدات... -->
@@ -749,7 +742,35 @@
                         explanation: 'درجة الحرارة والضغط يؤثران في تغير حالات المادة'
                     }
                 ]
-            }
+            },
+            'unit1-lesson3': {
+                title: 'اختبار درس: الطاقة الداخلية ودرجة الحرارة',
+                description: 'اختبر معلوماتك في درس الطاقة الداخلية ودرجة الحرارة',
+                questions: [
+                    {
+                        question: 'ما هو الفرق بين الطاقة الداخلية ودرجة الحرارة؟',
+                        options: ['الطاقة الداخلية هي كمية الطاقة الكلية للمادة، بينما درجة الحرارة هي مقياس لمتوسط الطاقة الحركية للجزيئات', 
+                                 'الطاقة الداخلية هي مقياس للحرارة، ودرجة الحرارة هي مقياس للطاقة', 
+                                 'لا يوجد فرق بينهما', 
+                                 'الطاقة الداخلية هي مقياس للطاقة الكامنة، ودرجة الحرارة هي مقياس للطاقة الحركية'],
+                        correctAnswer: 0,
+                        explanation: 'الطاقة الداخلية تمثل مجموع الطاقات في المادة، بينما درجة الحرارة تقيس متوسط الطاقة الحركية للجزيئات'
+                    },
+                    {
+                        question: 'ما هي وحدة قياس درجة الحرارة في النظام الدولي؟',
+                        options: ['الفهرنهايت', 'الكلفن', 'السليزيوس', 'الجول'],
+                        correctAnswer: 1,
+                        explanation: 'الكلفن هي وحدة قياس درجة الحرارة في النظام الدولي للوحدات'
+                    },
+                    {
+                        question: 'عند انتقال الحرارة بين جسمين، تنتقل الحرارة من الجسم:',
+                        options: ['الأكثر برودة إلى الأكثر سخونة', 'الأكثر سخونة إلى الأكثر برودة', 'لا تنتقل الحرارة بين الأجسام', 'تنتقل في كلا الاتجاهين بالتساوي'],
+                        correctAnswer: 1,
+                        explanation: 'الحرارة تنتقل تلقائياً من الجسم الأكثر سخونة إلى الجسم الأكثر برودة'
+                    }
+                ]
+            },
+            // يمكن إضافة المزيد من الاختبارات للدروس الأخرى
         };
 
         // المتغيرات العامة
@@ -776,11 +797,6 @@
             const videoTitle = document.getElementById('videoTitle');
             const videoDescription = document.getElementById('videoDescription');
             const closeModal = document.querySelector('.close-modal');
-            
-            // التأكد من أن النافذة مخفية في البداية
-            if (videoModal) {
-                videoModal.style.display = 'none';
-            }
             
             // التأكد من وجود العناصر الأساسية
             if (!videoModal || !videoPlayer) {
@@ -821,6 +837,9 @@
                     // عرض النافذة
                     videoModal.style.display = 'flex';
                     document.body.style.overflow = 'hidden';
+                    
+                    // التركيز على النافذة للتحكم باللوحة المفاتيح
+                    videoModal.focus();
                     
                 } catch (error) {
                     console.error('خطأ في تشغيل الفيديو:', error);
@@ -941,8 +960,26 @@
         }
 
         function showMessage(message) {
-            const messageEl = document.getElementById('videoMessage');
-            if (!messageEl) return;
+            // إنشاء عنصر للرسائل إذا لم يكن موجوداً
+            let messageEl = document.getElementById('videoMessage');
+            if (!messageEl) {
+                messageEl = document.createElement('div');
+                messageEl.id = 'videoMessage';
+                messageEl.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #333;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    font-weight: bold;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                `;
+                document.body.appendChild(messageEl);
+            }
             
             messageEl.textContent = message;
             messageEl.style.display = 'block';
@@ -957,9 +994,26 @@
             try {
                 const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
                 console.log('الاختبارات المحفوظة:', savedTests);
+                
+                const lessons = [
+                    'unit1-lesson1', 'unit1-lesson2', 'unit1-lesson3', 
+                    'unit1-lesson4', 'unit1-lesson5', 'unit1-lesson6', 'unit1-lesson7'
+                ];
+                
+                lessons.forEach(lessonId => {
+                    const testsForLesson = Object.values(savedTests).filter(test => 
+                        test.lessonLink === lessonId
+                    );
+                    console.log(`الدرس ${lessonId}: ${testsForLesson.length} اختبار`);
+                });
             } catch (error) {
                 console.error('خطأ في التحقق من اتصال الاختبارات:', error);
             }
+        }
+
+        // دالة مساعدة للانتقال إلى صفحة الاختبارات
+        function goToQuiz(lessonId) {
+            window.location.href = `quiz.html?lesson=${lessonId}`;
         }
 
         // دالة معالجة أخطاء الصور
@@ -1147,7 +1201,7 @@
                     
                     <div id="questionContainer" class="question-container">
                         <div class="question-text" id="questionText">${currentQuiz.questions[0].question}</div>
-                        <div class="optionsContainer" id="optionsContainer">
+                        <div class="options-container" id="optionsContainer">
                             ${currentQuiz.questions[0].options.map((option, index) => `
                                 <div class="option" data-index="${index}">${option}</div>
                             `).join('')}
@@ -1182,74 +1236,44 @@
         // تهيئة أحداث الاختبار
         function initQuizEvents() {
             // أحداث الخيارات
-            const optionsContainer = document.getElementById('optionsContainer');
-            if (optionsContainer) {
-                optionsContainer.addEventListener('click', function(e) {
-                    const option = e.target.closest('.option');
-                    if (option) {
-                        selectOption(parseInt(option.getAttribute('data-index')));
-                    }
-                });
-            }
+            document.getElementById('optionsContainer').addEventListener('click', function(e) {
+                const option = e.target.closest('.option');
+                if (option) {
+                    selectOption(parseInt(option.getAttribute('data-index')));
+                }
+            });
             
             // أحداث أزرار التنقل
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            if (prevBtn) {
-                prevBtn.addEventListener('click', goToPreviousQuestion);
-            }
-            
-            if (nextBtn) {
-                nextBtn.addEventListener('click', goToNextQuestion);
-            }
+            document.getElementById('prevBtn').addEventListener('click', goToPreviousQuestion);
+            document.getElementById('nextBtn').addEventListener('click', goToNextQuestion);
             
             // أحداث النتيجة
-            const restartQuiz = document.getElementById('restartQuiz');
-            const closeQuiz = document.getElementById('closeQuiz');
-            
-            if (restartQuiz) {
-                restartQuiz.addEventListener('click', restartQuiz);
-            }
-            
-            if (closeQuiz) {
-                closeQuiz.addEventListener('click', function() {
-                    const quizWindow = document.getElementById('quizWindow');
-                    if (quizWindow) {
-                        quizWindow.remove();
-                    }
-                });
-            }
+            document.getElementById('restartQuiz').addEventListener('click', restartQuiz);
+            document.getElementById('closeQuiz').addEventListener('click', function() {
+                document.getElementById('quizWindow').remove();
+            });
         }
 
         // عرض السؤال الحالي
         function showQuestion() {
-            if (!currentQuiz || !currentQuiz.questions[currentQuestionIndex]) return;
-            
             const question = currentQuiz.questions[currentQuestionIndex];
-            const questionText = document.getElementById('questionText');
+            document.getElementById('questionText').textContent = question.question;
+            
             const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
             
-            if (questionText) {
-                questionText.textContent = question.question;
-            }
-            
-            if (optionsContainer) {
-                optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.setAttribute('data-index', index);
+                optionElement.textContent = option;
                 
-                question.options.forEach((option, index) => {
-                    const optionElement = document.createElement('div');
-                    optionElement.className = 'option';
-                    optionElement.setAttribute('data-index', index);
-                    optionElement.textContent = option;
-                    
-                    if (userAnswers[currentQuestionIndex] === index) {
-                        optionElement.classList.add('selected');
-                    }
-                    
-                    optionsContainer.appendChild(optionElement);
-                });
-            }
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
             
             // تحديث شريط التقدم
             updateProgressBar();
@@ -1260,31 +1284,19 @@
 
         // تحديث شريط التقدم
         function updateProgressBar() {
-            const progressBar = document.getElementById('quizProgressBar');
-            const progressText = document.getElementById('quizProgressText');
-            
-            if (progressBar && progressText) {
-                const progress = ((currentQuestionIndex + 1) / currentQuiz.questions.length) * 100;
-                progressBar.style.width = `${progress}%`;
-                progressText.textContent = `السؤال ${currentQuestionIndex + 1} من ${currentQuiz.questions.length}`;
-            }
+            const progress = ((currentQuestionIndex + 1) / currentQuiz.questions.length) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progress}%`;
+            document.getElementById('quizProgressText').textContent = `السؤال ${currentQuestionIndex + 1} من ${currentQuiz.questions.length}`;
         }
 
         // تحديث أزرار التنقل
         function updateNavigationButtons() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
             
-            if (prevBtn) {
-                prevBtn.disabled = currentQuestionIndex === 0;
-            }
-            
-            if (nextBtn) {
-                if (currentQuestionIndex === currentQuiz.questions.length - 1) {
-                    nextBtn.textContent = 'إنهاء الاختبار';
-                } else {
-                    nextBtn.textContent = 'التالي';
-                }
+            if (currentQuestionIndex === currentQuiz.questions.length - 1) {
+                document.getElementById('nextBtn').textContent = 'إنهاء الاختبار';
+            } else {
+                document.getElementById('nextBtn').textContent = 'التالي';
             }
         }
 
@@ -1340,18 +1352,14 @@
 
         // عرض النتيجة
         function showResult() {
-            const questionContainer = document.getElementById('questionContainer');
-            const navigationButtons = document.querySelector('.navigation-buttons');
-            const resultContainer = document.getElementById('resultContainer');
-            const resultScore = document.getElementById('resultScore');
-            const resultMessage = document.getElementById('resultMessage');
+            document.getElementById('questionContainer').classList.add('hidden');
+            document.querySelector('.navigation-buttons').classList.add('hidden');
             
-            if (questionContainer) questionContainer.classList.add('hidden');
-            if (navigationButtons) navigationButtons.classList.add('hidden');
-            if (resultContainer) resultContainer.classList.remove('hidden');
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.classList.remove('hidden');
             
             const percentage = (score / currentQuiz.questions.length) * 100;
-            if (resultScore) resultScore.textContent = `${percentage}%`;
+            document.getElementById('resultScore').textContent = `${percentage}%`;
             
             let message = '';
             if (percentage >= 80) {
@@ -1363,8 +1371,7 @@
             } else {
                 message = 'يحتاج إلى تحسين. ننصحك بمراجعة الدرس بعناية.';
             }
-            
-            if (resultMessage) resultMessage.textContent = message;
+            document.getElementById('resultMessage').textContent = message;
             
             // حفظ النتيجة
             const quizResults = JSON.parse(localStorage.getItem('quizResults') || '{}');
@@ -1381,16 +1388,609 @@
             userAnswers = [];
             score = 0;
             
-            const resultContainer = document.getElementById('resultContainer');
-            const questionContainer = document.getElementById('questionContainer');
-            const navigationButtons = document.querySelector('.navigation-buttons');
-            
-            if (resultContainer) resultContainer.classList.add('hidden');
-            if (questionContainer) questionContainer.classList.remove('hidden');
-            if (navigationButtons) navigationButtons.classList.remove('hidden');
+            document.getElementById('resultContainer').classList.add('hidden');
+            document.getElementById('questionContainer').classList.remove('hidden');
+            document.querySelector('.navigation-buttons').classList.remove('hidden');
             
             showQuestion();
         }
     </script>
+    <script>
+        // بيانات الاختبارات الكاملة لكل درس
+        const quizData = {
+            'unit1-lesson1': {
+                title: 'اختبار درس: حالات المادة',
+                description: 'اختبر معلوماتك في درس حالات المادة',
+                questions: [
+                    {
+                        question: 'كم عدد حالات المادة الأساسية؟',
+                        options: ['2', '3', '4', '5'],
+                        correctAnswer: 1,
+                        explanation: 'حالات المادة الأساسية هي: الصلبة، السائلة، الغازية'
+                    },
+                    {
+                        question: 'أي من الخصائص تنتمي للحالة الصلبة؟',
+                        options: ['شكل ثابت وحجم ثابت', 'شكل غير ثابت وحجم ثابت', 'شكل غير ثابت وحجم غير ثابت', 'شكل ثابت وحجم غير ثابت'],
+                        correctAnswer: 0,
+                        explanation: 'المادة في الحالة الصلبة لها شكل ثابت وحجم ثابت'
+                    },
+                    {
+                        question: 'ما الخاصية التي تميز الحالة الغازية؟',
+                        options: ['قابلية الانضغاط', 'شكل ثابت', 'حجم ثابت', 'كل ما سبق'],
+                        correctAnswer: 0,
+                        explanation: 'الغازات قابلة للانضغاط بدرجة كبيرة'
+                    }
+                ]
+            },
+            'unit1-lesson2': {
+                title: 'اختبار درس: تغير حالات المادة',
+                description: 'اختبر معلوماتك في درس تغير حالات المادة',
+                questions: [
+                    {
+                        question: 'عملية تحول المادة من الحالة الصلبة إلى الحالة السائلة تسمى:',
+                        options: ['التكثف', 'الانصهار', 'التجمد', 'التبخر'],
+                        correctAnswer: 1,
+                        explanation: 'الانصهار هو تحول المادة من الحالة الصلبة إلى السائلة'
+                    },
+                    {
+                        question: 'عند تبريد المادة السائلة تتحول إلى:',
+                        options: ['غاز', 'سائل', 'صلبة', 'بلازما'],
+                        correctAnswer: 2,
+                        explanation: 'عند تبريد المادة السائلة تتحول إلى الحالة الصلبة في عملية تسمى التجمد'
+                    },
+                    {
+                        question: 'أي من العمليات التالية تحتاج إلى امتصاص حرارة؟',
+                        options: ['الانصهار', 'التكثف', 'التجمد', 'كل ما سبق'],
+                        correctAnswer: 0,
+                        explanation: 'الانصهار والتبخر عمليات تحتاج إلى امتصاص حرارة'
+                    }
+                ]
+            },
+            'unit1-lesson3': {
+                title: 'اختبار درس: الطاقة الداخلية ودرجة الحرارة',
+                description: 'اختبر معلوماتك في درس الطاقة الداخلية ودرجة الحرارة',
+                questions: [
+                    {
+                        question: 'ما هو الفرق بين الطاقة الداخلية ودرجة الحرارة؟',
+                        options: [
+                            'الطاقة الداخلية هي كمية الطاقة الكلية للمادة، بينما درجة الحرارة هي مقياس لمتوسط الطاقة الحركية للجزيئات',
+                            'الطاقة الداخلية هي مقياس للحرارة، ودرجة الحرارة هي مقياس للطاقة',
+                            'لا يوجد فرق بينهما',
+                            'الطاقة الداخلية هي مقياس للطاقة الكامنة، ودرجة الحرارة هي مقياس للطاقة الحركية'
+                        ],
+                        correctAnswer: 0,
+                        explanation: 'الطاقة الداخلية تمثل مجموع الطاقات في المادة، بينما درجة الحرارة تقيس متوسط الطاقة الحركية للجزيئات'
+                    },
+                    {
+                        question: 'ما هي وحدة قياس درجة الحرارة في النظام الدولي؟',
+                        options: ['الفهرنهايت', 'الكلفن', 'السليزيوس', 'الجول'],
+                        correctAnswer: 1,
+                        explanation: 'الكلفن هي وحدة قياس درجة الحرارة في النظام الدولي للوحدات'
+                    }
+                ]
+            },
+            'unit1-lesson4': {
+                title: 'اختبار درس: الحرارة النوعية',
+                description: 'اختبر معلوماتك في درس الحرارة النوعية',
+                questions: [
+                    {
+                        question: 'ما المقصود بالحرارة النوعية للمادة؟',
+                        options: [
+                            'كمية الحرارة اللازمة لرفع درجة حرارة 1 جرام من المادة درجة مئوية واحدة',
+                            'كمية الحرارة التي تطلقها المادة عند احتراقها',
+                            'درجة حرارة انصهار المادة',
+                            'القدرة على توصيل الحرارة'
+                        ],
+                        correctAnswer: 0,
+                        explanation: 'الحرارة النوعية هي كمية الحرارة اللازمة لرفع درجة حرارة 1 جرام من المادة بمقدار 1 درجة مئوية'
+                    }
+                ]
+            },
+            'unit1-lesson5': {
+                title: 'اختبار درس: مراجعة حالات المادة',
+                description: 'اختبر معلوماتك في مراجعة حالات المادة',
+                questions: [
+                    {
+                        question: 'ما هو العامل الرئيسي الذي يتحكم في تغير حالات المادة؟',
+                        options: ['اللون', 'الطاقة الحرارية', 'الكثافة', 'الحجم'],
+                        correctAnswer: 1,
+                        explanation: 'الطاقة الحرارية هي العامل الرئيسي في تغير حالات المادة'
+                    }
+                ]
+            },
+            'unit1-lesson6': {
+                title: 'اختبار درس: الارتفاع ودرجة الحرارة',
+                description: 'اختبر معلوماتك في درس الارتفاع ودرجة الحرارة',
+                questions: [
+                    {
+                        question: 'لماذا تكون قمة الجبل أبرد من قاعدته؟',
+                        options: [
+                            'لأن الهواء يكون أقل كثافة في الأعلى',
+                            'لأن الضغط الجوي أقل في الأعلى',
+                            'لأن درجة الحرارة تنخفض مع الارتفاع',
+                            'جميع ما سبق'
+                        ],
+                        correctAnswer: 3,
+                        explanation: 'جميع الأسباب المذكورة تساهم في انخفاض درجة الحرارة في قمم الجبال'
+                    }
+                ]
+            },
+            'unit1-lesson7': {
+                title: 'اختبار درس: انتقال الحرارة',
+                description: 'اختبر معلوماتك في درس انتقال الحرارة',
+                questions: [
+                    {
+                        question: 'ما هي طرق انتقال الحرارة الثلاث؟',
+                        options: [
+                            'التوصيل، الحمل، الإشعاع',
+                            'التبخر، التكثف، الانصهار',
+                            'الطاقة، الشغل، القدرة',
+                            'الحرارة، البرودة، الاعتدال'
+                        ],
+                        correctAnswer: 0,
+                        explanation: 'طرق انتقال الحرارة هي التوصيل والحمل والإشعاع'
+                    }
+                ]
+            }
+        };
+        
+        // إصلاح دالة showLessonTests
+        function showLessonTests(lessonId, lessonTitle) {
+            console.log('فتح اختبارات الدرس:', lessonId, lessonTitle);
+            
+            const quizModal = document.getElementById('quizModal');
+            const quizLessonTitle = document.getElementById('quizLessonTitle');
+            const quizLessonDescription = document.getElementById('quizLessonDescription');
+            const quizList = document.getElementById('quizList');
+            
+            if (!quizModal) {
+                console.error('عنصر نافذة الاختبارات غير موجود');
+                showMessage('❌ حدث خطأ في تحميل الاختبارات');
+                return;
+            }
+            
+            // تحديث عنوان ووصف الدرس
+            quizLessonTitle.textContent = `اختبارات: ${lessonTitle}`;
+            quizLessonDescription.textContent = `اختبر معلوماتك في درس ${lessonTitle}`;
+            
+            // مسح قائمة الاختبارات السابقة
+            quizList.innerHTML = '';
+            
+            // التحقق من وجود اختبار لهذا الدرس
+            if (!quizData[lessonId]) {
+                console.warn('لا توجد بيانات اختبار للدرس:', lessonId);
+                quizList.innerHTML = `
+                    <div class="no-quiz-message">
+                        <p>⚠️ لا توجد اختبارات متاحة لهذا الدرس حالياً</p>
+                        <p>سيتم إضافة الاختبارات قريباً</p>
+                    </div>
+                `;
+            } else {
+                // إنشاء اختبار من البيانات
+                const test = {
+                    id: lessonId,
+                    title: quizData[lessonId].title,
+                    description: quizData[lessonId].description,
+                    lessonLink: lessonId,
+                    questions: quizData[lessonId].questions
+                };
+                
+                // التحقق مما إذا كان الاختبار مكتملاً
+                const quizResults = JSON.parse(localStorage.getItem('quizResults') || '{}');
+                const isCompleted = quizResults[lessonId] !== undefined;
+                const score = isCompleted ? quizResults[lessonId].score : 0;
+                
+                const quizItem = document.createElement('div');
+                quizItem.className = 'quiz-item';
+                
+                if (isCompleted) {
+                    quizItem.classList.add('completed');
+                }
+                
+                quizItem.innerHTML = `
+                    <h3>${test.title}</h3>
+                    <p>${test.description}</p>
+                    <div class="quiz-meta">
+                        <span class="quiz-questions">${test.questions.length} سؤال</span>
+                        <span class="quiz-status ${isCompleted ? 'completed' : 'not-completed'}">
+                            ${isCompleted ? `مكتمل - ${score}%` : 'غير مكتمل'}
+                        </span>
+                    </div>
+                `;
+                
+                quizItem.addEventListener('click', function() {
+                    console.log('بدء الاختبار:', test);
+                    startQuiz(test);
+                });
+                
+                quizList.appendChild(quizItem);
+            }
+            
+            // عرض نافذة الاختبارات
+            quizModal.style.display = 'block';
+            console.log('تم عرض نافذة الاختبارات');
+        }
+        
+        // إصلاح دالة startQuiz
+        function startQuiz(test) {
+            console.log('بدء الاختبار:', test);
+            
+            if (!test || !test.questions || test.questions.length === 0) {
+                console.error('بيانات الاختبار غير صالحة:', test);
+                showMessage('❌ لا يمكن بدء الاختبار - البيانات غير متاحة');
+                return;
+            }
+            
+            // إغلاق نافذة الاختبارات
+            const quizModal = document.getElementById('quizModal');
+            if (quizModal) {
+                quizModal.style.display = 'none';
+            }
+            
+            // حفظ الاختبار الحالي
+            currentQuiz = test;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            
+            // إنشاء نافذة الاختبار
+            createQuizWindow();
+        }
+        
+        // إضافة أنماط CSS المفقودة
+        const additionalStyles = `
+            .no-quiz-message {
+                text-align: center;
+                padding: 40px 20px;
+                color: #666;
+            }
+            
+            .no-quiz-message p {
+                margin: 10px 0;
+            }
+            
+            .quiz-meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 10px;
+            }
+            
+            .quiz-questions {
+                background: #e3f2fd;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.9rem;
+            }
+        `;
+        
+        // إضافة الأنماط إلى الصفحة
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = additionalStyles;
+        document.head.appendChild(styleSheet);
+        
+        // اختبار سريع للوظيفة
+        function testQuizSystem() {
+            console.log('=== اختبار نظام الاختبارات ===');
+            
+            // اختبار وجود البيانات
+            console.log('بيانات الاختبارات:', quizData);
+            
+            // اختبار وجود الدروس
+            const testLessons = ['unit1-lesson1', 'unit1-lesson2', 'unit1-lesson3'];
+            testLessons.forEach(lessonId => {
+                if (quizData[lessonId]) {
+                    console.log(`✓ ${lessonId}: ${quizData[lessonId].questions.length} سؤال`);
+                } else {
+                    console.log(`✗ ${lessonId}: لا توجد بيانات`);
+                }
+            });
+            
+            // اختبار الدوال
+            if (typeof showLessonTests === 'function') {
+                console.log('✓ دالة showLessonTests موجودة');
+            } else {
+                console.log('✗ دالة showLessonTests غير موجودة');
+            }
+            
+            if (typeof startQuiz === 'function') {
+                console.log('✓ دالة startQuiz موجودة');
+            } else {
+                console.log('✗ دالة startQuiz غير موجودة');
+            }
+        }
+        
+        // تشغيل الاختبار عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testQuizSystem, 1000);
+        });
+        </script>
+        <script>
+    // نظام الاختبارات المتكامل مع صفحة الدروس
+    function showLessonTests(lessonId, lessonTitle) {
+        // البحث عن الاختبارات المرتبطة بهذا الدرس
+        const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+        const lessonTests = Object.values(savedTests).filter(test => 
+            test.lessonLink === lessonId
+        );
+
+        if (lessonTests.length === 0) {
+            // إذا لم توجد اختبارات، نعرض رسالة ونقترح إنشاء اختبار
+            showMessage(`
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">📝</div>
+                    <h3>لا توجد اختبارات لهذا الدرس بعد</h3>
+                    <p>يمكنك استيراد اختبار من Excel أو إنشاء اختبار جديد</p>
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="window.open('import.html', '_blank')">
+                            📊 استيراد اختبار
+                        </button>
+                        <button class="btn btn-secondary" onclick="createSampleTest('${lessonId}', '${lessonTitle}')">
+                            🎯 إنشاء اختبار تجريبي
+                        </button>
+                    </div>
+                </div>
+            `);
+            return;
+        }
+
+        // عرض قائمة الاختبارات المتاحة
+        let testsHTML = `
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3>اختبارات ${lessonTitle}</h3>
+            </div>
+            <div class="tests-grid">
+        `;
+
+        lessonTests.forEach(test => {
+            const quizResults = JSON.parse(localStorage.getItem('quizResults') || '{}');
+            const userResults = Object.values(quizResults).filter(result => 
+                result.testId === test.id
+            );
+            const bestScore = userResults.length > 0 ? 
+                Math.max(...userResults.map(r => r.score)) : null;
+
+            testsHTML += `
+                <div class="test-card">
+                    <div class="test-header">
+                        <h4>${test.title}</h4>
+                        <span class="test-badge">${test.questionCount} سؤال</span>
+                    </div>
+                    <div class="test-info">
+                        <span>🕒 ${test.time} دقيقة</span>
+                        ${bestScore ? `<span>🏆 أفضل نتيجة: ${bestScore}%</span>` : ''}
+                    </div>
+                    <div class="test-actions">
+                        <button class="btn btn-primary" onclick="startQuizFromLesson('${test.id}')">
+                            ▶ ابدأ الاختبار
+                        </button>
+                        <button class="btn btn-outline" onclick="viewTestDetails('${test.id}')">
+                            👀 معاينة
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        testsHTML += '</div>';
+
+        showMessage(testsHTML);
+    }
+
+    // إنشاء اختبار تجريبي
+    function createSampleTest(lessonId, lessonTitle) {
+        const sampleTest = {
+            id: 'sample_' + Date.now(),
+            title: `اختبار تجريبي - ${lessonTitle}`,
+            description: `اختبار تجريبي لدرس ${lessonTitle}`,
+            time: 10,
+            questions: [
+                {
+                    text: "هذا سؤال تجريبي للدرس. ما هي الإجابة الصحيحة؟",
+                    options: ["الإجابة الأولى", "الإجابة الثانية", "الإجابة الثالثة", "الإجابة الصحيحة"],
+                    correctAnswer: 3,
+                    explanation: "هذا شرح تجريبي للإجابة الصحيحة"
+                },
+                {
+                    text: "سؤال تجريبي آخر لاختبار النظام",
+                    options: ["اختيار خاطئ", "الاختيار الصحيح", "اختيار خاطئ", "اختيار خاطئ"],
+                    correctAnswer: 1,
+                    explanation: "شرح للسؤال الثاني"
+                }
+            ],
+            lessonLink: lessonId,
+            lessonName: lessonTitle,
+            questionCount: 2,
+            subject: "علوم",
+            grade: "الصف الثاني الإعدادي",
+            createdAt: new Date().toISOString()
+        };
+
+        // حفظ الاختبار التجريبي
+        const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+        savedTests[sampleTest.id] = sampleTest;
+        localStorage.setItem('savedTests', JSON.stringify(savedTests));
+
+        showMessage(`
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">✅</div>
+                <h3>تم إنشاء اختبار تجريبي</h3>
+                <p>يمكنك الآن بدء الاختبار أو استيراد اختبارات حقيقية من Excel</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="startQuizFromLesson('${sampleTest.id}')">
+                        ▶ ابدأ الاختبار التجريبي
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.open('import.html', '_blank')">
+                        📊 استيراد اختبارات
+                    </button>
+                </div>
+            </div>
+        `);
+    }
+
+    // بدء الاختبار من صفحة الدروس
+    function startQuizFromLesson(testId) {
+        window.open(`quiz.html?test=${testId}`, '_blank');
+    }
+
+    // معاينة تفاصيل الاختبار
+    function viewTestDetails(testId) {
+        const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
+        const test = savedTests[testId];
+        
+        if (!test) return;
+
+        let detailsHTML = `
+            <div style="text-align: center;">
+                <h3>${test.title}</h3>
+                <p>${test.description}</p>
+            </div>
+            <div class="test-info" style="text-align: center; margin: 15px 0;">
+                <span>🕒 ${test.time} دقيقة</span>
+                <span>❓ ${test.questionCount} سؤال</span>
+            </div>
+            <div class="questions-preview" style="max-height: 300px; overflow-y: auto;">
+        `;
+
+        test.questions.forEach((question, index) => {
+            detailsHTML += `
+                <div class="question-preview" style="margin: 10px 0; padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <strong>سؤال ${index + 1}:</strong> ${question.text}
+                    <div style="margin-top: 10px; color: #38a169;">
+                        <strong>الإجابة الصحيحة:</strong> ${['أ', 'ب', 'ج', 'د'][question.correctAnswer]}
+                    </div>
+                </div>
+            `;
+        });
+
+        detailsHTML += `
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="startQuizFromLesson('${testId}')">
+                    ▶ ابدأ الاختبار
+                </button>
+            </div>
+        `;
+
+        showMessage(detailsHTML);
+    }
+
+    // دالة مساعدة لعرض الرسائل
+    function showMessage(content) {
+        // إنشاء نافذة عرض الرسائل إذا لم تكن موجودة
+        let messageModal = document.getElementById('lessonMessageModal');
+        if (!messageModal) {
+            messageModal = document.createElement('div');
+            messageModal.id = 'lessonMessageModal';
+            messageModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.7);
+                z-index: 10000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                box-sizing: border-box;
+            `;
+            document.body.appendChild(messageModal);
+        }
+
+        messageModal.innerHTML = `
+            <div style="background: white; padding: 30px; border-radius: 15px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative;">
+                <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 10px; left: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                ${content}
+            </div>
+        `;
+    }
+    // دالة لجلب الفهرس من السيرفر
+async function loadIndex() {
+    try {
+        const response = await fetch('data/index.json');
+        const indexData = await response.json();
+        return indexData;
+    } catch (error) {
+        console.error('خطأ في تحميل الفهرس:', error);
+        return null;
+    }
+}
+
+// دالة لجلب اختبار درس معين
+async function loadTest(lessonId) {
+    try {
+        // أولاً نجد معلومات الدرس من الفهرس
+        const indexData = await loadIndex();
+        const lesson = findLessonById(indexData, lessonId);
+        
+        if (lesson && lesson.testFile) {
+            const response = await fetch(lesson.testFile);
+            const testData = await response.json();
+            return testData;
+        }
+        return null;
+    } catch (error) {
+        console.error('خطأ في تحميل الاختبار:', error);
+        return null;
+    }
+}
+
+// دالة مساعدة للعثور على درس بالمعرف
+function findLessonById(indexData, lessonId) {
+    for (const unit of indexData.units) {
+        for (const lesson of unit.lessons) {
+            if (lesson.id === lessonId) {
+                return lesson;
+            }
+        }
+    }
+    return null;
+}
+
+// دالة لعرض كل الوحدات والدروس
+function displayAllUnits(indexData) {
+    const container = document.getElementById('unitsContainer');
+    
+    indexData.units.forEach(unit => {
+        const unitHTML = `
+            <div class="unit-card" data-unit="${unit.id}">
+                <h3>${unit.title}</h3>
+                <p>${unit.description}</p>
+                <div class="lessons-list">
+                    ${unit.lessons.map(lesson => `
+                        <div class="lesson-item" data-lesson="${lesson.id}">
+                            <span class="lesson-title">${lesson.title}</span>
+                            <span class="lesson-duration">${lesson.duration}</span>
+                            <button onclick="startLesson('${lesson.id}')">ابدأ الاختبار</button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        container.innerHTML += unitHTML;
+    });
+}
+
+// دالة لبدء درس معين
+async function startLesson(lessonId) {
+    const testData = await loadTest(lessonId);
+    if (testData) {
+        displayTest(testData);
+    } else {
+        alert('تعذر تحميل الاختبار');
+    }
+}
+
+// استخدام الفهرس عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', async function() {
+    const indexData = await loadIndex();
+    if (indexData) {
+        displayAllUnits(indexData);
+    }
+});
+</script>
+
 </body>
 </html>

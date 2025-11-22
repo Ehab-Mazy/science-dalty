@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الوحدة الثانية: التفاعلات الكيميائية - Smart Science by Dalty</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="lessons.css">
+    <style>
+        /* إصلاح نافذة الفيديو */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+            background: rgba(255,255,255,0.9);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* نسبة 16:9 */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 20px;
+            background: white;
+        }
+
+        .video-info h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+
+        .video-info p {
+            margin: 0;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* أنماط إضافية للرسائل */
+        #videoMessage {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 10000;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+        }
+        
+        /* أنماط خاصة بالوحدة الثانية */
+        .unit-banner {
+            background: linear-gradient(135deg, #572d8a 0%, #141b7f 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .unit-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .unit-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .chemistry-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        /* تحسينات للأزرار */
+        .btn {
+            display: inline-block;
+            background: #0d2e44;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #082b42;
+        }
+        
+        .btn-primary {
+            background: #150c31;
+        }
+        
+        .btn-primary:hover {
+            background: #241b5e;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        /* تحسينات للشريط العلوي */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #f1f1f1;
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #3498db;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- نافذة الفيديو -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="video-container">
+                <iframe id="videoPlayer" width="100%" height="400" 
+                        src="" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            <div class="video-info">
+                <h3 id="videoTitle">عنوان الفيديو</h3>
+                <p id="videoDescription">وصف الفيديو</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- عنصر الرسائل -->
+    <div id="videoMessage"></div>
+
+    <!-- الهيدر -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/dalty-logo.jpg" alt="شعار المدرسة" class="school-logo">
+                    <img src="images/ehab .jpg" alt="صورة الأستاذ إيهاب" class="teacher-photo">
+                </div>
+                <div class="header-text">
+                    <h1 class="logo">⚗️ التفاعلات الكيميائية</h1>
+                    <p class="subtitle">Discover with Dalty - الوحدة الثانية</p>
+                    <div class="header-buttons">
+                        <a href="lessons.html" class="btn">الوحدة الأولى</a>
+                        <a href="index.html" class="btn">العودة للرئيسية</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#lesson1">مفهوم التفاعل الكيميائي</a>
+            <a href="#lesson2">دلائل التفاعلات الكيميائية</a>
+            <a href="#lesson3"> المعادلة الكيميائية</a>
+            <a href="#lesson4">كيمياء التغذية</a>
+            <a href="#experiments">التجارب العملية</a>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <!-- مقدمة الوحدة -->
+        <section id="intro" class="unit-section">
+            <div class="unit-banner">
+                <div class="chemistry-icon">⚗️</div>
+                <h2>الوحدة الثانية: التفاعلات الكيميائية</h2>
+                <p>استكشف عالم التفاعلات الكيميائية المذهل، حيث تتحول المواد إلى مواد جديدة بخصائص مختلفة. تعرف على مفهوم التفاعل الكيميائي، المعادلة الكيميائية، ووزن المعادلات.</p>
+                <div class="unit-progress">
+                    <div class="progress-bar-unit">
+                        <div class="progress-fill" data-progress="15"></div>
+                    </div>
+                    <span>15% مكتمل</span>
+                </div>
+            </div>
+            
+           
+            
+        </section>
+
+        <!-- الدروس -->
+        <section id="lessons" class="unit-section">
+            <div class="section-header">
+                <h2>📖 دروس الوحدة الثانية</h2>
+                <p>استمع و شاهد الدروس التفاعلية للتفاعلات الكيميائية</p>
+            </div>
+
+            <div class="lessons-grid">
+                <!-- درس 1 - مفهوم التفاعل الكيميائي -->
+                <div class="lesson-card" id="lesson1">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 1</div>
+                        <div class="video-thumbnail" 
+                             data-video="ocb00vM38aM"
+                             data-title="مفهوم التفاعل الكيميائي"
+                             data-description="تعرف على مفهوم التفاعل الكيميائي والفرق بين التغير الكيميائي والفيزيائي">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/ocb00vM38aM/maxresdefault.jpg" 
+                                 alt="فيديو مفهوم التفاعل الكيميائي" 
+                                 class="thumbnail-image"
+                                 onerror="handleImageError(this)">
+                            <div class="video-overlay">
+                                <span class="video-duration">18:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>مفهوم التفاعل الكيميائي</h3>
+                        <p>تعرف على مفهوم التفاعل الكيميائي  </p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 18 دقيقة</span>
+                            <span class="difficulty">🟢 مبتدئ</span>
+                            <span class="views">👁️ 2,145 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="tests/unit2-lesson1.html" class="btn btn-primary">
+                                <span>📝</span> اختبار الدرس
+                            </a>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+<!-- درس 2 - تغير فيزيائي ام كيميائي  -->
+<div class="lesson-card" id="lesson3">
+    <div class="lesson-image-container">
+        <div class="lesson-badge">درس 3</div>
+        <div class="video-thumbnail" 
+             data-video="RGHmXvoiKas"
+             data-title=" تغير فيزيائي ام كيميائي"
+             data-description="مقارنة بين التغير الكيميائي و الفيزيائي">
+            <div class="play-button"></div>
+            <img src="https://i.ytimg.com/vi/RGHmXvoiKas/maxresdefault.jpg" 
+                 alt="فيديو فيزيائي ام كيميائي" 
+                 class="thumbnail-image"
+                 onerror="handleImageError(this)">
+            <div class="video-overlay">
+                <span class="video-duration">25:00</span>
+                <span class="watch-now">شاهد الآن</span>
+            </div>
+        </div>
+    </div>
+    <div class="lesson-content">
+        <h3>تغير فيزيائي ام كيميائي </h3>
+        <p>تعلم  كيف تفرق بين التغير الكيميائي و الفيزيائي</p>
+        <div class="lesson-meta">
+            <span class="duration">⏱️ 25 دقيقة</span>
+            <span class="difficulty">🟡 متوسط</span>
+            <span class="views">👁️ 1,543 مشاهدة</span>
+        </div>
+        <div class="lesson-actions">
+            <a href="tests/unit2-lesson3.html" class="btn btn-primary">
+                <span>📝</span> اختبار الدرس
+            </a>
+            <button class="btn btn-download">
+                <span>📥</span> تحميل الملخص
+            </button>
+        </div>
+    </div>
+</div>
+                <!-- درس 4 - دلائل التفاعلات الكيميائية -->
+                <div class="lesson-card" id="lesson2">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 4</div>
+                        <div class="video-thumbnail" 
+                             data-video="sjVhX4WMn6w"
+                             data-title="  دلائل التفاعلات الكيميائية"
+                             data-description="دلائل التفاعلات الكيميائية تغير اللون او تصاعد غاز او تكون راسب اوانبعاث ضوء و حرارة">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/sjVhX4WMn6w/maxresdefault.jpg" 
+                                 alt=" دلائل التفاعلات الكيميائية" 
+                                 class="thumbnail-image"
+                                 onerror="handleImageError(this)">
+                            <div class="video-overlay">
+                                <span class="video-duration">22:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3> دلائل التفاعلات الكيميائية </h3>
+                        <p>دلائل التفاعلات الكيميائية تغير اللون او تصاعد غاز او تكون راسب اوانبعاث ضوء و حرارة</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 22 دقيقة</span>
+                            <span class="difficulty">🟡 متوسط</span>
+                            <span class="views">👁️ 1,876 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="tests/unit2-lesson2.html" class="btn btn-primary">
+                                <span>📝</span> اختبار الدرس
+                            </a>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- درس 2 - وزن المعادلات الكيميائية -->
+                <div class="lesson-card" id="lesson2">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 2</div>
+                        <div class="video-thumbnail" 
+                             data-video="BHw4_0gPSog"
+                             data-title="وزن المعادلات الكيميائية"
+                             data-description="استكشف قانون بقاء الكتلة وكيف يتم تحقيقه في وزن المعادلات الكيميائية">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/BHw4_0gPSog/maxresdefault.jpg" 
+                                 alt="فيديو وزن المعدلات الكيميائية" 
+                                 class="thumbnail-image"
+                                 onerror="handleImageError(this)">
+                            <div class="video-overlay">
+                                <span class="video-duration">22:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>وزن المعادلات الكيميائية</h3>
+                        <p>تحقيق قانون بقاء الكتلة في وزن المعادلات الكيميائية</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 22 دقيقة</span>
+                            <span class="difficulty">🟡 متوسط</span>
+                            <span class="views">👁️ 1,876 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="tests/unit2-lesson2.html" class="btn btn-primary">
+                                <span>📝</span> اختبار الدرس
+                            </a>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <!-- درس 4 - كيمياء التغذية -->
+                <div class="lesson-card" id="lesson4">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 4</div>
+                        <div class="video-thumbnail" 
+                             data-video="dR7qZR7J5WE"
+                             data-title="كيمياء التغذية"
+                             data-description="اكتشف التفاعلات الكيميائية في عملية التغذية والهضم">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/dR7qZR7J5WE/maxresdefault.jpg" 
+                                 alt="فيديو كيمياء التغذية" 
+                                 class="thumbnail-image"
+                                 onerror="handleImageError(this)">
+                            <div class="video-overlay">
+                                <span class="video-duration">20:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>كيمياء التغذية</h3>
+                        <p>اكتشف التفاعلات الكيميائية في عملية التغذية والهضم</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 20 دقيقة</span>
+                            <span class="difficulty">🟡 متوسط</span>
+                            <span class="views">👁️ 1,321 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="tests/unit2-lesson4.html" class="btn btn-primary">
+                                <span>📝</span> اختبار الدرس
+                            </a>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+               </div>
+
+                <!-- درس 8 - مراجعة الوحدة -->
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 8</div>
+                        <div class="video-thumbnail" 
+                             data-video="6y9G5Uwt7h4"
+                             data-title="مراجعة الوحدة الثانية"
+                             data-description="مراجعة شاملة لكل مفاهيم التفاعلات الكيميائية">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/6y9G5Uwt7h4/maxresdefault.jpg" 
+                                 alt="فيديو مراجعة الوحدة الثانية" 
+                                 class="thumbnail-image"
+                                 onerror="handleImageError(this)">
+                            <div class="video-overlay">
+                                <span class="video-duration">35:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>مراجعة الوحدة الثانية</h3>
+                        <p>مراجعة شاملة لكل مفاهيم التفاعلات الكيميائية</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 35 دقيقة</span>
+                            <span class="difficulty">🔴 متقدم</span>
+                            <span class="views">👁️ 1,654 مشاهدة</span>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="tests/unit2-review.html" class="btn btn-primary">
+                                <span>📝</span> اختبار الوحدة
+                            </a>
+                            <button class="btn btn-download">
+                                <span>📥</span> تحميل الملخص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم التجارب العملية -->
+        <section id="experiments" class="unit-section">
+            <div class="section-header">
+                <h2>🔬 التجارب العملية</h2>
+                <p>شاهد وتعلم من التجارب العملية للتفاعلات الكيميائية</p>
+            </div>
+            
+            <div class="experiments-grid">
+                <div class="experiment-card">
+                    <div class="experiment-icon">🧪</div>
+                    <h3>تفاعل الاحتراق</h3>
+                    <p>تجربة عملية لتفاعل احتراق الماغنسيوم وتكوين نواتج جديدة</p>
+                    <a href="experiments/combustion.html" class="btn">عرض التجربة</a>
+                </div>
+                
+                <div class="experiment-card">
+                    <div class="experiment-icon">🔥</div>
+                    <h3>تفاعل الاحلال البسيط</h3>
+                    <p>تجربة تفاعل احلال الخارصين محل النحاس في محاليل املاحه</p>
+                    <a href="experiments/exothermic.html" class="btn">عرض التجربة</a>
+                </div>
+                
+                <div class="experiment-card">
+                    <div class="experiment-icon">⚡</div>
+                    <h3>تفاعل الإحلال المزدوج</h3>
+                    <p> تجربة تفاعل الإحلال المزدوج بين كبريتات الصوديوم و كلوريد الكالسيوم </p>
+                    <a href="experiments/replacement.html" class="btn">عرض التجربة</a>
+                </div>
+                
+                <div class="experiment-card">
+                    <div class="experiment-icon">🌡️</div>
+                    <h3>  تفاعل حمض الاستيك مع بيكربونات الصوديوم</h3>
+                    <p>تجربة اضافة صودا الخبيز الي الخل و تصاعد غاز ثاني اكسيد الكربون</p>
+                    <a href="experiments/reaction-rate.html" class="btn">عرض التجربة</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم المراجع الإضافية -->
+        <section class="unit-section">
+            <div class="section-header">
+                <h2>📚 مراجع إضافية</h2>
+                <p>موارد إضافية لتعميق فهمك للتفاعلات الكيميائية</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3>📖 كتاب التفاعلات الكيميائية</h3>
+                    <p>كتاب شامل يشرح جميع أنواع التفاعلات الكيميائية</p>
+                    <a href="resources/chemistry-book.pdf" class="btn" download>تحميل الكتاب</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>🎬 فيديوهات إضافية</h3>
+                    <p>مجموعة فيديوهات إضافية لشرح مفاهيم الوحدة</p>
+                    <a href="https://www.youtube.com/playlist?list=PLxyz" class="btn" target="_blank">مشاهدة القائمة</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>📝 نماذج اختبارات</h3>
+                    <p>نماذج اختبارات سابقة للتدريب على امتحان الوحدة</p>
+                    <a href="resources/unit2-tests.pdf" class="btn" download>تحميل النماذج</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Discover with Dalty - الوحدة الثانية: التفاعلات الكيميائية</p>
+            <div class="footer-links">
+                <a href="lessons.html">الوحدة الأولى</a>
+                <a href="index.html">الصفحة الرئيسية</a>
+                <a href="unit3.html">الوحدة الثالثة</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // نظام تشغيل الفيديو المحسن
+        document.addEventListener('DOMContentLoaded', function() {
+            // تهيئة نظام الفيديو
+            initVideoSystem();
+            
+            // تهيئة شريط التقدم
+            initProgressBar();
+        });
+
+        function initVideoSystem() {
+            const videoModal = document.getElementById('videoModal');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoTitle = document.getElementById('videoTitle');
+            const videoDescription = document.getElementById('videoDescription');
+            const closeModal = document.querySelector('.close-modal');
+            
+            // التأكد من أن النافذة مخفية في البداية
+            if (videoModal) {
+                videoModal.style.display = 'none';
+            }
+            
+            // التأكد من وجود العناصر الأساسية
+            if (!videoModal || !videoPlayer) {
+                console.error('عناصر الفيديو الأساسية غير موجودة في الصفحة');
+                return;
+            }
+            
+            // إضافة event listeners للفيديوهات
+            document.addEventListener('click', function(e) {
+                const videoThumbnail = e.target.closest('.video-thumbnail');
+                if (videoThumbnail) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const videoId = videoThumbnail.getAttribute('data-video');
+                    const title = videoThumbnail.getAttribute('data-title') || 'فيديو تعليمي';
+                    const description = videoThumbnail.getAttribute('data-description') || 'شرح مفصل للدرس';
+                    
+                    playVideo(videoId, title, description);
+                }
+            });
+            
+            // دالة تشغيل الفيديو
+            function playVideo(videoId, title, description) {
+                if (!videoId || videoId.trim() === '') {
+                    showMessage('🎬 هذا الفيديو قيد الإعداد وسيتم إضافته قريباً');
+                    return;
+                }
+                
+                try {
+                    // بناء رابط YouTube مع إعدادات محسنة
+                    const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+                    
+                    videoPlayer.src = videoUrl;
+                    videoTitle.textContent = title;
+                    videoDescription.textContent = description;
+                    
+                    // عرض النافذة
+                    videoModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    
+                } catch (error) {
+                    console.error('خطأ في تشغيل الفيديو:', error);
+                    showMessage('❌ حدث خطأ في تشغيل الفيديو. يرجى المحاولة مرة أخرى.');
+                }
+            }
+            
+            // إغلاق النافذة
+            function closeVideoModal() {
+                videoModal.style.display = 'none';
+                
+                // إيقاف الفيديو
+                if (videoPlayer) {
+                    videoPlayer.src = '';
+                }
+                
+                document.body.style.overflow = 'auto';
+            }
+            
+            // إضافة event listeners للإغلاق
+            if (closeModal) {
+                closeModal.addEventListener('click', closeVideoModal);
+            }
+            
+            videoModal.addEventListener('click', function(e) {
+                if (e.target === videoModal) {
+                    closeVideoModal();
+                }
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && videoModal.style.display === 'flex') {
+                    closeVideoModal();
+                }
+            });
+            
+            // معالجة أخطاء الصور التمثيلية
+            initThumbnailErrorHandling();
+        }
+
+        function initThumbnailErrorHandling() {
+            document.querySelectorAll('.thumbnail-image').forEach(img => {
+                img.addEventListener('error', function() {
+                    handleThumbnailError(this);
+                });
+            });
+        }
+
+        function handleThumbnailError(imgElement) {
+            const parent = imgElement.closest('.video-thumbnail');
+            if (!parent) return;
+            
+            const videoId = parent.getAttribute('data-video');
+            const title = parent.getAttribute('data-title') || 'فيديو تعليمي';
+            
+            if (!videoId) return;
+            
+            // تسلسل محاولات الصور البديلة
+            const thumbnailAttempts = [
+                `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+                `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`,
+                `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+                `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
+                `https://i.ytimg.com/vi/${videoId}/default.jpg`
+            ];
+            
+            let currentAttempt = 0;
+            
+            function tryNextThumbnail() {
+                if (currentAttempt >= thumbnailAttempts.length) {
+                    // جميع المحاولات فشلت، عرض placeholder
+                    showThumbnailPlaceholder(parent, title);
+                    return;
+                }
+                
+                const newSrc = thumbnailAttempts[currentAttempt];
+                currentAttempt++;
+                
+                // إنشاء صورة جديدة للتحقق
+                const testImage = new Image();
+                testImage.onload = function() {
+                    if (testImage.naturalHeight > 100) { // صورة ذات جودة مقبولة
+                        imgElement.src = newSrc;
+                    } else {
+                        tryNextThumbnail();
+                    }
+                };
+                testImage.onerror = tryNextThumbnail;
+                testImage.src = newSrc;
+            }
+            
+            tryNextThumbnail();
+        }
+
+        function showThumbnailPlaceholder(thumbnailElement, title) {
+            const existingPlaceholder = thumbnailElement.querySelector('.thumbnail-placeholder');
+            if (existingPlaceholder) return;
+            
+            thumbnailElement.querySelector('.thumbnail-image').style.display = 'none';
+            
+            const placeholder = document.createElement('div');
+            placeholder.className = 'thumbnail-placeholder';
+            placeholder.innerHTML = `
+                <div style="text-align: center; color: white;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🎬</div>
+                    <div style="font-weight: bold; margin-bottom: 5px;">${title}</div>
+                    <small>انقر للمشاهدة</small>
+                </div>
+            `;
+            
+            thumbnailElement.appendChild(placeholder);
+        }
+
+        function showMessage(message) {
+            const messageEl = document.getElementById('videoMessage');
+            if (!messageEl) return;
+            
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 3 ثوان
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        function handleImageError(img) {
+            const parent = img.closest('.video-thumbnail');
+            if (!parent) return;
+            
+            const videoId = parent.getAttribute('data-video');
+            if (!videoId) return;
+            
+            // محاولة استخدام صورة بديلة
+            img.src = `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`;
+            img.onerror = function() {
+                // إذا فشلت أيضًا، استخدم hqdefault
+                img.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                img.onerror = function() {
+                    // إذا فشلت جميع المحاولات، استخدم placeholder
+                    img.style.display = 'none';
+                    const title = parent.getAttribute('data-title') || 'فيديو الدرس';
+                    parent.innerHTML = `
+                        <div class="video-error">
+                            <div class="icon">🎬</div>
+                            <div>${title}</div>
+                            <small>انقر للمشاهدة</small>
+                        </div>
+                        <div class="play-button"></div>
+                        <div class="video-overlay">
+                            <span class="video-duration">--:--</span>
+                            <span class="watch-now">شاهد الآن</span>
+                        </div>
+                    `;
+                };
+            };
+        }
+
+        // نظام شريط التقدم
+        function initProgressBar() {
+            window.onscroll = function() {
+                const progressBar = document.getElementById('progressBar');
+                if (progressBar) {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (winScroll / height) * 100;
+                    progressBar.style.width = scrolled + '%';
+                }
+            };
+        }
+    </script>
+</body>
+</html>
