@@ -1,94 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-    
-    <!-- الصفحة الرئيسية -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    
-    <!-- صفحة الدروس -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/lessons.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
-    <!-- التجارب الافتراضية -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/experiments/index.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <!-- المنهج الدراسي -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/curriculum/index.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <!-- الاختبارات -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/import1.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
-    <!-- صفحة استيراد الاختبارات -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/import-tests1.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <!-- صفحة جميع الاختبارات -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/tests.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <!-- صفحة الاختبار التفاعلي -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/test.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <!-- الدروس التفصيلية -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/lesson1.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/lesson2.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <!-- الدرجات -->
-    <url>
-        <loc>https://ehab-mazy.github.io/science-dalty/students-grades/index.html</loc>
-        <lastmod>2024-01-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/lessons.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/experiments/index.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/curriculum/index.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/students-grades/index.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/unit2.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/index.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://ehab-mazy.github.io/science-dalty/students-grades/admin.html</loc>
+  <lastmod>2025-11-22T13:10:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
 
 </urlset>
