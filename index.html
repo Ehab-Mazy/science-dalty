@@ -278,10 +278,9 @@
             <a href="lessons.html">الدروس</a>
             <a href="experiments/index.html">التجارب الافتراضية</a>
             <a href="curriculum/index.html">المنهج الدراسي</a>
-            <a href="lessons.html">الاختبارات</a>
+            <a href="quiz/index.html">الاختبارات</a>
             <a href="students-grades/index.html">الدرجات</a>
-            <a href="#news">أخبار العلوم</a>
-            <a href="#contact">التواصل</a>
+            <a href="call-me.html">التواصل</a>
         </div>
     </nav>
 
@@ -309,29 +308,7 @@
                 </div>
             </div>
             
-            <!-- في قسم الدروس في index.html -->
-            <div class="lessons-container">
-                <div class="lesson-card">
-                    <h3>الوحدة الأولى - الدرس الأول: المادة وخواصها</h3>
-                    <p>شرح مبسط عن خواص المادة وتغيراتها.</p>
-                    <div class="lesson-actions">
-                        <a href="lessons.html" class="btn btn-primary">📖 دراسة الدرس</a>
-                        <!-- سيتم إضافة زر الاختبار هنا ديناميكياً -->
-                        <div id="unit1-lesson1-test"></div>
-                    </div>
-                </div>
-
-                <div class="lesson-card">
-                    <h3>الوحدة الأولى - الدرس الثاني: حالات المادة</h3>
-                    <p>تعرف على حالات المادة المختلفة والتحولات بينها.</p>
-                    <div class="lesson-actions">
-                        <a href="lessons.html" class="btn btn-primary">📖 دراسة الدرس</a>
-                        <div id="unit1-lesson2-test"></div>
-                    </div>
-                </div>
-                <!-- ... بقية الدروس -->
-            </div>
-        </section>
+       </section>
 
         <!-- قسم التجارب الافتراضية -->
         <section id="virtual-experiments" class="section">
@@ -369,38 +346,14 @@
             </div>
         </section>
 
-        <!-- قسم الاختبارات -->
-        <section id="exams" class="section">
-            <h2>📝 الاختبارات والتقييم</h2>
-            <div class="exams-container">
-                <div class="exam-type">
-                    <h3>اختبارات قصيرة</h3>
-                    <div class="quiz-list">
-                        <div class="quiz-item">
-                            <span>اختبار الوحدة الأولى</span>
-                            <div class="progress-circle" data-percent="65"></div>
-                        </div>
-                        <div class="quiz-item">
-                            <span>اختبار الكيمياء</span>
-                            <div class="progress-circle" data-percent="80"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="exam-results">
-                    <h3>نتائج الاختبارات</h3>
-                    <div class="results-chart">
-                        <canvas id="resultsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
+       
 
         <!-- قسم أخبار العلوم -->
         <section id="news" class="section">
             <h2>📢 أخبار العلوم</h2>
             <div class="news-feed">
                 <div class="news-item">
-                    <h3> اكتشف ظاهرة الشفق الثطبي</h3>
+                    <h3> اكتشف ظاهرة الشفق القطبي</h3>
                     <p>حالة البلازما و علاقتها بظاهرة الشفق القطبي...</p>
                     <span class="news-date">2024-01-15</span>
                 </div>
@@ -428,15 +381,36 @@
                         🔔 اشترك في القناة
                     </a>
                 </div>
-                <div class="video-grid">
-                    <div class="video-placeholder">
-                        <p>أحدث فيديو على القناة</p>
-                        <div class="video-thumbnail">
-                            <img src="images/latest-video.jpg" alt="أحدث فيديو">
+
+                <div class="lesson-card">
+                    <div class="lesson-image-container">
+                        <div class="lesson-badge">درس 4</div>
+                        <div class="video-thumbnail" 
+                             data-video="MQEDytfSKmU"
+                             data-title="الحرارة النوعية - العلوم"
+                             data-description="تعرف على كيف تقاوم المواد التغير في درجة الحرارة">
+                            <div class="play-button"></div>
+                            <img src="https://i.ytimg.com/vi/MQEDytfSKmU/maxresdefault.jpg" 
+                                 alt="فيديو الحرارة النوعية" 
+                                 class="thumbnail-image"
+                                 onerror="handleImageError(this)">
+                            <div class="video-overlay">
+                                <span class="video-duration">25:00</span>
+                                <span class="watch-now">شاهد الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>الحرارة النوعية</h3>
+                        <p>تعرف على كيف تقاوم المواد التغير في درجة الحرارة</p>
+                        <div class="lesson-meta">
+                            <span class="duration">⏱️ 25 دقيقة</span>
+                            <span class="difficulty">🟡 متوسط</span>
+                            <span class="views">👁️ 723 مشاهدة</span>
                         </div>
                     </div>
                 </div>
-            </div>
+                                 
         </section>
 
         <!-- قسم التواصل -->
@@ -452,28 +426,11 @@
                 <div class="social-links">
                     <h3>تابعنا على</h3>
                     <a href="https://www.youtube.com/@DiscoverwithDalty" class="social-btn youtube">YouTube</a>
-                    <a href="#" class="social-btn facebook">Facebook</a>
-                    <a href="#" class="social-btn instagram">Instagram</a>
                 </div>
             </div>
         </section>
         
-        <!-- قسم الاختبارات -->
-        <section class="lessons-section">
-            <div class="container">
-                <h2>📝 اختبارات العلوم</h2>
-                <p>اختبر معلوماتك من خلال هذه الاختبارات التفاعلية</p>
-                
-                <div class="lessons-grid">
-                    <div class="lesson-card">
-                        <div class="lesson-icon">🧪</div>
-                        <h3>جميع الاختبارات</h3>
-                        <p>استعرض جميع الاختبارات المحفوظة</p>
-                        <a href="lessons.html" class="btn btn-primary">عرض الاختبارات</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
     </main>
 
     <!-- الفوتر -->
@@ -555,51 +512,7 @@
             initFallbackSystem();
         });
 
-        function loadTestsForLessons() {
-            // الحصول على الاختبارات المحفوظة
-            const savedTests = JSON.parse(localStorage.getItem('savedTests') || '{}');
-            
-            // لكل درس، ابحث عن الاختبارات المرتبطة به
-            const lessons = [
-                'unit1-lesson1',
-                'unit1-lesson2',
-                'unit1-lesson3',
-                'unit1-lesson4',
-                'unit1-lesson5',
-                'unit1-lesson6',
-                'unit1-lesson7',
-                'unit2-lesson1',
-                'unit2-lesson2',
-                'unit3-lesson1',
-                'unit3-lesson2',
-                'unit4-lesson1',
-                'unit4-lesson2'
-            ];
-    
-            lessons.forEach(lesson => {
-                const container = document.getElementById(lesson + '-test');
-                if (!container) return;
-    
-                // ابحث عن الاختبارات المرتبطة بهذا الدرس
-                const tests = Object.values(savedTests).filter(test => test.lessonLink === lesson);
-                
-                if (tests.length > 0) {
-                    let html = '';
-                    tests.forEach(test => {
-                        html += `<button class="btn btn-success" onclick="startTest('${test.id}')">✏ اختبار ${test.title}</button>`;
-                    });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = '<p style="color: #718096; font-size: 14px;">لا يوجد اختبار لهذا الدرس بعد</p>';
-                }
-            });
-        }
-    
-        function startTest(testId) {
-            // حفظ معرف الاختبار الحالي والانتقال لصفحة الاختبار
-            localStorage.setItem('currentTestId', testId);
-            window.location.href = 'test.html';
-        }
+     
 
         function fixAllImagePaths() {
             // إصلاح مسارات الصور
@@ -630,13 +543,7 @@
             });
         }
 
-        function initFallbackSystem() {
-            // نظام fallback للاختبارات
-            if (typeof showLessonTests === 'undefined') {
-                console.log('⚠️ نظام الاختبارات غير محمل، جاري تحميل البديل...');
-                // يمكن إضافة نظام بديل هنا
-            }
-        }
+      
     </script>
 
     <!-- Google Analytics -->
@@ -650,7 +557,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
-    <script src="fix-paths.js"></script>
-    <script src="fallback-quiz-system.js"></script>
 </body>
 </html>
