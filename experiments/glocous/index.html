@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تجربة الكشف عن الجلوكوز - كاشف بندكت</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 تجربة الكشف عن الجلوكوز بكاشف بندكت</h1>
+            <p class="subtitle">محاكاة تفاعلية للتجربة الكيميائية</p>
+        </header>
+
+        <div class="main-content">
+            <!-- منطقة التجربة -->
+            <div class="experiment-area">
+                <div class="test-tube-container">
+                    <div class="test-tube">
+                        <div class="tube-top"></div>
+                        <div class="tube-body">
+                            <div id="solution" class="solution"></div>
+                        </div>
+                        <div class="tube-bottom"></div>
+                    </div>
+                    <div id="flame" class="flame hidden">
+                        <div class="flame-inner"></div>
+                        🔥
+                    </div>
+                    <div class="burner"></div>
+                </div>
+
+                <!-- مؤشر درجة الحرارة -->
+                <div class="temperature-display">
+                    <div class="thermometer">
+                        <span id="temp-value">25°C</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- لوحة التحكم -->
+            <div class="control-panel">
+                <h3>⚙️ لوحة التحكم</h3>
+                
+                <!-- اختيار تركيز الجلوكوز -->
+                <div class="control-group">
+                    <label for="glucose-level">
+                        <span class="icon">🍬</span>
+                        تركيز الجلوكوز: <strong><span id="glucose-display">0</span>%</strong>
+                    </label>
+                    <input type="range" id="glucose-level" min="0" max="100" value="0" class="slider">
+                    <div class="range-labels">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+
+                <!-- الأزرار -->
+                <div class="buttons-container">
+                    <button id="add-benedict" class="btn btn-primary">
+                        <span class="btn-icon">💧</span>
+                        إضافة كاشف بندكت
+                    </button>
+                    
+                    <button id="heat-button" class="btn btn-danger" disabled>
+                        <span class="btn-icon">🔥</span>
+                        تسخين الخليط
+                    </button>
+                    
+                    <button id="reset-button" class="btn btn-secondary">
+                        <span class="btn-icon">🔄</span>
+                        إعادة التجربة
+                    </button>
+                </div>
+
+                <!-- منطقة النتائج -->
+                <div id="result-box" class="result-box hidden">
+                    <h4>📊 النتيجة:</h4>
+                    <p id="result-text"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- المعلومات العلمية -->
+        <div class="info-section">
+            <h3>📚 المعلومات العلمية</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🧪 كاشف بندكت</h4>
+                    <p>محلول أزرق يحتوي على كبريتات النحاس (CuSO₄) في وسط قلوي</p>
+                </div>
+                <div class="info-card">
+                    <h4>⚗️ التفاعل الكيميائي</h4>
+                    <p>يختزل الجلوكوز أيونات النحاس Cu²⁺ إلى Cu⁺ مكوناً راسب أحمر</p>
+                </div>
+                <div class="info-card">
+                    <h4>🌡️ شروط التفاعل</h4>
+                    <p>يتطلب التسخين في حمام مائي (75-100°C)</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎨 دليل الألوان</h4>
+                    <ul class="color-guide">
+                        <li><span class="color-dot blue"></span> أزرق: سلبي (لا جلوكوز)</li>
+                        <li><span class="color-dot green"></span> أخضر: تركيز ضعيف</li>
+                        <li><span class="color-dot yellow"></span> أصفر: تركيز متوسط</li>
+                        <li><span class="color-dot orange"></span> برتقالي: تركيز عالي</li>
+                        <li><span class="color-dot red"></span> أحمر: تركيز عالي جداً</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- خطوات التجربة -->
+        <div class="steps-section">
+            <h3>📝 خطوات التجربة</h3>
+            <ol class="steps-list">
+                <li>اختر تركيز الجلوكوز المراد اختباره باستخدام المنزلق</li>
+                <li>اضغط على زر "إضافة كاشف بندكت" - سيظهر اللون الأزرق</li>
+                <li>اضغط على زر "تسخين الخليط" ولاحظ تغير اللون</li>
+                <li>سجل النتيجة بناءً على اللون النهائي</li>
+                <li>يمكنك إعادة التجربة بتركيزات مختلفة</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

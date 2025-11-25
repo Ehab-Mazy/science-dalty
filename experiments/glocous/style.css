@@ -1,0 +1,415 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    color: #2c3e50;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-size: 1.1em;
+}
+
+/* Main Content */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* منطقة التجربة */
+.experiment-area {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* أنبوب الاختبار */
+.test-tube-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.test-tube {
+    width: 100px;
+    position: relative;
+}
+
+.tube-top {
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+    border: 2px solid #333;
+    border-radius: 5px 5px 0 0;
+    margin: 0 auto;
+}
+
+.tube-body {
+    width: 100px;
+    height: 300px;
+    background: linear-gradient(to right, #f5f5f5, #e8e8e8, #f5f5f5);
+    border: 3px solid #333;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.solution {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: transparent;
+    transition: all 1s ease;
+    border-radius: 0 0 7px 7px;
+}
+
+.solution.filled {
+    height: 80%;
+    animation: bubble 2s infinite;
+}
+
+@keyframes bubble {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+}
+
+.tube-bottom {
+    width: 100px;
+    height: 30px;
+    background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
+    border: 2px solid #333;
+    border-top: none;
+    border-radius: 0 0 50px 50px;
+}
+
+/* اللهب */
+.flame {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3em;
+    animation: flicker 0.3s infinite;
+    z-index: 10;
+}
+
+.flame.hidden {
+    display: none;
+}
+
+@keyframes flicker {
+    0%, 100% { 
+        transform: translateX(-50%) scale(1);
+        filter: brightness(1);
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.1);
+        filter: brightness(1.2);
+    }
+}
+
+.burner {
+    width: 120px;
+    height: 15px;
+    background: #333;
+    border-radius: 5px;
+    margin-top: -10px;
+}
+
+/* مقياس الحرارة */
+.temperature-display {
+    margin-top: 20px;
+}
+
+.thermometer {
+    background: #fff;
+    border: 2px solid #333;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #e74c3c;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* لوحة التحكم */
+.control-panel {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.control-panel h3 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+}
+
+.control-group {
+    margin-bottom: 25px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #34495e;
+    font-size: 1.1em;
+}
+
+.icon {
+    font-size: 1.2em;
+}
+
+/* Slider */
+.slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* الأزرار */
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-icon {
+    font-size: 1.3em;
+}
+
+/* صندوق النتائج */
+.result-box {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-right: 5px solid #27ae60;
+    margin-top: 20px;
+}
+
+.result-box.hidden {
+    display: none;
+}
+
+.result-box h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.result-box p {
+    color: #34495e;
+    line-height: 1.6;
+    font-size: 1.05em;
+}
+
+/* المعلومات العلمية */
+.info-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+.info-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.info-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-top: 4px solid #667eea;
+}
+
+.info-card h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.info-card p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* دليل الألوان */
+.color-guide {
+    list-style: none;
+    padding: 0;
+}
+
+.color-guide li {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    color: #555;
+}
+
+.color-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-left: 10px;
+    border: 2px solid #333;
+}
+
+.color-dot.blue { background: #4169E1; }
+.color-dot.green { background: #32CD32; }
+.color-dot.yellow { background: #FFD700; }
+.color-dot.orange { background: #FF8C00; }
+.color-dot.red { background: #DC143C; }
+
+/* خطوات التجربة */
+.steps-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.steps-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.steps-list {
+    padding-right: 25px;
+}
+
+.steps-list li {
+    color: #555;
+    line-height: 2;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
