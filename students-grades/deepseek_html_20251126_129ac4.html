@@ -267,6 +267,18 @@
             margin-top: 20px;
             border: 1px dashed var(--primary-color);
         }
+
+        .debug-info {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -301,12 +313,12 @@
                         <div class="header-item">تقييم2</div>
                         <div class="header-item">تقييم3</div>
                         <div class="header-item">تقييم4</div>
-                        <div class="header-item"> تقييم5</div>
-                        <div class="header-item"> تقييم6</div>
-                        <div class="header-item">تقييم7</div>
-                        <div class="header-item">تقييم8</div>
-                        <div class="header-item">تقييم9</div>
-                        <div class="header-item">تقييم10</div>
+                        <div class="header-item">اختبار اكتوبر</div>
+                        <div class="header-item">مجموع اكتوبر</div>
+                        <div class="header-item">تقييم1</div>
+                        <div class="header-item">تقييم2</div>
+                        <div class="header-item">تقييم3</div>
+                        <div class="header-item">تقييم4</div>
                         <div class="header-item">اختبار نوفمبر</div>
                         <div class="header-item">مجموع نوفمبر</div>
                     </div>
@@ -321,9 +333,13 @@
                     <label for="excelData">لصق البيانات من ملف Excel:</label>
                     <textarea id="excelData" placeholder="انسخ البيانات من Excel وألصقها هنا..."></textarea>
                 </div>
+                
                 <button id="loadData">تحميل البيانات</button>
+                <button id="debugData" style="background-color: #f39c12;">تفريغ البيانات للفحص</button>
+                
                 <div id="dataError" class="error"></div>
                 <div id="dataSuccess" class="success"></div>
+                <div id="debugInfo" class="debug-info"></div>
             </div>
             
             <div class="section">
@@ -351,18 +367,13 @@
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="showOctTest">
-                            <label for="showOctTest">تقييم خامس</label>
+                            <label for="showOctTest">اختبار أكتوبر</label>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="showOctTotal">
-                            <label for="showOctTotal">تقييم سادس</label>
+                            <label for="showOctTotal">مجموع أكتوبر</label>
                         </div>
                     </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="showOctTotal">
-                        <label for="showOctTotal">تقييم سابع</label>
-                    </div>
-                </div>
                     
                     <div class="column-group">
                         <h4>شهر نوفمبر</h4>
@@ -413,8 +424,10 @@
         const loadDataButton = document.getElementById('loadData');
         const saveSettingsButton = document.getElementById('saveSettings');
         const downloadDataButton = document.getElementById('downloadData');
+        const debugDataButton = document.getElementById('debugData');
         const dataErrorDiv = document.getElementById('dataError');
         const dataSuccessDiv = document.getElementById('dataSuccess');
+        const debugInfoDiv = document.getElementById('debugInfo');
         const copyHeadersButton = document.getElementById('copyHeaders');
         
         // عناصر التحكم في الأعمدة
@@ -458,7 +471,7 @@
             
             // تحميل البيانات النموذجية للعرض الأولي إذا لم تكن هناك بيانات محفوظة
             if (!savedData) {
-                const sampleData = `الاسم	الفصل	تقييم10	تقييم9	تقييم8	تقييم7	تقييم6	تقييم5	تقييم1	تقييم2	تقييم3	تقييم4	اختبار نوفمبر	مجموع نوفمبر
+                const sampleData = `الاسم	الفصل	تقييم1	تقييم2	تقييم3	تقييم4	اختبار اكتوبر	مجموع اكتوبر	تقييم1	تقييم2	تقييم3	تقييم4	اختبار نوفمبر	مجموع نوفمبر
 أحمد محمود	أ	5	7	8	6	25	51	6	7	8	7	26	54
 فاطمة علي	ب	6	8	9	7	28	58	7	8	9	8	29	61
 محمد حسن	أ	4	6	7	5	22	44	5	6	7	6	23	47
@@ -471,11 +484,41 @@
         
         // نسخ رؤوس الأعمدة
         copyHeadersButton.addEventListener('click', function() {
-            const headers = "الاسم\tالفصل\tتقييم1\tتقييم2\tتقييم3\tتقييم4\tتقييم5 \ tتقييم6\tتقييم7\tتقييم8\tتقييم9\tتقييم10\tتقييم11\tتقييم11\tمجموع نوفمبر";
+            const headers = "الاسم\tالفصل\tتقييم1\tتقييم2\tتقييم3\tتقييم4\tاختبار اكتوبر\tمجموع اكتوبر\tتقييم1\tتقييم2\tتقييم3\tتقييم4\tاختبار نوفمبر\tمجموع نوفمبر";
             navigator.clipboard.writeText(headers).then(function() {
                 showSuccess('تم نسخ رؤوس الأعمدة إلى الحافظة');
             }, function() {
                 showError('فشل في نسخ رؤوس الأعمدة');
+            });
+        });
+        
+        // تفريغ البيانات للفحص
+        debugDataButton.addEventListener('click', function() {
+            const dataText = excelDataTextarea.value.trim();
+            
+            if (!dataText) {
+                showError('يرجى إدخال البيانات أولاً');
+                return;
+            }
+            
+            debugInfoDiv.style.display = 'block';
+            debugInfoDiv.innerHTML = '<strong>تفريغ البيانات المدخلة:</strong><br><br>';
+            
+            const rows = dataText.split('\n');
+            rows.forEach((row, index) => {
+                debugInfoDiv.innerHTML += `الصف ${index + 1}: ${row}<br>`;
+                
+                // تقسيم الصف إلى خلايا
+                let cells = row.split('\t');
+                if (cells.length < 3) {
+                    cells = row.split(',');
+                }
+                
+                debugInfoDiv.innerHTML += `عدد الخلايا: ${cells.length}<br>`;
+                cells.forEach((cell, cellIndex) => {
+                    debugInfoDiv.innerHTML += `&nbsp;&nbsp;الخلية ${cellIndex}: "${cell}" (النوع: ${typeof cell})<br>`;
+                });
+                debugInfoDiv.innerHTML += '<br>';
             });
         });
         
@@ -594,14 +637,16 @@
             }
         });
         
-        // تحليل البيانات من النص - إصدارة محسنة
+        // تحليل البيانات من النص - نهج جديد تماماً
         function parseExcelData(dataText) {
+            console.log("البيانات المدخلة:", dataText);
+            
             const rows = dataText.split('\n');
             const students = [];
             
-            // تخطي الصف الأول إذا كان يحتوي على العناوين
+            // تحديد بداية البيانات (تخطي العناوين)
             let startRow = 0;
-            if (rows[0].includes('اسم') || rows[0].includes('فصل') || rows[0].includes('تقييم')) {
+            if (rows[0].includes('الاسم') || rows[0].includes('الفصل') || rows[0].includes('تقييم')) {
                 startRow = 1;
             }
             
@@ -609,70 +654,79 @@
                 const row = rows[i].trim();
                 if (!row) continue;
                 
-                // تقسيم الصف باستخدام التبويبات (الأكثر شيوعاً في Excel)
-                let cells = row.split('\t');
+                console.log(`معالجة الصف ${i}: "${row}"`);
                 
-                // إذا لم نجد تبويبات، نجرب الفواصل
-                if (cells.length < 3) {
+                // نهج أكثر مرونة في تقسيم البيانات
+                let cells;
+                
+                // المحاولة الأولى: التبويبات (الأكثر شيوعاً من Excel)
+                if (row.includes('\t')) {
+                    cells = row.split('\t');
+                    console.log(`تم تقسيم الصف ${i} باستخدام التبويبات:`, cells);
+                }
+                // المحاولة الثانية: الفواصل
+                else if (row.includes(',')) {
                     cells = row.split(',');
+                    console.log(`تم تقسيم الصف ${i} باستخدام الفواصل:`, cells);
+                }
+                // المحاولة الثالثة: المسافات المتعددة
+                else {
+                    cells = row.split(/\s+/);
+                    console.log(`تم تقسيم الصف ${i} باستخدام المسافات:`, cells);
                 }
                 
-                // إذا لم نجد فواصل، نجرب المسافات المتعددة
-                if (cells.length < 3) {
-                    cells = row.split(/\s{2,}/);
-                }
-                
-                // تنظيف الخلايا من المسافات الزائدة
+                // تنظيف الخلايا
                 cells = cells.map(cell => cell.trim());
                 
-                // إذا كان عدد الخلايا أقل من 14، قد تكون البيانات تحتوي على أسماء فقط
-                if (cells.length < 14) {
-                    // إذا كانت الخلية الأولى تحتوي على اسم فقط، نملأ باقي البيانات بقيم افتراضية
-                    if (cells.length >= 2) {
-                        const student = {
-                            name: cells[0],
-                            class: cells[1],
-                            // بيانات أكتوبر
-                            oct1: parseValue(cells[2]),
-                            oct2: parseValue(cells[3]),
-                            oct3: parseValue(cells[4]),
-                            oct4: parseValue(cells[5]),
-                            octTest: parseValue(cells[6]),
-                            octTotal: parseValue(cells[7]),
-                            // بيانات نوفمبر
-                            nov1: parseValue(cells[8]),
-                            nov2: parseValue(cells[9]),
-                            nov3: parseValue(cells[10]),
-                            nov4: parseValue(cells[11]),
-                            novTest: parseValue(cells[12]),
-                            novTotal: parseValue(cells[13])
-                        };
-                        students.push(student);
-                    }
-                } else if (cells.length >= 14) {
-                    const student = {
-                        name: cells[0],
-                        class: cells[1],
-                        // بيانات أكتوبر
-                        oct1: parseValue(cells[2]),
-                        oct2: parseValue(cells[3]),
-                        oct3: parseValue(cells[4]),
-                        oct4: parseValue(cells[5]),
-                        octTest: parseValue(cells[6]),
-                        octTotal: parseValue(cells[7]),
-                        // بيانات نوفمبر
-                        nov1: parseValue(cells[8]),
-                        nov2: parseValue(cells[9]),
-                        nov3: parseValue(cells[10]),
-                        nov4: parseValue(cells[11]),
-                        novTest: parseValue(cells[12]),
-                        novTotal: parseValue(cells[13])
-                    };
+                // إذا كان عدد الخلايا غير كافٍ، نبحث عن الاسم والفصل معاً في الخلية الأولى
+                if (cells.length < 14 && cells.length >= 1) {
+                    const firstCell = cells[0];
+                    const parts = firstCell.split(/\s+/);
                     
-                    // التحقق من صحة البيانات الأساسية
-                    if (student.name && student.class) {
-                        students.push(student);
+                    if (parts.length >= 2) {
+                        // نفترض أن آخر كلمة هي الفصل والباقي هو الاسم
+                        const className = parts.pop();
+                        const studentName = parts.join(' ');
+                        
+                        // نعيد بناء المصفوفة
+                        cells = [studentName, className, ...cells.slice(1)];
+                        console.log(`تم إعادة بناء الصف ${i}:`, cells);
                     }
+                }
+                
+                // إذا كان عدد الخلايا لا يزال أقل من 14، نملأ الخلايا المفقودة
+                if (cells.length < 14) {
+                    console.warn(`الصف ${i} يحتوي على ${cells.length} خلايا فقط، سيتم ملء الباقي`);
+                    while (cells.length < 14) {
+                        cells.push('');
+                    }
+                }
+                
+                // إنشاء كائن الطالب
+                const student = {
+                    name: cells[0] || '',
+                    class: cells[1] || '',
+                    oct1: parseValue(cells[2]),
+                    oct2: parseValue(cells[3]),
+                    oct3: parseValue(cells[4]),
+                    oct4: parseValue(cells[5]),
+                    octTest: parseValue(cells[6]),
+                    octTotal: parseValue(cells[7]),
+                    nov1: parseValue(cells[8]),
+                    nov2: parseValue(cells[9]),
+                    nov3: parseValue(cells[10]),
+                    nov4: parseValue(cells[11]),
+                    novTest: parseValue(cells[12]),
+                    novTotal: parseValue(cells[13])
+                };
+                
+                console.log(`الطالب ${i}:`, student);
+                
+                // التحقق من البيانات الأساسية
+                if (student.name && student.class) {
+                    students.push(student);
+                } else {
+                    console.warn(`تم تخطي الصف ${i} بسبب عدم وجود اسم أو فصل`);
                 }
             }
             
@@ -680,31 +734,38 @@
                 throw new Error('لم يتم العثور على بيانات صالحة');
             }
             
+            console.log('النتيجة النهائية:', students);
             return students;
         }
         
-        // دالة مساعدة لتحويل النص إلى قيمة (رقم أو نص)
+        // دالة تحسينية لتحليل القيم
         function parseValue(value) {
-            if (!value || value === '') return 0;
+            if (!value || value === '' || value === ' ' || value === 'null') {
+                return 0;
+            }
             
-            // إذا كانت القيمة "غ" أو تحتوي على "غاء" أو "غائب"
-            if (value.toString().includes('غ')) {
+            const stringValue = String(value).trim();
+            
+            // التعامل مع حالات الغياب
+            if (stringValue === 'غ' || stringValue === 'غائب' || stringValue === 'غاء') {
                 return 'غ';
             }
             
-            // إزالة أي مسافات أو رموز غير مرغوب فيها
-            const cleaned = value.toString().replace(/\s/g, '');
+            // التعامل مع القيم الرقمية
+            // نزيل أي مسافات أو رموز غير مرغوب فيها
+            const numericValue = stringValue.replace(/[^\d.-]/g, '');
             
-            // محاولة التحويل إلى رقم
-            const number = parseFloat(cleaned);
+            if (numericValue && !isNaN(numericValue) && numericValue !== '') {
+                const num = parseFloat(numericValue);
+                return isNaN(num) ? 0 : num;
+            }
             
-            // إذا لم يكن رقمًا صالحًا، نعيد القيمة الأصلية (للدعم المستقبلي)
-            return isNaN(number) ? value : number;
+            // إذا لم تكن قيمة رقمية ولا غياب، نعيد 0
+            return 0;
         }
         
         // تحديث الإحصائيات
         function updateStatistics(studentsData) {
-            // يمكن إضافة إحصائيات هنا إذا لزم الأمر
             console.log(`تم تحميل ${studentsData.length} طالب`);
         }
         
