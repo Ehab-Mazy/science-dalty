@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رحلة التنفس الخلوي - دالي</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2980b9;
+            --secondary: #8e44ad;
+            --glyco-color: #e67e22; /* برتقالي للجليكولي */
+            --krebs-color: #27ae60; /* أخضر لكربس */
+            --atp-color: #f1c40f;
+            --bg: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        /* شريط التنقل بين المراحل */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background: #fff;
+            color: #7f8c8d;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active {
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .btn-glyco.active { background: var(--glyco-color); }
+        .btn-krebs.active { background: var(--krebs-color); }
+        .btn-calc.active { background: var(--primary); }
+
+        /* حاويات المراحل (نخفي غير النشط) */
+        .stage-container {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s;
+        }
+
+        .stage-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- تصميم التحلل الجليكولي (عمودي) --- */
+        .glyco-pathway {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .step-box {
+            width: 300px;
+            padding: 15px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            background: #f9f9f9;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .step-box.correct {
+            border-style: solid;
+            border-color: var(--glyco-color);
+            background: #fff5e6;
+            color: #d35400;
+        }
+
+        .arrow-down {
+            font-size: 1.5rem;
+            color: #bdc3c7;
+        }
+
+        /* الاستثمار والحصاد (Energy Phase labels) */
+        .phase-label {
+            position: absolute;
+            left: -180px;
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            width: 150px;
+            text-align: center;
+        }
+
+        .phase-invest { background: #e74c3c; top: 50px; } /* استهلاك طاقة */
+        .phase-payoff { background: #27ae60; bottom: 100px; } /* إنتاج طاقة */
+
+        /* حاوية البطاقات (مشتركة) */
+        .cards-dock {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            min-height: 80px;
+        }
+
+        .chem-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: grab;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            border-right: 4px solid #999;
+        }
+
+        .chem-card:active { cursor: grabbing; }
+        .chem-card.hidden { display: none; }
+
+        /* نواتج الطاقة الصغيرة */
+        .energy-badge {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--atp-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .energy-loss { background: #e74c3c; color: white; } /* ATP مستهلك */
+
+        /* --- قسم الآلة الحاسبة --- */
+        .calc-board {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1rem;
+        }
+
+        .calc-input {
+            width: 60px;
+            padding: 5px;
+            font-size: 1rem;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .total-score {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* (استخدام نفس ستايل دورة كربس من الكود السابق، سأقوم بتبسيطه هنا لتناسب) */
+        /* ... ستايلات كربس هنا (تم نسخها ضمنياً) ... */
+
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center; color:#2c3e50;">رحلة التنفس الخلوي <i class="fas fa-dna"></i></h1>
+
+    <!-- التنقل -->
+    <div class="nav-tabs">
+        <button class="nav-btn btn-glyco active" onclick="switchStage('glyco')">1. التحلل الجليكولي</button>
+        <button class="nav-btn btn-krebs" onclick="switchStage('krebs')">2. دورة كربس</button>
+        <button class="nav-btn btn-calc" onclick="switchStage('calc')">3. حساب الطاقة</button>
+    </div>
+
+    <!-- ================== المرحلة 1: التحلل الجليكولي ================== -->
+    <div id="stage-glyco" class="stage-container active">
+        <h3 style="text-align: center;">رتب خطوات التحلل الجليكولي (في السيتوبلازم)</h3>
+
+        <!-- مخزن البطاقات -->
+        <div class="cards-dock" id="glyco-dock">
+            <!-- سيتم التعبئة بواسطة JS -->
+        </div>
+
+        <div class="glyco-pathway">
+            <div class="phase-label phase-invest">مرحلة استهلاك الطاقة (-2 ATP)</div>
+
+            <!-- الخطوة 1 -->
+            <div class="step-box" data-id="glucose" data-energy="loss">
+                <span>1. ضع جزيء البداية (6C)</span>
+            </div>
+            <i class="fas fa-arrow-down arrow-down"></i>
+
+            <!-- الخطوة 2 -->
+            <div class="step-box" data-id="g6p" data-energy="neutral">
+                <span>2. مركب مفوسفره (6C-P)</span>
+            </div>
+            <i class="fas fa-arrow-down arrow-down"></i>
+
+            <!-- الخطوة 3 -->
+            <div class="step-box" data-id="f16bp" data-energy="loss">
+                <span>3. فركتوز 1،6 ثنائي الفوسفات</span>
+            </div>
+            <i class="fas fa-arrow-down arrow-down"></i>
+
+            <div style="margin: 10px; color:#7f8c8d;">--- انشطار الجزيء ---</div>
+            <div class="phase-label phase-payoff">مرحلة جني الطاقة (+4 ATP, +2 NADH)</div>
+
+            <!-- الخطوة 4 (نكتفي بتمثيل مسار واحد مضروب ×2 للتبسيط) -->
+            <div class="step-box" data-id="g3p" data-energy="neutral">
+                <span>4. جليسرألدهيد-3-فوسفات (G3P)</span>
+            </div>
+            <i class="fas fa-arrow-down arrow-down"></i>
+
+            <!-- الخطوة 5 -->
+            <div class="step-box" data-id="pyruvate" data-energy="gain">
+                <span>5. المركب النهائي (3C)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================== المرحلة 2: دورة كربس ================== -->
+    <div id="stage-krebs" class="stage-container">
+        <h3>رتب مركبات دورة كربس في ترتيبها الصحيح</h3>
+
+        <!-- حاوية اللعبة -->
+        <div class="game-container">
+            <!-- القائمة اليمنى -->
+            <div class="compounds-sidebar" id="sidebar-right">
+                <div class="sidebar-title">المركبات (المجموعة أ)</div>
+                <!-- سيتم التعبئة بواسطة JS -->
+            </div>
+
+            <!-- الدورة في المنتصف -->
+            <div class="cycle-area">
+                <div class="cycle-arrows"></div>
+                <!-- شعار دالي في الخلفية -->
+                <img src="dalty-logo.png" alt="Dalty" class="logo-center">
+
+                <div class="acetyl-coa">
+                    <i class="fas fa-arrow-down"></i> دخول Acetyl-CoA (2C)
+                </div>
+
+                <!-- مناطق الإفلات مع التلميحات -->
+                <!-- 1. Citrate -->
+                <div class="drop-zone zone-1" data-id="citrate" data-step="1">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">المركب الأول (6 ذرات كربون) الناتج من اتحاد Acetyl-CoA مع Oxaloacetate.</div>
+                    <span>الخطوة 1</span>
+                </div>
+
+                <!-- 2. Isocitrate -->
+                <div class="drop-zone zone-2" data-id="isocitrate" data-step="2">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">مشابه للسترات ولكن بترتيب مختلف للذرات (Isomerization).</div>
+                    <span>الخطوة 2</span>
+                </div>
+
+                <!-- 3. Alpha-Ketoglutarate -->
+                <div class="drop-zone zone-3" data-id="ketoglutarate" data-step="3">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">مركب خماسي الكربون (5C). يحدث هنا أول نزع للكربوكسيل.</div>
+                    <span>الخطوة 3</span>
+                </div>
+
+                <!-- 4. Succinyl CoA -->
+                <div class="drop-zone zone-4" data-id="succinyl" data-step="4">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">مركب رباعي الكربون مرتبط بمرافق الإنزيم أ. طاقته عالية.</div>
+                    <span>الخطوة 4</span>
+                </div>
+
+                <!-- 5. Succinate -->
+                <div class="drop-zone zone-5" data-id="succinate" data-step="5">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">ينتج بعد نزع CoA. يتم هنا إنتاج طاقة مباشرة (GTP/ATP).</div>
+                    <span>الخطوة 5</span>
+                </div>
+
+                <!-- 6. Fumarate -->
+                <div class="drop-zone zone-6" data-id="fumarate" data-step="6">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">يحتوي على رابطة مزدوجة، وينتج مرافق إنزيمي مختزل FADH2.</div>
+                    <span>الخطوة 6</span>
+                </div>
+
+                <!-- 7. Malate -->
+                <div class="drop-zone zone-7" data-id="malate" data-step="7">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">ينتج عن إضافة الماء (Hydration) للفيومارات.</div>
+                    <span>الخطوة 7</span>
+                </div>
+
+                <!-- 8. Oxaloacetate -->
+                <div class="drop-zone zone-8" data-id="oxaloacetate" data-step="8">
+                    <div class="hint-btn" onclick="toggleHint(this)">?</div>
+                    <div class="hint-tooltip">المركب "المُستقبِل" الذي يعيد الدورة. (4 ذرات كربون).</div>
+                    <span>الخطوة 8</span>
+                </div>
+            </div>
+
+            <!-- القائمة اليسرى -->
+            <div class="compounds-sidebar" id="sidebar-left">
+                <div class="sidebar-title">المركبات (المجموعة ب)</div>
+                <!-- سيتم التعبئة بواسطة JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ================== المرحلة 3: حساب الطاقة ================== -->
+    <div id="stage-calc" class="stage-container">
+        <div class="calc-board">
+            <h2><i class="fas fa-calculator"></i> حاسبة الطاقة (ATP)</h2>
+            <p>احسب مجموع الطاقة الناتج من أكسدة جزيء جلوكوز واحد.</p>
+            <p style="font-size: 0.9rem; color:#666;">(اعتبر أن 1 NADH = 3 ATP و 1 FADH₂ = 2 ATP)</p>
+
+            <div class="calc-row">
+                <span>1. ATP مباشر من التحلل الجليكولي (الصافي):</span>
+                <input type="number" class="calc-input" id="atp-glyco">
+            </div>
+
+            <div class="calc-row">
+                <span>2. NADH من التحلل الجليكولي (2 × 3):</span>
+                <input type="number" class="calc-input" id="nadh-glyco">
+            </div>
+
+            <div class="calc-row">
+                <span>3. NADH من أكسدة البيروفات (2 × 3):</span>
+                <input type="number" class="calc-input" id="nadh-pyruv">
+            </div>
+
+            <div class="calc-row">
+                <span>4. ATP مباشر من دورة كربس (دورتين):</span>
+                <input type="number" class="calc-input" id="atp-krebs">
+            </div>
+
+            <div class="calc-row">
+                <span>5. NADH من دورة كربس (6 × 3):</span>
+                <input type="number" class="calc-input" id="nadh-krebs">
+            </div>
+
+            <div class="calc-row">
+                <span>6. FADH₂ من دورة كربس (2 × 2):</span>
+                <input type="number" class="calc-input" id="fadh-krebs">
+            </div>
+
+            <button onclick="calculateTotal()" style="background:var(--primary); color:white; padding:10px 30px; border:none; border-radius:5px; font-size:1.2rem; cursor:pointer; margin-top:20px;">احسب المجموع</button>
+
+            <div class="total-score" id="final-result">--- ATP</div>
+            <div id="calc-feedback" style="margin-top:10px;"></div>
+        </div>
+    </div>
+
+    <!-- أصوات -->
+    <audio id="snd-click" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3"></audio>
+    <audio id="snd-win" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+
+    <script>
+        // --- بيانات الجليكولي ---
+        const glycoCompounds = [
+            { id: "glucose", name: "جلوكوز (Glucose)", formula: "C₆H₁₂O₆" },
+            { id: "g6p", name: "جلوكوز-6-فوسفات", formula: "C₆H₁₁O₆-P" },
+            { id: "f16bp", name: "فركتوز-1،6-ثنائي فوسفات", formula: "P-C₆-P" },
+            { id: "g3p", name: "G3P (PGAL)", formula: "3C-P" },
+            { id: "pyruvate", name: "بيروفات (Pyruvate)", formula: "C₃H₄O₃" }
+        ];
+
+        // --- بيانات دورة كربس ---
+        const krebsCompounds = [
+            { id: "citrate", name: "سترات (Citrate)", formula: "C₆H₅O₇³⁻", carbon: "6C", desc: "مركب سداسي الكربون" },
+            { id: "isocitrate", name: "أيزوسترات", formula: "C₆H₅O₇³⁻", carbon: "6C", desc: "أيزومر للسترات" },
+            { id: "ketoglutarate", name: "α-كيتوجلوتارات", formula: "C₅H₄O₅²⁻", carbon: "5C", desc: "فقد ذرة كربون (CO₂)" },
+            { id: "succinyl", name: "سكسينيل CoA", formula: "C₂₅H₄₀...", carbon: "4C", desc: "مرتبط بـ CoA-SH" },
+            { id: "succinate", name: "سكسينات", formula: "C₄H₄O₄²⁻", carbon: "4C", desc: "مركب متماثل" },
+            { id: "fumarate", name: "فيومارات", formula: "C₄H₂O₄²⁻", carbon: "4C", desc: "رابطة مزدوجة" },
+            { id: "malate", name: "مالات", formula: "C₄H₄O₅²⁻", carbon: "4C", desc: "إضافة ماء H₂O" },
+            { id: "oxaloacetate", name: "أوكسالوأسيتات", formula: "C₄H₂O₅²⁻", carbon: "4C", desc: "مركب كيتوني" }
+        ];
+
+        // --- تهيئة الصفحة ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initGlycolysis();
+            initKrebsCycle();
+        });
+
+        // تبديل المراحل
+        function switchStage(stageName) {
+            // إخفاء الكل
+            document.querySelectorAll('.stage-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+            // إظهار المطلوب
+            document.getElementById(`stage-${stageName}`).classList.add('active');
+            document.querySelector(`.btn-${stageName}`).classList.add('active');
+        }
+
+        // --- منطق التحلل الجليكولي ---
+        function initGlycolysis() {
+            const dock = document.getElementById('glyco-dock');
+
+            // خلط البطاقات
+            [...glycoCompounds].sort(() => Math.random() - 0.5).forEach(comp => {
+                const card = document.createElement('div');
+                card.className = 'chem-card';
+                card.draggable = true;
+                card.setAttribute('data-id', comp.id);
+                card.innerHTML = `<strong>${comp.name}</strong><br><small>${comp.formula}</small>`;
+
+                card.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', comp.id);
+                });
+
+                dock.appendChild(card);
+            });
+
+            // مناطق الإفلات
+            document.querySelectorAll('.step-box').forEach(box => {
+                box.addEventListener('dragover', e => e.preventDefault());
+
+                box.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const draggedId = e.dataTransfer.getData('text/plain');
+                    const targetId = box.getAttribute('data-id');
+                    const energyType = box.getAttribute('data-energy');
+
+                    if (draggedId === targetId) {
+                        // نجاح
+                        const compInfo = glycoCompounds.find(c => c.id === targetId);
+                        box.innerHTML = `<strong>${compInfo.name}</strong>`;
+                        box.classList.add('correct');
+
+                        // إضافة شارة الطاقة
+                        if (energyType === 'loss') {
+                            box.innerHTML += `<span class="energy-badge energy-loss">-1 ATP</span>`;
+                        } else if (energyType === 'gain') {
+                            box.innerHTML += `<span class="energy-badge">+2 ATP, +1 NADH</span>`;
+                        }
+
+                        // إخفاء البطاقة
+                        const card = document.querySelector(`.chem-card[data-id="${draggedId}"]`);
+                        if(card) card.classList.add('hidden');
+
+                        document.getElementById('snd-click').play();
+                    } else {
+                        alert("ترتيب خاطئ! حاول مرة أخرى.");
+                    }
+                });
+            });
+        }
+
+        // --- منطق دورة كربس ---
+        function initKrebsCycle() {
+            const rightSidebar = document.getElementById('sidebar-right');
+            const leftSidebar = document.getElementById('sidebar-left');
+
+            // إضافة عناوين للقوائم
+            rightSidebar.innerHTML = '<div class="sidebar-title">المركبات (المجموعة أ)</div>';
+            leftSidebar.innerHTML = '<div class="sidebar-title">المركبات (المجموعة ب)</div>';
+
+            // خلط وتوزيع البطاقات
+            const shuffled = [...krebsCompounds].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach((comp, index) => {
+                const card = createCard(comp);
+                if (index < 4) rightSidebar.appendChild(card);
+                else leftSidebar.appendChild(card);
+            });
+
+            setupDropZones();
+        }
+
+        function createCard(compound) {
+            const div = document.createElement('div');
+            div.className = 'compound-card';
+            div.draggable = true;
+            div.setAttribute('data-id', compound.id);
+
+            // محاكاة صورة التركيب الكيميائي
+            div.innerHTML = `
+                <h4>${compound.name}</h4>
+                <div class="chem-structure-img">
+                    <span style="direction:ltr; font-family:monospace;">${compound.struct}</span>
+                </div>
+                <div class="compound-info">
+                    <span>${compound.carbon}</span>
+                    <span style="direction:ltr">${compound.formula}</span>
+                </div>
+            `;
+
+            div.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', compound.id);
+                div.style.opacity = '0.5';
+            });
+
+            div.addEventListener('dragend', () => {
+                div.style.opacity = '1';
+            });
+
+            return div;
+        }
+
+        function setupDropZones() {
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!zone.classList.contains('correct')) {
+                        zone.classList.add('hovered');
+                    }
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('hovered');
+                });
+
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('hovered');
+                    if (zone.classList.contains('correct')) return;
+
+                    const draggedId = e.dataTransfer.getData('text/plain');
+                    const zoneId = zone.getAttribute('data-id');
+
+                    if (draggedId === zoneId) {
+                        handleCorrectDrop(zone, draggedId);
+                    } else {
+                        showFeedback('❌ خطأ! هذا المركب لا ينتمي لهذه الخطوة. انقر على ؟ للتلميح.', 'error');
+                    }
+                });
+            });
+        }
+
+        function handleCorrectDrop(zone, compoundId) {
+            const originalCard = document.querySelector(`.compound-card[data-id="${compoundId}"]`);
+            const compoundData = krebsCompounds.find(c => c.id === compoundId);
+
+            // تحديث منطقة الإفلات
+            zone.innerHTML = `
+                <div class="drop-zone-content">
+                    <h4><i class="fas fa-check"></i> ${compoundData.name}</h4>
+                    <div class="formula">${compoundData.struct}</div>
+                    <div style="font-size:0.8rem; margin-top:5px;">${compoundData.carbon}</div>
+                </div>
+            `;
+            zone.classList.add('correct');
+
+            // إخفاء البطاقة من القائمة
+            if (originalCard) originalCard.classList.add('hidden');
+
+            // إظهار نواتج التفاعل (Byproducts) بناءً على الخطوة
+            showByproducts(zone.getAttribute('data-step'));
+
+            showFeedback(`✅ أحسنت! تم وضع ${compoundData.name} بشكل صحيح.`, 'success');
+        }
+
+        function showByproducts(step) {
+            const container = document.querySelector('.cycle-area');
+            const stepNum = parseInt(step);
+            let html = '';
+            let soundType = null;
+
+            if (stepNum === 3) { // Isocitrate -> Alpha-Keto
+                html = `
+                    <div class="byproduct bp-nadh" style="top:35%; right:5%"><i class="fas fa-bolt"></i> NADH</div>
+                    <div class="byproduct bp-co2" style="top:28%; right:2%"><i class="fas fa-cloud"></i> CO₂</div>
+                `;
+                soundType = 'both';
+            }
+            else if (stepNum === 4) { // Alpha -> Succinyl
+                html = `
+                    <div class="byproduct bp-nadh" style="bottom:35%; right:5%"><i class="fas fa-bolt"></i> NADH</div>
+                    <div class="byproduct bp-co2" style="bottom:28%; right:2%"><i class="fas fa-cloud"></i> CO₂</div>
+                `;
+                soundType = 'both';
+            }
+            else if (stepNum === 5) { // Succinyl -> Succinate
+                html = `
+                 

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معمل التنفس الخلوي الشامل - دالتي</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #9b59b6;
+            --glyco-color: #e67e22;
+            --krebs-color: #27ae60;
+            --bg: #f5f7fa;
+            --text-main: #2c3e50;
+            --energy: #f1c40f;
+            --electron: #3498db;
+            --co2: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 { margin-bottom: 5px; color: var(--text-main); }
+        .subtitle { color: #7f8c8d; margin-bottom: 30px; }
+
+        /* --- نظام التبويب (Tabs) --- */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: #fff;
+            color: #95a5a6;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover { transform: translateY(-2px); }
+        
+        .tab-btn.active {
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-glyco.active { background: var(--glyco-color); }
+        .btn-krebs.active { background: var(--krebs-color); }
+        .btn-calc.active { background: var(--primary); }
+
+        /* --- محتوى المراحل --- */
+        .stage-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .stage-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- أنماط مشتركة (البطاقات) --- */
+        .dock-area {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            min-height: 80px;
+        }
+
+        .chem-card {
+            background: white;
+            border: 1px solid #eee;
+            border-right: 4px solid #ccc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: grab;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+            text-align: right;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .chem-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .chem-card:active { cursor: grabbing; }
+        .chem-card.hidden { display: none; }
+        
+        .chem-formula { font-size: 0.75rem; color: #999; display: block; direction: ltr; margin-top: 4px; }
+
+        /* --- المرحلة 1: التحلل الجليكولي --- */
+        .glyco-board {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .step-box {
+            width: 280px;
+            padding: 15px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.8);
+            margin: 15px 0;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .step-box.correct {
+            border-style: solid;
+            border-color: var(--glyco-color);
+            background: #fff;
+            color: #d35400;
+        }
+
+        .glyco-arrow { color: #bdc3c7; font-size: 1.2rem; }
+
+        .phase-badge {
+            position: absolute;
+            left: -160px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+            width: 140px;
+            text-align: center;
+        }
+        
+        .badge-invest { background: #e74c3c; }
+        .badge-payoff { background: #27ae60; }
+
+        .energy-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .pill-loss { background: #fadbd8; color: #c0392b; }
+        .pill-gain { background: #f9e79f; color: #f39c12; }
+
+        /* --- المرحلة 2: دورة كربس --- */
+        .krebs-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .krebs-sidebar {
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cycle-circle {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin: 0 20px;
+        }
+        
+        .cycle-track {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            border: 3px dashed #ecf0f1;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .krebs-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            width: 150px;
+        }
+
+        .drop-zone {
+            position: absolute;
+            width: 130px;
+            height: 90px;
+            border: 2px dashed #dcdde1;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            z-index: 5;
+        }
+
+        .drop-zone.hovered { border-color: var(--krebs-color); background: #e8f8f5; transform: scale(1.1); }
+        .drop-zone.correct { border: 2px solid var(--krebs-color); background: #f0fff4; color: #2c3e50; }
+
+        /* مواضع كربس (حسابية) */
+        .kz-1 { top: 8%; left: 50%; transform: translateX(-50%); } /* 12:00 */
+        .kz-2 { top: 20%; right: 10%; } /* 1:30 */
+        .kz-3 { top: 50%; right: 0%; transform: translateY(-50%); } /* 3:00 */
+        .kz-4 { bottom: 20%; right: 10%; } /* 4:30 */
+        .kz-5 { bottom: 8%; left: 50%; transform: translateX(-50%); } /* 6:00 */
+        .kz-6 { bottom: 20%; left: 10%; } /* 7:30 */
+        .kz-7 { top: 50%; left: 0%; transform: translateY(-50%); } /* 9:00 */
+        .kz-8 { top: 20%; left: 10%; } /* 10:30 */
+
+        /* النواتج الطافية */
+        .floating-product {
+            position: absolute;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        .fp-nadh { background: var(--electron); }
+        .fp-atp { background: var(--energy); color: #333; }
+        .fp-co2 { background: var(--co2); }
+        .fp-fadh { background: #8e44ad; }
+
+        @keyframes popUp { to { opacity: 1; transform: scale(1); } }
+
+        /* --- المرحلة 3: الحاسبة --- */
+        .calc-panel {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .calc-input {
+            width: 70px;
+            padding: 8px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .total-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .krebs-wrapper { flex-direction: column; align-items: center; }
+            .krebs-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            .cycle-circle { width: 90vw; height: 90vw; margin: 30px 0; }
+            .drop-zone { width: 20%; height: 12%; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الأصول الصوتية -->
+    <div id="audio-assets" style="display:none;">
+        <audio id="sfx-correct" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
+        <audio id="sfx-error" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
+        <audio id="sfx-pop" src="https://assets.mixkit.co/sfx/preview/mixkit-liquid-bubble-3000.mp3"></audio>
+        <audio id="sfx-ching" src="https://assets.mixkit.co/sfx/preview/mixkit-magic-marimba-chime-2811.mp3"></audio>
+        <audio id="sfx-win" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+    </div>
+
+    <h1>معمل التنفس الخلوي <i class="fas fa-flask"></i></h1>
+    <p class="subtitle">قم ببناء مسارات الطاقة وحساب الحصيلة النهائية</p>
+
+    <!-- الأزرار العلوية -->
+    <div class="tabs-container">
+        <button class="tab-btn btn-glyco active" onclick="switchTab('glyco')"><i class="fas fa-dna"></i> التحلل الجليكولي</button>
+        <button class="tab-btn btn-krebs" onclick="switchTab('krebs')"><i class="fas fa-circle-notch"></i> دورة كربس</button>
+        <button class="tab-btn btn-calc" onclick="switchTab('calc')"><i class="fas fa-calculator"></i> حاسبة الطاقة</button>
+    </div>
+
+    <!-- ########### القسم الأول: التحلل الجليكولي ########### -->
+    <div id="section-glyco" class="stage-section active">
+        <div class="dock-area" id="glyco-dock">
+            <!-- البطاقات ستظهر هنا -->
+        </div>
+
+        <div class="glyco-board">
+            <!-- خطوة 1 -->
+            <div style="position: relative;">
+                <div class="phase-badge badge-invest">استهلاك طاقة (-2 ATP)</div>
+                <div class="step-box" data-id="glucose" data-effect="loss">1. جزيء البداية (6C)</div>
+            </div>
+            <i class="fas fa-arrow-down glyco-arrow"></i>
+
+            <!-- خطوة 2 -->
+            <div class="step-box" data-id="g6p">2. جلوكوز-6-فوسفات</div>
+            <i class="fas fa-arrow-down glyco-arrow"></i>
+
+            <!-- خطوة 3 -->
+            <div class="step-box" data-id="f16bp" data-effect="loss">3. فركتوز-1،6-ثنائي فوسفات</div>
+            <i class="fas fa-arrow-down glyco-arrow"></i>
+            
+            <div style="margin:10px; color:#aaa; font-size:0.9rem;">-- انشطار الجزيء (Cleavage) --</div>
+
+            <!-- خطوة 4 -->
+            <div style="position: relative;">
+                <div class="phase-badge badge-payoff">جني الطاقة (+4 ATP)</div>
+                <div class="step-box" data-id="g3p">4. جليسرألدهيد-3-فوسفات (G3P)</div>
+            </div>
+            <i class="fas fa-arrow-down glyco-arrow"></i>
+
+            <!-- خطوة 5 -->
+            <div class="step-box" data-id="pyruvate" data-effect="gain">5. الناتج النهائي (3C)</div>
+        </div>
+    </div>
+
+    <!-- ########### القسم الثاني: دورة كربس ########### -->
+    <div id="section-krebs" class="stage-section">
+        <div class="krebs-wrapper">
+            <!-- مخزن يسار -->
+            <div class="krebs-sidebar" id="krebs-dock-left"></div>
+
+            <!-- الدائرة -->
+            <div class="cycle-circle">
+                <div class="cycle-track"></div>
+                <div style="position: absolute; top:5%; left:50%; transform:translateX(-50%); background:#eee; padding:5px 15px; border-radius:15px; font-size:0.8rem;">
+                    دخول Acetyl-CoA <i class="fas fa-arrow-down"></i>
+                </div>
+
+                <!-- مناطق الإفلات -->
+                <div class="drop-zone kz-1" data-id="citrate" data-step="1">1</div>
+                <div class="drop-zone kz-2" data-id="isocitrate" data-step="2">2</div>
+                <div class="drop-zone kz-3" data-id="ketoglutarate" data-step="3">3</div>
+                <div class="drop-zone kz-4" data-id="succinyl" data-step="4">4</div>
+                <div class="drop-zone kz-5" data-id="succinate" data-step="5">5</div>
+                <div class="drop-zone kz-6" data-id="fumarate" data-step="6">6</div>
+                <div class="drop-zone kz-7" data-id="malate" data-step="7">7</div>
+                <div class="drop-zone kz-8" data-id="oxaloacetate" data-step="8">8</div>
+            </div>
+
+            <!-- مخزن يمين -->
+            <div class="krebs-sidebar" id="krebs-dock-right"></div>
+        </div>
+    </div>
+
+    <!-- ########### القسم الثالث: الحاسبة ########### -->
+    <div id="section-calc" class="stage-section">
+        <div class="calc-panel">
+            <h2 style="color:var(--primary)">حساب المجموع الكلي (ATP Yield)</h2>
+            <p>أدخل عدد الجزيئات الناتجة من <strong>جزيء جلوكوز واحد</strong>.</p>
+            <small style="color:#777; display:block; margin-bottom:20px;">(قاعدة الحساب: NADH يعطي 3 ATP، و FADH₂ يعطي 2 ATP)</small>
+
+            <div class="calc-row">
+                <span>1. صافي ATP المباشر من التحلل الجليكولي:</span>
+                <input type="number" id="in-glyco-atp" class="calc-input" placeholder="0">
+            </div>
+            <div class="calc-row">
+                <span>2. عدد ATP الناتج من NADH التحلل الجليكولي (2 NADH):</span>
+                <input type="number" id="in-glyco-nadh" class="calc-input" placeholder="0">
+            </div>
+            <div class="calc-row">
+                <span>3. عدد ATP الناتج من أكسدة البيروفات (2 NADH):</span>
+                <input type="number" id="in-pyruv-nadh" class="calc-input" placeholder="0">
+            </div>
+            <div class="calc-row">
+                <span>4. ATP المباشر من دورة كربس (دورتين):</span>
+                <input type="number" id="in-krebs-atp" class="calc-input" placeholder="0">
+            </div>
+            <div class="calc-row">
+                <span>5. عدد ATP الناتج من NADH دورة كربس (6 NADH):</span>
+                <input type="number" id="in-krebs-nadh" class="calc-input" placeholder="0">
+            </div>
+            <div class="calc-row">
+                <span>6. عدد ATP الناتج من FADH₂ دورة كربس (2 FADH₂):</span>
+                <input type="number" id="in-krebs-fadh" class="calc-input" placeholder="0">
+            </div>
+
+            <button onclick="calculate()" style="background:var(--primary); color:white; border:none; padding:12px 40px; border-radius:30px; margin-top:20px; font-size:1.1rem; cursor:pointer;">احسب النتيجة</button>
+
+            <div class="total-box">
+                النتيجة: <span id="final-score">0</span> ATP
+                <div id="calc-msg" style="font-size:1rem; font-weight:normal; margin-top:10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === بيانات المركبات ===
+        const glycoData = [
+            { id: "glucose", name: "جلوكوز", formula: "C6H12O6" },
+            { id: "g6p", name: "جلوكوز-6-P", formula: "C6-P" },
+            { id: "f16bp", name: "فركتوز-1,6-BP", formula: "P-C6-P" },
+            { id: "g3p", name: "G3P / PGAL", formula: "3C-P" },
+            { id: "pyruvate", name: "بيروفات", formula: "C3H4O3" }
+        ];
+
+        const krebsData = [
+            { id: "citrate", name: "سترات (6C)" },
+            { id: "isocitrate", name: "أيزوسترات (6C)" },
+            { id: "ketoglutarate", name: "α-كيتوجلوتارات (5C)" },
+            { id: "succinyl", name: "سكسينيل CoA (4C)" },
+            { id: "succinate", name: "سكسينات (4C)" },
+            { id: "fumarate", name: "فيومارات (4C)" },
+            { id: "malate", name: "مالات (4C)" },
+            { id: "oxaloacetate", name: "أوكسالوأسيتات (4C)" }
+        ];
+
+        // === التهيئة ===
+        document.addEventListener('DOMContentLoaded', () => {
+            initGlycolysis();
+            initKrebs();
+        });
+
+        // === التنقل بين التبويبات ===
+        function switchTab(tab) {
+            document.querySelectorAll('.stage-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`section-${tab}`).classList.add('active');
+            document.querySelector(`.btn-${tab}`).classList.add('active');
+        }
+
+        // === منطق التحلل الجليكولي ===
+        function initGlycolysis() {
+            const dock = document.getElementById('glyco-dock');
+            shuffle(glycoData).forEach(item => {
+                dock.appendChild(createCard(item, 'glyco'));
+            });
+
+            document.querySelectorAll('.glyco-board .step-box').forEach(box => {
+                enableDrop(box, (draggedId) => {
+                    const item = glycoData.find(i => i.id === draggedId);
+                    box.innerHTML = `<strong><i class="fas fa-check"></i> ${item.name}</strong>`;
+                    box.classList.add('correct');
+                    
+                    const effect = box.getAttribute('data-effect');
+                    if (effect === 'loss') box.innerHTML += '<br><span class="energy-pill pill-loss">-1 ATP</span>';
+                    if (effect === 'gain') box.innerHTML += '<br><span class="energy-pill pill-gain">+2 ATP, +1 NADH</span>';
+                    
+                    return true;
+                });
+            });
+        }
+
+        // === منطق دورة كربس ===
+        function initKrebs() {
+            const leftDock = document.getElementById('krebs-dock-left');
+            const rightDock = document.getElementById('krebs-dock-right');
+            const shuffled = shuffle(krebsData);
+
+            shuffled.forEach((item, idx) => {
+                const card = createCard(item, 'krebs');
+                if (idx < 4) leftDock.appendChild(card);
+                else rightDock.appendChild(card);
+            });
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                enableDrop(zone, (draggedId) => {
+                    const item = krebsData.find(i => i.id === draggedId);
+                    zone.innerHTML = `<i class="fas fa-check-circle" style="color:var(--krebs-color)"></i><br>${item.name}`;
+                    zone.classList.add('correct');
+                    
+                    // إطلاق النواتج
+                    spawnByproducts(zone);
+                    return true;
+                });
+            });
+        }
+
+        // === دوال مساعدة ===
+        function createCard(item, type) {
+            const div = document.createElement('div');
+            div.className = 'chem-card';
+            div.draggable = true;
+            div.setAttribute('data-id', item.id);
+            div.innerHTML = `${item.name} ${item.formula ? `<span class="chem-formula">${item.formula}</span>` : ''}`;
+            
+            div.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('id', item.id);
+                e.dataTransfer.setData('type', type);
+            });
+            return div;
+        }
+
+        function enableDrop(element, onSuccess) {
+            element.addEventListener('dragover', e => {
+                e.preventDefault();
+                if (!element.classList.contains('correct')) element.classList.add('hovered');
+            });
+            
+            element.addEventListener('dragleave', () => element.classList.remove('hovered'));
+            
+            element.addEventListener('drop', e => {
+                e.preventDefault();
+                element.classList.remove('hovered');
+                if (element.classList.contains('correct')) return;
+
+                const draggedId = e.dataTransfer.getData('id');
+                const targetId = element.getAttribute('data-id');
+
+                if (draggedId === targetId) {
+                    playSound('sfx-correct');
+                    const card = document.querySelector(`.chem-card[data-id="${draggedId}"]`);
+                    if (card) card.remove(); // إزالة البطاقة بعد الاستخدام
+                    onSuccess(draggedId);
+                } else {
+                    playSound('sfx-error');
+                    // هزة بسيطة للخطأ
+                    element.style.transform = 'translateX(5px)';
+                    setTimeout(() => element.style.transform = 'none', 200);
+                }
+            });
+        }
+
+        function spawnByproducts(zone) {
+            const step = parseInt(zone.getAttribute('data-step'));
+            const circle = zone.parentElement;
+            
+            // مواقع النواتج (مبسطة نسبية للمنطقة)
+            let html = '';
+            let sound = 'sfx-ching';
+
+            if (step === 3) { // Iso -> Alpha
+                html = `<div class="floating-product fp-nadh" style="top:35%; right:5%">NADH</div>
+                        <div class="floating-product fp-co2" style="top:28%; right:2%">CO2</div>`;
+                sound = 'sfx-pop';
+            } else if (step === 4) { // Alpha -> Succinyl
+                html = `<div class="floating-product fp-nadh" style="bottom:35%; right:5%">NADH</div>
+                        <div class="floating-product fp-co2" style="bottom:28%; right:2%">CO2</div>`;
+            } else if (step === 5) { // Succinyl -> Succinate
+                html = `<div class="floating-product fp-atp" style="bottom:10%; right:35%">ATP</div>`;
+            } else if (step === 6) { // Succinate -> Fumarate
+                html = `<div class="floating-product fp-fadh" style="bottom:28%; left:2%">FADH2</div>`;
+            } else if (step === 8) { // Malate -> Oxalo
+                html = `<div class="floating-product fp-nadh" style="top:28%; left:2%">NADH</div>`;
+            }
+
+            if (html) {
+                const wrap = document.createElement('div');
+                wrap.innerHTML = html;
+                Array.from(wrap.children).forEach(el => circle.appendChild(el));
+                playSound(sound);
+            }
+        }
+
+        function calculate() {
+            const v = (id) => parseInt(document.getElementById(id).value) || 0;
+            
+            const total = v('in-glyco-atp') + v('in-glyco-nadh') + v('in-pyruv-nadh') +
+                          v('in-krebs-atp') + v('in-krebs-nadh') + v('in-krebs-fadh');
+            
+            const scoreEl = document.getElementById('final-score');
+            const msgEl = document.getElementById('calc-msg');
+            
+            scoreEl.innerText = total;
+
+            if (total === 38 || total === 36) {
+                scoreEl.style.color = "#27ae60";
+                msgEl.innerHTML = "✅ إجابة صحيحة! هذا هو المقدار النظري للطاقة.";
+                playSound('sfx-win');
+            } else {
+                scoreEl.style.color = "#c0392b";
+                msgEl.innerHTML = "❌ الإجابة غير دقيقة. حاول مراجعة قيم الـ NADH والـ ATP.";
+                playSound('sfx-error');
+            }
+        }
+
+        function playSound(id) {
+            const audio = document.getElementById(id);
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(()=>console.log('Autoplay blocked'));
+            }
+        }
+
+        function shuffle(array) {
+            return [...array].sort(() => Math.random() - 0.5);
+        }
+    </script>
+</body>
+</html>
